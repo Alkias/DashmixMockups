@@ -348,3 +348,36 @@ MigrationBackup/
 
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
+
+# Ignore Settings.txt
+/Presentation/IntelliCms.Web/App_Data/Settings.txt
+/Presentation/IntelliCms.Web/App_Data/InstalledPlugins.txt
+
+# Photoshop files
+*.psd
+
+# Ignore Evrything from Attachments Directory
+!/Presentation/IntelliCms.Web/Attachments/
+/Presentation/IntelliCms.Web/Attachments/*
+!/Presentation/IntelliCms.Web/Attachments/Index.htm
+
+!/Presentation/IntelliCms.Web/Attachments/thumbs/
+/Presentation/IntelliCms.Web/Attachments/thumbs/*
+!/Presentation/IntelliCms.Web/Attachments/thumbs/Index.htm
+
+# Ignore Evrything from Content/images/media/ Directory
+!/Presentation/IntelliCms.Web/Content/images/media/
+/Presentation/IntelliCms.Web/Content/images/media/*
+
+!/Presentation/IntelliCms.Web/Content/images/media/thumbs/
+/Presentation/IntelliCms.Web/Content/images/media/thumbs/*
+!/Presentation/IntelliCms.Web/Content/images/media/thumbs/Index.htm
+
+!/Presentation/IntelliCms.Web/Content/images/media/audio-video/
+/Presentation/IntelliCms.Web/Content/images/media/audio-video/*
+!/Presentation/IntelliCms.Web/Content/images/media/audio-video/Index.htm
+
+# Ignore Evrything from Plugins Directory except bin/
+!/Presentation/IntelliCms.Web/Plugins/
+/Presentation/IntelliCms.Web/Plugins/*
+!/Presentation/IntelliCms.Web/Plugins/bin/Index.htm
