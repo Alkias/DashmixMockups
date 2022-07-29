@@ -1,0 +1,153 @@
+﻿@model EkdilosiEndiaferontsModel
+@{
+    Layout = null;
+    ViewData["Title"] = "Εκδήλωση Ενδιαφέροντος";
+}
+
+<!doctype html>
+<html lang="el">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+
+    <title>@ViewData["Title"] - SportStoreAutoFac</title>
+
+    <meta name="robots" content="noindex, nofollow">
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito+Sans:300,400,400i,600,700">
+    <link rel="stylesheet" id="css-main" href="~/css/dashmix.min.css">
+
+</head>
+<body>
+
+<div id="page-container">
+
+    <main id="main-container">
+
+        <div class="row no-gutters justify-content-center bg-body-dark">
+            <div class="hero-static col-sm-10 col-md-8 col-xl-6 d-flex align-items-center p-2 px-sm-0">
+
+                <div class="block block-rounded block-transparent block-fx-pop w-100 mb-0 overflow-hidden bg-image" style="background-image: url('/media/photos/photo12.jpg');">
+                    <div class="row no-gutters">
+                        <div class="col-md-6 order-md-1 bg-white">
+                            <div class="block-content block-content-full px-lg-5 py-md-5 py-lg-6">
+
+                                <div class="mb-2 text-center">
+                                    <a class="link-fx text-success font-w700 font-size-h1" asp-controller="Account" asp-action="Login">
+                                        <span class="text-dark">Intelli</span><span class="text-success">Tickets</span>
+                                    </a>
+                                    <p class="text-uppercase font-w700 font-size-sm text-muted">Εκδήλωση Ενδιαφέροντος</p>
+                                </div>
+
+                                @if (Model.SuccessfullySent) {
+                                   <div class="alert alert-success d-flex align-items-center" role="alert">
+                                        <div class="flex-00-auto">
+                                            <i class="fa fa-fw fa-check"></i>
+                                        </div>
+                                        <div class="flex-fill ml-3">
+                                            <p class="mb-0"> @Model.Result</p>
+                                        </div>
+                                    </div>
+                                }
+                                else {
+                                    <form class="js-validation-signup" asp-controller="Account" asp-action="EkdilosiEndiaferonts" method="post">
+
+                                        <div class="form-group">
+                                            <label asp-for="Name"></label>
+                                            <input type="text" class="form-control form-control-alt" asp-for="Name" placeholder="Name">
+                                            <span asp-validation-for="Name" class="text-danger"></span>
+                                        </div>
+                                        <div class="form-group">
+                                            <label asp-for="SurName"></label>
+                                            <input type="text" class="form-control form-control-alt" asp-for="SurName" placeholder="SurName">
+                                            <span asp-validation-for="SurName" class="text-danger"></span>
+                                        </div>
+                                        <div class="form-group">
+                                            <label asp-for="Email"></label>
+                                            <input type="text" class="form-control form-control-alt" asp-for="Email" placeholder="Email">
+                                            <span asp-validation-for="Email" class="text-danger"></span>
+                                        </div>
+                                        <div class="form-group">
+                                            <label asp-for="Phone"></label>
+                                            <input type="text" class="form-control form-control-alt" asp-for="Phone" placeholder="Phone">
+                                            <span asp-validation-for="Phone" class="text-danger"></span>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label asp-for="Issue">Text</label>
+                                            <textarea class="form-control form-control-alt" asp-for="Issue" rows="4" placeholder="Πληκτρολογήστε το αίτημά σας..."></textarea>
+                                            <span asp-validation-for="Issue" class="text-danger"></span>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <a href="#" data-toggle="modal" data-target="#modal-terms">Όροι Χρήσης</a>
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input" id="signup-terms" name="signup-terms">
+                                                <label class="custom-control-label" for="signup-terms">Συμφωνώ</label>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <button type="submit" class="btn btn-block btn-hero-success">
+                                                <i class="fa fa-fw fa-plus mr-1"></i> Αποστολή
+                                            </button>
+                                        </div>
+                                    </form>
+                                }
+
+                            </div>
+                        </div>
+                        <div class="col-md-6 order-md-0 bg-xeco-op d-flex align-items-center">
+                            <div class="block-content block-content-full px-lg-5 py-md-5 py-lg-6">
+                                <div class="media">
+                                    <a class="img-link mr-3" href="javascript:void(0)">
+                                        <img class="img-avatar img-avatar-thumb" src="/media/photos/avatar4.jpg" alt="">
+                                    </a>
+                                    <div class="media-body">
+                                        <p class="text-white font-w600 mb-1">
+                                            The service was a valuable asset to improve our conversions and marketing efforts! Thank you!
+                                        </p>
+                                        <a class="text-white-75 font-w600" href="javascript:void(0)">Στασινόπουλος Κώστας, CEO</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </main>
+
+</div>
+
+<div class="modal fade" id="modal-terms" tabindex="-1" role="dialog" aria-labelledby="modal-terms" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="block block-themed block-transparent mb-0">
+                <div class="block-header bg-primary-dark">
+                    <h3 class="block-title">Όροι Χρήσης</h3>
+                    <div class="block-options">
+                        <button type="button" class="btn-block-option" data-dismiss="modal" aria-label="Close">
+                            <i class="fa fa-fw fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="block-content">
+                    <p>Potenti elit lectus augue eget iaculis vitae etiam, ullamcorper etiam bibendum ad feugiat magna accumsan dolor, nibh molestie cras hac ac ad massa, fusce ante convallis ante urna molestie vulputate bibendum tempus ante justo arcu erat accumsan adipiscing risus, libero condimentum venenatis sit nisl nisi ultricies sed, fames aliquet consectetur consequat nostra molestie neque nullam scelerisque neque commodo turpis quisque etiam egestas vulputate massa, curabitur tellus massa venenatis congue dolor enim integer luctus, nisi suscipit gravida fames quis vulputate nisi viverra luctus id leo dictum lorem, inceptos nibh orci.</p>
+                    <p>Potenti elit lectus augue eget iaculis vitae etiam, ullamcorper etiam bibendum ad feugiat magna accumsan dolor, nibh molestie cras hac ac ad massa, fusce ante convallis ante urna molestie vulputate bibendum tempus ante justo arcu erat accumsan adipiscing risus, libero condimentum venenatis sit nisl nisi ultricies sed, fames aliquet consectetur consequat nostra molestie neque nullam scelerisque neque commodo turpis quisque etiam egestas vulputate massa, curabitur tellus massa venenatis congue dolor enim integer luctus, nisi suscipit gravida fames quis vulputate nisi viverra luctus id leo dictum lorem, inceptos nibh orci.</p>
+                </div>
+                <div class="block-content block-content-full text-right bg-light">
+                    <button type="button" class="btn btn-sm btn-primary" data-dismiss="modal">Συμφωνώ</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/js/dashmix.core.min.js"></script>
+<script src="~/js/dashmix.app.min.js"></script>
+<script src="~/js/plugins/jquery-validation/jquery.validate.min.js"></script>
+<script src="~/js/pages/op_auth_signup.min.js"></script>
+</body>
+</html>

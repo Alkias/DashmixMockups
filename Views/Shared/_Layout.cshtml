@@ -1,0 +1,65 @@
+﻿<!DOCTYPE html>
+<html lang="el">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>@ViewData["Title"] - SportStoreAutoFac</title>
+
+    <link rel="shortcut icon" href="~/favicon.ico">
+    <link rel="icon" type="image/png" sizes="192x192" href="~/favicon.ico">
+
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
+    <link rel="stylesheet" id="css-main" href="~/css/dashmix.css">
+</head>
+
+<body>
+    <!-- Page Container -->
+    <div id="page-container" class="sidebar-o sidebar-dark enable-page-overlay side-scroll page-header-fixed">
+
+        @await Html.PartialAsync("Partials/_Sidebar.cshtml")
+        @await Html.PartialAsync("Partials/_Header.cshtml")
+
+        <main id="main-container">
+            <!-- Hero -->
+            <div class="bg-body-light">
+                <div class="content content-full">
+                    <div class="d-flex flex-column flex-sm-row justify-content-sm-between align-items-sm-center">
+                        <h1 class="flex-sm-fill font-size-h2 font-w400 mt-2 mb-0 mb-sm-2">Full Width Content</h1>
+                        <nav class="flex-sm-00-auto ml-sm-3" aria-label="breadcrumb">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item">Layout</li>
+                                <li class="breadcrumb-item">Content</li>
+                                <li class="breadcrumb-item active" aria-current="page">Full Width</li>
+                            </ol>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            <div class="content">
+                <div class="block block-rounded text-center">
+                    <div class="block-content">
+                        @RenderBody()
+                    </div>
+                </div>
+            </div>
+        </main>
+        <!-- Footer -->
+        <footer id="page-footer" class="bg-body-light">
+            <div class="content py-0">
+                <div class="row font-size-sm">
+                    <div class="col-sm-6 order-sm-2 mb-1 mb-sm-0 text-center text-sm-right">
+                        Crafted with <i class="fa fa-heart text-danger"></i> by <a class="font-w600" href="https://1.envato.market/ydb" target="_blank">IntelliSoft</a>
+                    </div>
+                    <div class="col-sm-6 order-sm-1 text-center text-sm-left">
+                        <a class="font-w600" href="https://1.envato.market/r6y" target="_blank">IntelliTickets 1.0</a> &copy; <span data-toggle="year-copy"></span>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script src="~/js/dashmix.core.min.js"></script>
+    <script src="~/js/dashmix.app.min.js"></script>
+</body>
+</html>
