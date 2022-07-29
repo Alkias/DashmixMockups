@@ -1,0 +1,183 @@
+﻿@model DashmixMockups.Data.Ticket
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<div class="row">
+    <div class="col-lg-3">
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="block block-rounded block-bordered">
+                    <div class="block-header block-header-default">
+                        <h3 class="block-title">Ticket No @Model.Id <span class="small"><i class="si si-pencil"></i></span></h3>
+                        <div class="block-options">
+                            <button type="button" class="btn-block-option" data-toggle="block-option" data-action="content_toggle"></button>
+                        </div>
+                    </div>
+                    <div class="block-content">
+                        <h5 class="mb-0"><span class="small">Δημιουργήθηκε στις: @Model.TicketDate.ToString("g")</span></h5>
+                        <h5 class="mb-0"><span class="small">Κατάσταση:  <span class="badge badge-pill @Model.StatusBadget.Split(',')[0]">@Model.StatusBadget.Split(',')[1]</span></span> </h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="block block-rounded block-bordered">
+                    <div class="block-header block-header-default">
+                        <h3 class="block-title">Το Αίτημα</h3>
+                        <div class="block-options">
+                            <button type="button" class="btn-block-option" data-toggle="block-option" data-action="content_toggle"></button>
+                        </div>
+                    </div>
+                    <div class="block-content">
+                        <h5 class="mb-2"><span class="small">Τίτλος:</span><br />@Model.Title</h5>
+                        <h5 class="mb-2"><span class="small">Τεχνικός:</span><br />@Model.Client.ContactName</h5>
+                        <h5 class="mb-2"><span class="small">Προτεραιότητα:</span><br /><span class="badge badge-pill @Model.Priority.Split(',')[0]">@Model.Priority.Split(',')[1]</span></h5>
+                        <h5 class="mb-2"><span class="small">Τύπος Προβλήματος:</span><br />@Model.ProblemType</h5>
+                        <h5 class="mb-2"><span class="small">Πηγή:</span><br />@Model.IncomingType</h5>
+                        <h5 class="mb-2"><span class="small">Ωρες Υποστήριξης:</span><br />@Model.SupportHours</h5>
+                        <h5 class="mb-2"><span class="small">Δωρεάν Ωρες:</span><br />@Model.FreeSupportHours</h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="col-lg-8 col-xl-6">
+
+        @for (var i = 0; i < 10; i++)
+        {
+
+
+<!-- Main Content --><div class="content">
+                <!-- Message -->
+                <div class="block block-fx-pop">
+                    <div class="block-content block-content-sm block-content-full bg-body-light">
+                        <div class="media py-3">
+                            <div class="mr-3 ml-2 overlay-container overlay-right">
+                                <img class="img-avatar img-avatar48" src="assets/media/avatars/avatar7.jpg" alt="">
+                                <i class="far fa-circle text-white overlay-item font-size-sm bg-success rounded-circle"></i>
+                            </div>
+                            <div class="media-body">
+                                <div class="row">
+                                    <div class="col-sm-7">
+                                        <a class="font-w600 link-fx" href="be_pages_generic_profile.html">Sara Fields</a>
+                                        <div class="font-size-sm text-muted">s.fields@example.com</div>
+                                    </div>
+                                    <div class="col-sm-5 d-sm-flex align-items-sm-center">
+                                        <div class="font-size-sm font-italic text-muted text-sm-right w-100 mt-2 mt-sm-0">
+                                            <p class="mb-0">March 15, 2018</p>
+                                            <p class="mb-0">14:25</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="block-content">
+                        <p>Dear John,</p>
+                        <p>Dolor posuere proin blandit accumsan senectus netus nullam curae, ornare laoreet adipiscing luctus mauris adipiscing pretium eget fermentum, tristique lobortis est ut metus lobortis tortor tincidunt himenaeos habitant quis dictumst proin odio sagittis purus mi, nec taciti vestibulum quis in sit varius lorem sit metus mi.</p>
+                        <p>Best Regards,</p>
+                        <p>Sara</p>
+                    </div>
+                    <div class="block-content bg-body-light">
+                        <div class="row gutters-tiny">
+                            <div class="col-6 col-sm-4 col-md-5 col-lg-4 col-xl-3">
+                                <div class="options-container fx-item-zoom-in">
+                                    <img class="img-fluid options-item" src="assets/media/photos/photo7.jpg" alt="">
+                                    <div class="options-overlay bg-black-75">
+                                        <div class="options-overlay-content">
+                                            <a class="btn btn-sm btn-primary" href="javascript:void(0)">
+                                                <i class="fa fa-download mr-1"></i> Download
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p class="font-size-sm text-muted pt-2">
+                                    <i class="fa fa-paperclip"></i> Mountain.jpg (785Kb)
+                                </p>
+                            </div>
+                            <div class="col-6 col-sm-4 col-md-5 col-lg-4 col-xl-3">
+                                <div class="options-container fx-item-zoom-in">
+                                    <img class="img-fluid options-item" src="assets/media/photos/photo8.jpg" alt="">
+                                    <div class="options-overlay bg-black-75">
+                                        <div class="options-overlay-content">
+                                            <a class="btn btn-sm btn-primary" href="javascript:void(0)">
+                                                <i class="fa fa-download mr-1"></i> Download
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p class="font-size-sm text-muted pt-2">
+                                    <i class="fa fa-paperclip"></i> Fireplace.jpg (685kb)
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- END Message -->
+                @if (i == 9) {
+                    <!-- Reply -->
+                    <div class="block block-fx-pop">
+                        <div class="block-content block-content-full">
+                            <!-- Summernote (.js-summernote class is initialized in Helpers.summernote()) -->
+                            <!-- For more info and examples you can check out http://summernote.org/ -->
+                            <div class="js-summernote" data-height="100"></div>
+                            <button type="button" class="btn btn-hero-sm btn-hero-primary mt-2">Send</button>
+                        </div>
+                    </div>
+                    <!-- END Reply -->
+                }
+                
+            </div>
+            <!-- END Main Content -->
+        }
+
+    </div>
+
+    <div class="col-lg-3">
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="block block-rounded block-bordered">
+                    <div class="block-header block-header-default">
+                        <h3 class="block-title">Υπεύθυνος Επικοινωνίας</h3>
+                        <div class="block-options">
+                            <button type="button" class="btn-block-option" data-toggle="block-option" data-action="content_toggle"></button>
+                        </div>
+                    </div>
+                    <div class="block-content">
+                        <h5 class="mb-0">@Model.Client.ContactName</h5>
+                        <h5 class="mb-0"><a href="mailto:@Model.Client.ContactEmail">@Model.Client.ContactEmail</a></h5>
+                        <h5 class="mb-0">@Model.Client.PhoneNumber1 </h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="block block-rounded block-bordered">
+                    <div class="block-header block-header-default">
+                        <h3 class="block-title">Το Αίτημα</h3>
+                        <div class="block-options">
+                            <button type="button" class="btn-block-option" data-toggle="block-option" data-action="content_toggle"></button>
+                        </div>
+                    </div>
+                    <div class="block-content">
+                        <h5 class="mb-1"><span class="small">Τίτλος:</span><br />@Model.Title</h5>
+                        <h5 class="mb-1"><span class="small">Τεχνικός:</span><br />@Model.Client.ContactName</h5>
+                        <h5 class="mb-1"><span class="small">Προτεραιότητα:</span><br />@Model.Client.ContactName</h5>
+                        <h5 class="mb-1"><span class="small">Πηγή:</span><br />@Model.Client.ContactName</h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

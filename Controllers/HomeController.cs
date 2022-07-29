@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using DashmixMockups.Extensions;
 using DashmixMockups.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -27,8 +28,16 @@ namespace DashmixMockups.Controllers
         }
 
         public IActionResult Stelexos() {
-            return View();
+
+            var client = TicketExtensions.Clients();
+
+            var product = TicketExtensions.Products();
+
+            var model = TicketExtensions.Tickets(client, product).Generate(100);
+
+            return View(model);
         }
+
 
         public IActionResult Client()
         {

@@ -14,10 +14,5 @@ namespace DashmixMockups.Extensions
             var claim = ((ClaimsIdentity)user.Identity)?.FindFirst(ClaimTypes.Name);
             return claim?.Value;
         }
-        //public static string GetAddress(this IPrincipal user)
-        //{
-        //    var claim = ((ClaimsIdentity)user.Identity)?.FindFirst(ClaimTypes.StreetAddress);
-        //    return claim?.Value;
-        //}
     }
 }
