@@ -17,8 +17,8 @@
                         </div>
                     </div>
                     <div class="block-content">
-                        <h5 class="mb-0"><span class="small">Δημιουργήθηκε στις: @Model.TicketDate.ToString("g")</span></h5>
-                        <h5 class="mb-0"><span class="small">Κατάσταση:  <span class="badge badge-pill @Model.StatusBadget.Split(',')[0]">@Model.StatusBadget.Split(',')[1]</span></span> </h5>
+                        <h5 class="mb-2"><span class="small">Δημιουργήθηκε στις:</span><br /> @Model.TicketDate.ToString("g")</h5>
+                        <h5 class="mb-2"><span class="small">Κατάσταση:</span> <span class="badge badge-pill @Model.StatusBadget.Split(',')[0]">@Model.StatusBadget.Split(',')[1]</span></h5>
                     </div>
                 </div>
             </div>
@@ -36,7 +36,7 @@
                     <div class="block-content">
                         <h5 class="mb-2"><span class="small">Τίτλος:</span><br />@Model.Title</h5>
                         <h5 class="mb-2"><span class="small">Τεχνικός:</span><br />@Model.Client.ContactName</h5>
-                        <h5 class="mb-2"><span class="small">Προτεραιότητα:</span><br /><span class="badge badge-pill @Model.Priority.Split(',')[0]">@Model.Priority.Split(',')[1]</span></h5>
+                        <h5 class="mb-2"><span class="small">Προτεραιότητα:</span> <span class="badge badge-pill @Model.Priority.Split(',')[0]">@Model.Priority.Split(',')[1]</span></h5>
                         <h5 class="mb-2"><span class="small">Τύπος Προβλήματος:</span><br />@Model.ProblemType</h5>
                         <h5 class="mb-2"><span class="small">Πηγή:</span><br />@Model.IncomingType</h5>
                         <h5 class="mb-2"><span class="small">Ωρες Υποστήριξης:</span><br />@Model.SupportHours</h5>
@@ -49,18 +49,35 @@
     </div>
 
     <div class="col-lg-8 col-xl-6">
+        <!-- END Message -->
+        <div class="content">
+            <!-- Reply -->
+            <div class="block block-fx-pop">
+                <div class="block-content block-content-full">
+                    <!-- Summernote (.js-summernote class is initialized in Helpers.summernote()) -->
+                    <!-- For more info and examples you can check out http://summernote.org/ -->
+                    <div class="js-summernote" data-height="100"></div>
+                    <button type="button" class="btn btn-hero-sm btn-hero-primary mt-2">Send</button>
+                </div>
+            </div>
+            <!-- END Reply -->
+        </div>
+           
+       
 
-        @for (var i = 0; i < 10; i++)
-        {
+        @for (var i = 0; i < 10; i++) {
 
+            <!-- Main Content -->
+            <div class="content">
 
-<!-- Main Content --><div class="content">
                 <!-- Message -->
                 <div class="block block-fx-pop">
                     <div class="block-content block-content-sm block-content-full bg-body-light">
                         <div class="media py-3">
                             <div class="mr-3 ml-2 overlay-container overlay-right">
-                                <img class="img-avatar img-avatar48" src="assets/media/avatars/avatar7.jpg" alt="">
+                                @*<img class="img-avatar img-avatar48" src="assets/media/avatars/avatar7.jpg" alt="">*@
+
+                                <img class="img-avatar img-avatar48" src="@Model.Image" alt="">
                                 <i class="far fa-circle text-white overlay-item font-size-sm bg-success rounded-circle"></i>
                             </div>
                             <div class="media-body">
@@ -120,20 +137,9 @@
                         </div>
                     </div>
                 </div>
-                <!-- END Message -->
-                @if (i == 9) {
-                    <!-- Reply -->
-                    <div class="block block-fx-pop">
-                        <div class="block-content block-content-full">
-                            <!-- Summernote (.js-summernote class is initialized in Helpers.summernote()) -->
-                            <!-- For more info and examples you can check out http://summernote.org/ -->
-                            <div class="js-summernote" data-height="100"></div>
-                            <button type="button" class="btn btn-hero-sm btn-hero-primary mt-2">Send</button>
-                        </div>
-                    </div>
-                    <!-- END Reply -->
-                }
-                
+
+
+
             </div>
             <!-- END Main Content -->
         }

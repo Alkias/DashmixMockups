@@ -89,7 +89,11 @@ namespace DashmixMockups.Extensions
                 .RuleFor(o => o.ClientId, f => clients.Generate().Id)
                 .RuleFor(o => o.Client, f => clients.Generate())
                 .RuleFor(o => o.ProductId, f => product.Generate().Id)
-                .RuleFor(o => o.Product, f => product.Generate());
+                .RuleFor(o => o.Product, f => product.Generate())
+
+                .RuleFor(o => o.Image, f => f.Internet.Avatar())
+                
+                ;
             return tickets;
         }
 

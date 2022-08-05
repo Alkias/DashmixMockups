@@ -7,6 +7,8 @@ namespace DashmixMockups.Data
         public int Id { get; set; }
         public string Title { get; set; }
 
+        public string Image { get; set; }
+
         public DateTime TicketDate { get; set; }
 
         public int ClientId { get; set; }
