@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace DashmixMockups.Data
 {
@@ -14,6 +15,13 @@ namespace DashmixMockups.Data
         public int ClientId { get; set; }
 
         public int ProductId { get; set; }
+
+        /// <summary>
+        /// Προηγουμένως ClientBranchId
+        /// </summary>
+        public int StoreId { get; set; }
+        public int? ContractId { get; set; }
+        
 
         public byte Status { get; set; }
         public string StatusBadget { get; set; }
@@ -47,7 +55,7 @@ namespace DashmixMockups.Data
         public string ProblemType { get; set; }
 
         public int? IncomingTypeId { get; set; }
-        public string IncomingType{ get; set; }
+        public string IncomingType { get; set; }
 
         public DateTime? ExpectedSolutionDate { get; set; }
 
@@ -77,9 +85,7 @@ namespace DashmixMockups.Data
 
         public int? Cars { get; set; }
 
-        public int? ClientBranchId { get; set; }
-
-        public int? ContractId { get; set; }
+        
 
         public bool IsInitial { get; set; }
 
@@ -93,122 +99,198 @@ namespace DashmixMockups.Data
 
         public Client Client { get; set; }
         public Product Product { get; set; }
+        public Store Store { get; set; }
+        public Contract Contract { get; set; }
     }
 
     public class Client : BaseEntity
     {
         public int Id { get; set; }
 
-
         public string Name { get; set; }
-
 
         public string Afm { get; set; }
 
-
         public string Notes { get; set; }
-
 
         public bool IsActive { get; set; }
 
-
         public int? CreateUserId { get; set; }
-
 
         public DateTime? CreatedOnUtc { get; set; }
 
-
         public int? UpdateUserId { get; set; }
-
 
         public DateTime? UpdatedOnUtc { get; set; }
 
-
         public int? EasyComId { get; set; }
-
 
         public string ContactName { get; set; }
 
         public string ContactEmail { get; set; }
 
-
         public string PhoneNumber1 { get; set; }
-
 
         public string PhoneNumber2 { get; set; }
 
-
         public bool? InformBalance { get; set; }
+
+        public List<Store> Stores { get; set; }
+        public List<Product> Products { get; set; }
+    }
+
+    public class Store : BaseEntity
+    {
+        public int Id { get; set; }
+
+        public int ClientId { get; set; }
+
+        public string Description { get; set; }
+
+        public bool IsPrime { get; set; }
+        public bool IsActive { get; set; }
+
+        public int? EasyComId { get; set; }
     }
 
     public class Product : BaseEntity
     {
         public int Id { get; set; }
 
-
         public string Description { get; set; }
-
 
         public string Notes { get; set; }
 
-
         public bool IsActive { get; set; }
-
 
         public int? CreateUserId { get; set; }
 
-
         public DateTime? CreatedOnUtc { get; set; }
-
 
         public int? UpdateUserId { get; set; }
 
-
         public DateTime? UpdatedOnUtc { get; set; }
 
-
         public int? EasyComId { get; set; }
+    }
+
+    public class ClientProduct
+    {
+        public int Id { get; set; }
+        public int ClientId { get; set; }
+        public int ProductId { get; set; }
     }
 
     public class Users : BaseEntity
     {
         public int Id { get; set; }
 
-
         public string FirstName { get; set; }
-
 
         public string LastName { get; set; }
 
-
         public string Email { get; set; }
-
 
         public string LoginName { get; set; }
 
-
         public string Password { get; set; }
-
 
         public int PasswordFormatId { get; set; }
 
-
         public string PasswordSalt { get; set; }
-
 
         public int AreaId { get; set; }
 
-
         public string Notes { get; set; }
+
+        public bool IsActive { get; set; }
+
+        public bool IsSystemAccount { get; set; }
+
+        public string SystemName { get; set; }
+
+        public int? CreateUserId { get; set; }
+
+        public DateTime? CreatedOnUtc { get; set; }
+
+        public int? UpdateUserId { get; set; }
+
+        public DateTime? UpdatedOnUtc { get; set; }
+
+        public DateTime? LastLoginDateUtc { get; set; }
+
+        public DateTime LastActivityDateUtc { get; set; }
+
+        public int? EasyComId { get; set; }
+
+        public string NewPassword { get; set; }
+
+        public DateTime? LastPasswordChangeDate { get; set; }
+
+        public bool? IsAdmin { get; set; }
+
+        public DateTime? DeactivationDate { get; set; }
+    }
+
+    public class Contract : BaseEntity
+    {
+        public int Id { get; set; }
+
+
+        public int ClientId { get; set; }
+
+
+        public int ProductId { get; set; }
+
+
+        public string Description { get; set; }
 
 
         public bool IsActive { get; set; }
 
 
-        public bool IsSystemAccount { get; set; }
+        public int EasyComId { get; set; }
 
 
-        public string SystemName { get; set; }
+        public DateTime FromDate { get; set; }
+
+
+        public DateTime ToDate { get; set; }
+
+
+        public bool IsInitial { get; set; }
+
+
+        public double FreeHours { get; set; }
+
+
+        public double ChargePerHour { get; set; }
+
+
+        public int? UserId { get; set; }
+    }
+
+    public class Post : BaseEntity
+    {
+        public int Id { get; set; }
+
+
+        public int TicketId { get; set; }
+
+
+        public byte Status { get; set; }
+
+
+        public DateTime ContactDate { get; set; }
+
+
+        public DateTime? NextContactDate { get; set; }
+
+
+        public string SolutionNotes { get; set; }
+
+
+        public int SolutionUserId { get; set; }
 
 
         public int? CreateUserId { get; set; }
@@ -223,24 +305,10 @@ namespace DashmixMockups.Data
         public DateTime? UpdatedOnUtc { get; set; }
 
 
-        public DateTime? LastLoginDateUtc { get; set; }
+        public double? SolutionRealTime { get; set; }
 
 
-        public DateTime LastActivityDateUtc { get; set; }
-
-
-        public int? EasyComId { get; set; }
-
-
-        public string NewPassword { get; set; }
-
-
-        public DateTime? LastPasswordChangeDate { get; set; }
-
-
-        public bool? IsAdmin { get; set; }
-
-
-        public DateTime? DeactivationDate { get; set; }
+        public bool IsRemote { get; set; }
     }
+
 }

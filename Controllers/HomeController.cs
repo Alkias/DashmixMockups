@@ -1,5 +1,10 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using DashmixMockups.Data;
 using DashmixMockups.Extensions;
+using DashmixMockups.Factories;
 using DashmixMockups.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -28,16 +33,10 @@ namespace DashmixMockups.Controllers
         }
 
         public IActionResult Stelexos() {
-
-            var client = TicketExtensions.Clients();
-
-            var product = TicketExtensions.Products();
-
-            var model = TicketExtensions.Tickets(client, product).Generate(100);
-
-            return View(model);
+            var tickets = FakeTicketFactory.GetSomeTickets(50);
+            return View(tickets);
         }
-
+        
 
         public IActionResult Client()
         {
