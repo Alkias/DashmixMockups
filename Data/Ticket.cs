@@ -72,6 +72,7 @@ namespace DashmixMockups.Data
         public DateTime? SolutionDate { get; set; }
 
         public int? SolutionUserId { get; set; }
+        public User SolutionUser { get; set; }
 
         public int? CreateUserId { get; set; }
 
@@ -101,6 +102,8 @@ namespace DashmixMockups.Data
         public Product Product { get; set; }
         public Store Store { get; set; }
         public Contract Contract { get; set; }
+        public List<Post> Posts { get; set; }
+        public List<User> Users { get; set; }
     }
 
     public class Client : BaseEntity
@@ -134,9 +137,11 @@ namespace DashmixMockups.Data
         public string PhoneNumber2 { get; set; }
 
         public bool? InformBalance { get; set; }
+        public string Image { get; set; }
 
         public List<Store> Stores { get; set; }
         public List<Product> Products { get; set; }
+        public List<User> Users { get; set; }
     }
 
     public class Store : BaseEntity
@@ -181,9 +186,10 @@ namespace DashmixMockups.Data
         public int ProductId { get; set; }
     }
 
-    public class Users : BaseEntity
+    public class User : BaseEntity
     {
         public int Id { get; set; }
+        public int? ClientId { get; set; }
 
         public string FirstName { get; set; }
 
@@ -230,6 +236,7 @@ namespace DashmixMockups.Data
         public bool? IsAdmin { get; set; }
 
         public DateTime? DeactivationDate { get; set; }
+        public string Image { get; set; }
     }
 
     public class Contract : BaseEntity
@@ -279,6 +286,7 @@ namespace DashmixMockups.Data
 
 
         public byte Status { get; set; }
+        public string StatusBadge { get; set; }
 
 
         public DateTime ContactDate { get; set; }
@@ -309,6 +317,15 @@ namespace DashmixMockups.Data
 
 
         public bool IsRemote { get; set; }
+        public User User { get; set; }
     }
-
+    public enum TicketFilters
+    {
+        OpenTickets,
+        OpenTicketsToday,
+        ClosedTickets,
+        ClosedTicketsToday,
+        ForCheck,
+        UnreadTickets
+    }
 }

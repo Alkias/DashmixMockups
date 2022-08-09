@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Bogus;
 using DashmixMockups.Data;
 
@@ -124,8 +125,14 @@ namespace DashmixMockups.Factories
             "Συμβόλαιο Συντήρησης - ΜΠΑΚΑΣ ΑΘΑΝΑΣΙΟΣ"
         };
 
+        public static string[] PostStatus = {
+            "badge-info,Open",
+            "badge-success,Wait Client",
+            "badge-primary,Closed"
+        };
+
         #endregion
-        
+
         public static List<Store> ClientStores (int clientId) {
             var storeIds = 1;
             var storeFaker = new Faker<Store>("el")
@@ -178,12 +185,23 @@ namespace DashmixMockups.Factories
                 .RuleFor(d => d.ContactName, f => f.Person.FirstName + " " + f.Person.LastName)
                 .RuleFor(d => d.PhoneNumber1, f => f.Person.Phone)
                 .RuleFor(d => d.ContactEmail, f => f.Person.Email)
-                .RuleFor(d => d.Stores, f => ClientStores(clientIds - 1));
+                .RuleFor(d => d.Stores, f => ClientStores(clientIds - 1))
+                .RuleFor(o => o.Image, f => f.Internet.Avatar());
 
             var clients = clientFaker.Generate();
             ClientProducts(clients);
+            ClientUsers(clients.Id);
 
             return clients;
+        }
+
+        private static List<User> ClientUsers (int id) {
+           return SetUsers(1, random.Number(2, 5), id);
+        }
+
+        private static List<User> TicketUsers(int id)
+        {
+            return SetUsers(5, random.Number(6, 15), id);
         }
 
         public static Contract ClientProductContract (int clientId, int productId) {
@@ -205,10 +223,74 @@ namespace DashmixMockups.Factories
             return contractFaker.Generate();
         }
 
+        public static List<Post> SetTicketPosts(int ticketId)
+        {
+            var postIds = 1;
+            var postFake = new Faker<Post>("el")
+                .StrictMode(false)
+
+                //.UseSeed(1122)
+                .RuleFor(d => d.Id, f => postIds++)
+                .RuleFor(d => d.TicketId, f => ticketId)
+                .RuleFor(d => d.StatusBadge, f => f.PickRandom(PostStatus))
+                .RuleFor(d => d.CreatedOnUtc, f => f.Date.PastOffset(3, DateTime.Now).Date)
+                .RuleFor(d => d.UpdatedOnUtc, f => f.Date.PastOffset(3, DateTime.Now).Date)
+                .RuleFor(d => d.ContactDate, f => f.Date.PastOffset(3, DateTime.Now).Date)
+                .RuleFor(d => d.NextContactDate, f => f.Date.PastOffset(3, DateTime.Now).Date)
+                .RuleFor(d => d.SolutionNotes, f => f.Lorem.Paragraphs(random.Number(1, 3)))
+                .RuleFor(d => d.SolutionRealTime, f => random.Double(1, 6));
+            return postFake.Generate(random.Number(3, 15));
+        }
+
+        public static List<User> SetUsers(int min=1, int max=15, int? clientId=null)
+        {
+            var userIds = 1;
+            var userFaker = new Faker<User>("el")
+                .StrictMode(false)
+
+                //.UseSeed(1122)
+                .RuleFor(d => d.Id, f => userIds++)
+                .RuleFor(d => d.ClientId, f => clientId)
+                .RuleFor(d => d.FirstName, f => f.Person.FirstName)
+                .RuleFor(d => d.LastName, f => f.Person.LastName)
+                .RuleFor(d => d.Email, f => f.Person.Email)
+                .RuleFor(d => d.LoginName, f => f.Person.UserName)
+                .RuleFor(d => d.IsActive, true)
+                .RuleFor(d => d.Image, f => f.Internet.Avatar())
+
+                .RuleFor(d => d.CreatedOnUtc, f => f.Date.PastOffset(3, DateTime.Now).Date)
+                .RuleFor(d => d.UpdatedOnUtc, f => f.Date.PastOffset(3, DateTime.Now).Date);
+
+            return userFaker.Generate(random.Number(min, max));
+        }
+
+        public static Faker<User> SetUser(int? clientId = null)
+        {
+            var userIds = 1;
+            var userFaker = new Faker<User>("el")
+                .StrictMode(false)
+
+                //.UseSeed(1122)
+                .RuleFor(d => d.Id, f => userIds++)
+                .RuleFor(d => d.ClientId, f => clientId)
+                .RuleFor(d => d.FirstName, f => f.Person.FirstName)
+                .RuleFor(d => d.LastName, f => f.Person.LastName)
+                .RuleFor(d => d.Email, f => f.Person.Email)
+                .RuleFor(d => d.LoginName, f => f.Person.UserName)
+                .RuleFor(d => d.IsActive, true)
+                .RuleFor(d => d.Image, f => f.Internet.Avatar())
+
+                .RuleFor(d => d.CreatedOnUtc, f => f.Date.PastOffset(3, DateTime.Now).Date)
+                .RuleFor(d => d.UpdatedOnUtc, f => f.Date.PastOffset(3, DateTime.Now).Date);
+
+            return userFaker;
+        }
+
         public static List<Ticket> GenerateTickets (int ticketNum) {
             var ticketIds = 1;
             var ticketFaker = new Faker<Ticket>("el")
                 .StrictMode(false)
+
                 //.UseSeed(1122)
                 .RuleFor(d => d.Id, f => ticketIds++)
                 .RuleFor(d => d.Title, f => f.Commerce.ProductName())
@@ -222,8 +304,8 @@ namespace DashmixMockups.Factories
                 .RuleFor(d => d.ProblemTypeId, f => f.Random.Int(1, 19))
                 .RuleFor(d => d.ProblemType, f => f.PickRandom(ProblemTypes))
                 .RuleFor(d => d.IncomingTypeId, f => f.Random.Int(1, 4))
-                .RuleFor(d => d.IncomingType, f => f.PickRandom(IncomingTypes))
-                .RuleFor(o => o.Image, f => f.Internet.Avatar());
+                .RuleFor(d => d.IncomingType, f => f.PickRandom(IncomingTypes));
+                
 
             return ticketFaker.Generate(ticketNum);
         }
@@ -236,6 +318,9 @@ namespace DashmixMockups.Factories
                 var client = GetClient();
                 tic.ClientId = client.Id;
                 tic.Client = client;
+
+                var clientUsers = TicketUsers(client.Id);
+                tic.Client.Users = clientUsers;
 
                 int productIndex = random.Next(tic.Client.Products.Count);
                 var product = client.Products[productIndex];
@@ -251,6 +336,13 @@ namespace DashmixMockups.Factories
 
                 tic.StoreId = store.Id;
                 tic.Store = store;
+
+                var posts = SetTicketPosts(tic.Id);
+                tic.Posts = posts;
+
+                var users = TicketUsers(tic.Id);
+                tic.SolutionUser = users.FirstOrDefault();
+                tic.SolutionUserId = users.FirstOrDefault()?.Id;
             }
 
             return tickets;
