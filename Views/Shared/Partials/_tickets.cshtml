@@ -1,0 +1,30 @@
+﻿@model List<Ticket>
+
+<div class="scrll_hide">
+   @foreach(var tic in Model)
+    {
+       <a class="list-group-item list-group-item-action" href="javascript:void(0)" id="t-@tic.Id">
+           
+           <div class="row">
+               <div class="col-1">
+                   <i class="@tic.IncomingType.Split(",")[1] fa-2x"></i>
+               </div>
+               <div class="col-11">
+                   <p class="font-size-h6 font-w700 mb-0">
+                       #@tic.Id @tic.Title <span class="dot @tic.Priority.Split(",")[2]"></span>
+                   </p>
+                   <p class="mb-0">
+                       <strong class="font-w600" style="color:#0665d0">@tic.Client.ContactName </strong>
+                   </p>
+                   <p class="font-size-sm text-muted mb-0">
+                       <i class="si si-clock"></i>  @tic.TicketDate.ToString("D")
+
+                       <i class="si si-layers"></i> <span class="badge  @tic.StatusBadget.Split(',')[0]">@tic.StatusBadget.Split(',')[1]</span>
+                   </p>
+
+               </div>
+           </div>
+           
+       </a>
+    }
+</div>

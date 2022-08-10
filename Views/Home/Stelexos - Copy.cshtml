@@ -1,0 +1,59 @@
+﻿@model List<Ticket>
+@{
+    ViewData["Title"] = "Stelexos";
+}
+
+
+<div class="content">
+    <div class="block block-rounded">
+        <div class="block-content">
+
+            <!-- Dynamic Table Full Pagination -->
+            <div class="block block-rounded block-bordered">
+                <div class="block-header block-header-default">
+                    <h3 class="block-title">Αιτήματα<small> Πελατών</small></h3>
+                </div>
+                <div class="block-content block-content-full">
+                    <!-- DataTables init on table by adding .js-dataTable-full-pagination class, functionality initialized in js/pages/be_tables_datatables.js -->
+                    <table class="table table-sm table-bordered table-striped table-vcenter js-dataTable-simple">
+                        <thead>
+                            <tr>
+                                <th class="text-center" style="width: 50px;">#</th>
+                                <th>Καταχωρήθηκε</th>
+                                <th>Πελάτης</th>
+                                <th>Προϊόν</th>
+                                <th>Κατάσταση</th>
+                                <th class="text-center" style="width: 100px;">Ενέργειες</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var ticket in Model)
+                            {
+                                <tr>
+                                    <td class="text-center" scope="row">@ticket.Id</td>
+
+                                    <td>@ticket.TicketDate.ToString("d")</td>
+                                    <td>@ticket.Client.ContactName</td>
+                                    <td>@ticket.Product.Description</td>
+                                    <td><span class="badge badge-pill @ticket.StatusBadget.Split(',')[0]">@ticket.StatusBadget.Split(',')[1]</span></td>
+
+                                    <td class="text-center">
+                                        <div class="btn-group">
+                                            <a class="btn btn-sm btn-primary js-tooltip-enabled" data-toggle="tooltip" title="" data-original-title="Ενημέρωση" asp-controller="Tickets" asp-action="Details" asp-route-id="@ticket.Id">
+                                                <i class="fa fa-pencil-alt"></i>
+                                            </a>
+                                            <a class="btn btn-sm btn-success js-tooltip-enabled" data-toggle="tooltip" title="" data-original-title="Λεπτομέρειες">
+                                                <i class="far fa-file-alt"></i>
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

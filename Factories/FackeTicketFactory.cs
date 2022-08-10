@@ -25,10 +25,10 @@ namespace DashmixMockups.Factories
         public static int[] PricePerHour = {40, 50, 60, 70};
 
         public static string[] Priority = {
-            "badge-info,Μικρή",
-            "badge-success,Μεσαία",
-            "badge-primary,Μεγάλη",
-            "badge-danger,Επείγον",
+            "badge-info,Μικρή,yellow",
+            "badge-success,Μεσαία,green",
+            "badge-primary,Μεγάλη,blue",
+            "badge-danger,Επείγον,red",
         };
 
         public static string[] ProblemTypes = {
@@ -54,10 +54,10 @@ namespace DashmixMockups.Factories
         };
 
         public static string[] IncomingTypes = {
-            "Τηλέφωνο",
-            "Email",
-            "Fax",
-            "Viber"
+            "Τηλέφωνο,si si-call-in",
+            "Email,si si-envelope",
+            "Fax,fa fa-fax",
+            "Viber,fab fa-viber"
         };
 
         public static string[] IntelliContracts = {

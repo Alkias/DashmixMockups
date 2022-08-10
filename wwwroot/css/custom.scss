@@ -15,3 +15,46 @@
         color:#fff !important;
     }
 }
+
+
+.dot {
+    height: 14px;
+    width: 14px;
+    border-radius: 50%;
+    display: inline-block;
+
+    &.red {
+        background-color: red;
+    }
+
+    &.green {
+        background-color: greenyellow;
+    }
+
+    &.blue {
+        background-color: blue;
+    }
+
+    &.yellow {
+        background-color: yellow;
+    }
+}
+
+/*Scrolable Tickets List*/
+.b-r {
+    height: 100vh;
+    overflow: hidden;
+}
+
+.margin_top_600px {
+    margin-top: 600px;
+}
+
+.scrll_hide {
+    float: right;
+    height: 100%;
+    width: calc(100% + 48px);
+    overflow-y: scroll;
+    margin: 0 -32px 0 0 !important;
+    box-sizing: border-box;
+}

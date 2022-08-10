@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using DashmixMockups.Data;
 using DashmixMockups.Extensions;
 using DashmixMockups.Factories;
 using Microsoft.AspNetCore.Authorization;
@@ -10,15 +11,17 @@ namespace DashmixMockups.Controllers
     public class TicketsController : Controller
     {
         public IActionResult Details (int id) {
-           // var client = TicketExtensions.Clients();
-
-           // var product = TicketExtensions.Products();
-
-           // var model = TicketExtensions.Tickets(client, product, id).Generate();
 
            var model = FakeTicketFactory.GetSomeTickets(1).FirstOrDefault();
+           model.Id = id;
 
             return View(model);
         }
+
+        public IActionResult Create() {
+            var model = new Ticket();
+            return View(model);
+        }
+        
     }
 }

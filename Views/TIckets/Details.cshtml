@@ -3,18 +3,9 @@
 @{
     ViewData["Title"] = "Details";
     var random = new Random();
-}
-@section AfterContent {
-    <script src="~/js/plugins/summernote/summernote-bs4.min.js"></script>
-
-    <!-- Page JS Helpers (Summernote plugin) -->
-    <script>jQuery(function () { Dashmix.helpers('summernote'); });</script>
-}
-@section BeforeStyles {
-    <link rel="stylesheet" href="~/js/plugins/summernote/summernote-bs4.css">
+    Layout = null;
 }
 
-<div class="content">
     <div class="block block-rounded">
         <div class="block-content">
 
@@ -27,7 +18,9 @@
                                 <div class="block-header block-header-default">
                                     <h3 class="block-title">Ticket No @Model.Id <span class="small"><i class="si si-pencil"></i></span></h3>
                                     <div class="block-options">
-                                        <button type="button" class="btn-block-option" data-toggle="block-option" data-action="content_toggle"></button>
+                                        <button type="button" class="btn-block-option" data-toggle="block-option" data-action="content_toggle">
+                                            <i class="si si-arrow-up"></i>
+                                        </button>
                                     </div>
                                 </div>
                                 <div class="block-content">
@@ -44,7 +37,9 @@
                                 <div class="block-header block-header-default">
                                     <h3 class="block-title">Το Αίτημα</h3>
                                     <div class="block-options">
-                                        <button type="button" class="btn-block-option" data-toggle="block-option" data-action="content_toggle"></button>
+                                        <button type="button" class="btn-block-option" data-toggle="block-option" data-action="content_toggle">
+                                            <i class="si si-arrow-up"></i>
+                                        </button>
                                     </div>
                                 </div>
                                 <div class="block-content">
@@ -56,8 +51,8 @@
 
                                     <h5 class="mb-2"><span class="small">Προτεραιότητα:</span> <span class="badge badge-pill @Model.Priority.Split(',')[0]">@Model.Priority.Split(',')[1]</span></h5>
                                     <h5 class="mb-2"><span class="small">Τύπος Προβλήματος:</span><br />@Model.ProblemType</h5>
-                                    <h5 class="mb-2"><span class="small">Πηγή:</span><br />@Model.IncomingType</h5>
-
+                                    <h5 class="mb-2"><span class="small">Πηγή: <i class="@Model.IncomingType.Split(",")[1]"></i> </span>@Model.IncomingType.Split(",")[0]</h5>
+                                     
                                 </div>
                             </div>
                         </div>
@@ -70,7 +65,9 @@
                                 <div class="block-header block-header-default">
                                     <h3 class="block-title">Σύμβαση</h3>
                                     <div class="block-options">
-                                        <button type="button" class="btn-block-option" data-toggle="block-option" data-action="content_toggle"></button>
+                                        <button type="button" class="btn-block-option" data-toggle="block-option" data-action="content_toggle">
+                                            <i class="si si-arrow-up"></i>
+                                        </button>
                                     </div>
                                 </div>
                                 <div class="block-content">
@@ -246,7 +243,9 @@
                                 <div class="block-header block-header-default">
                                     <h3 class="block-title">Πελάτης</h3>
                                     <div class="block-options">
-                                        <button type="button" class="btn-block-option" data-toggle="block-option" data-action="content_toggle"></button>
+                                        <button type="button" class="btn-block-option" data-toggle="block-option" data-action="content_toggle">
+                                            <i class="si si-arrow-up"></i>
+                                        </button>
                                     </div>
                                 </div>
                                 <div class="block-content">
@@ -266,7 +265,9 @@
                                 <div class="block-header block-header-default">
                                     <h3 class="block-title">Υποκατάστημα</h3>
                                     <div class="block-options">
-                                        <button type="button" class="btn-block-option" data-toggle="block-option" data-action="content_toggle"></button>
+                                        <button type="button" class="btn-block-option" data-toggle="block-option" data-action="content_toggle">
+                                            <i class="si si-arrow-up"></i>
+                                        </button>
                                     </div>
                                 </div>
                                 <div class="block-content">
@@ -284,7 +285,9 @@
                                 <div class="block-header block-header-default">
                                     <h3 class="block-title">Προϊόν</h3>
                                     <div class="block-options">
-                                        <button type="button" class="btn-block-option" data-toggle="block-option" data-action="content_toggle"></button>
+                                        <button type="button" class="btn-block-option" data-toggle="block-option" data-action="content_toggle">
+                                            <i class="si si-arrow-up"></i>
+                                        </button>
                                     </div>
                                 </div>
                                 <div class="block-content">
@@ -549,4 +552,6 @@
             <!-- END Vertically Centered Default Modal -->
         </div>
     </div>
-</div>
+
+<!-- Page JS Helpers (Summernote plugin) -->
+<script>jQuery(function(){ Dashmix.helpers('summernote'); });</script>
