@@ -8,388 +8,545 @@
     <script src="~/js/plugins/summernote/summernote-bs4.min.js"></script>
 
     <!-- Page JS Helpers (Summernote plugin) -->
-    <script>jQuery(function(){ Dashmix.helpers('summernote'); });</script>
+    <script>jQuery(function () { Dashmix.helpers('summernote'); });</script>
 }
 @section BeforeStyles {
     <link rel="stylesheet" href="~/js/plugins/summernote/summernote-bs4.css">
 }
-<div class="row">
-    <div class="col-lg-3">
 
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="block block-rounded block-bordered">
-                    <div class="block-header block-header-default">
-                        <h3 class="block-title">Ticket No @Model.Id <span class="small"><i class="si si-pencil"></i></span></h3>
-                        <div class="block-options">
-                            <button type="button" class="btn-block-option" data-toggle="block-option" data-action="content_toggle"></button>
-                        </div>
-                    </div>
-                    <div class="block-content">
-                        <h5 class="mb-2"><span class="small">Δημιουργήθηκε στις:</span><br /> @Model.TicketDate.ToString("g")</h5>
-                        <h5 class="mb-2"><span class="small">Κατάσταση:</span> <span class="badge badge-pill @Model.StatusBadget.Split(',')[0]">@Model.StatusBadget.Split(',')[1]</span></h5>
-                    </div>
-                </div>
-            </div>
-        </div>
+<div class="content">
+    <div class="block block-rounded">
+        <div class="block-content">
 
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="block block-rounded block-bordered">
-                    <div class="block-header block-header-default">
-                        <h3 class="block-title">Το Αίτημα</h3>
-                        <div class="block-options">
-                            <button type="button" class="btn-block-option" data-toggle="block-option" data-action="content_toggle"></button>
-                        </div>
-                    </div>
-                    <div class="block-content">
-                        <h5 class="mb-2"><span class="small">Τίτλος:</span><br />@Model.Title</h5>
-                        <h5 class="mb-2"><span class="small">Τεχνικός:</span><br />@Model.SolutionUser.FirstName @Model.SolutionUser.LastName</h5>
-                        <h5 class="mb-2"><span class="small">Προτεραιότητα:</span> <span class="badge badge-pill @Model.Priority.Split(',')[0]">@Model.Priority.Split(',')[1]</span></h5>
-                        <h5 class="mb-2"><span class="small">Τύπος Προβλήματος:</span><br />@Model.ProblemType</h5>
-                        <h5 class="mb-2"><span class="small">Πηγή:</span><br />@Model.IncomingType</h5>
+            <div class="row">
+                <div class="col-lg-3">
 
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Product -->
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="block block-rounded block-bordered">
-                    <div class="block-header block-header-default">
-                        <h3 class="block-title">Σύμβαση</h3>
-                        <div class="block-options">
-                            <button type="button" class="btn-block-option" data-toggle="block-option" data-action="content_toggle"></button>
-                        </div>
-                    </div>
-                    <div class="block-content">
-
-                        <h5 class="mb-1"><span class="small">Τίτλος:</span><br />@Model.Contract.Description</h5>
-                        <h5 class="mb-1"><span class="small">Από:</span> @Model.Contract.FromDate.ToString("d") <span class="small">Έως:</span> @Model.Contract.ToDate.ToString("d")</h5>
-                        <h5 class="mb-2">
-                            <span class="small">Κατανάλωση:</span>
-                            @(Model.FreeSupportHours) <span class="small">Δωρεάν:</span>
-                            @Model.Contract.FreeHours <span class="small">Υπόλοιπο:</span>
-                            @(Model.Contract.FreeHours - Model.FreeSupportHours)
-                        </h5>
-                        <h5 class="mb-2"><span class="small">Χρέωση ανα Ώρα:</span> @Model.ChargePerHour</h5>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-    </div>
-
-    <div class="col-lg-8 col-xl-6">
-        <!-- END Message -->
-        <div class="content">
-            <!-- Reply -->
-            <div class="block block-fx-pop">
-                <div class="block-content block-content-full">
-                    <!-- Summernote (.js-summernote class is initialized in Helpers.summernote()) -->
-                    <!-- For more info and examples you can check out http://summernote.org/ -->
-                    <div class="js-summernote" data-height="100"></div>
-                    <button type="button" class="btn btn-hero-sm btn-hero-primary mt-2">Απάντηση</button>
-                </div>
-            </div>
-            <!-- END Reply -->
-        </div>
-        
-        @{ var postIndex = 0;}
-        @foreach(var post in Model.Posts) {
-            postIndex++;
-            bool isClientPost = postIndex % 2 == 0;
-            int index = random.Next(Model.Client.Users.Count);
-            User clientUser = Model.Client.Users[index];
-
-            <!-- Main Content -->
-            <div class="content">
-
-                <!-- Message -->
-                <div class="block block-fx-pop">
-                    
-                    <!-- Post Top Bar-->
-                    <div class="block-content block-content-sm block-content-full bg-body-light">
-                        <div class="media py-3">
-                            
-                            @if (!isClientPost) {
-                                <div class="mr-3 ml-2 overlay-container overlay-right">
-                                    <img class="img-avatar img-avatar48" src="@Model.SolutionUser.Image" alt="">
-                                    <i class="far fa-circle text-white overlay-item font-size-sm bg-success rounded-circle"></i>
-                                </div>
-                            }
-                            else {
-                                <div class="mr-3 ml-2 overlay-container overlay-right">
-                                    <img class="img-avatar img-avatar48" src="@clientUser.Image" alt="">
-                                    <i class="far fa-circle text-white overlay-item font-size-sm bg-success rounded-circle"></i>
-                                </div>
-                            }
-
-                            <div class="media-body">
-                                <div class="row">
-                                    
-                                    
-                                    
-                                    @if (!isClientPost) {
-                                        <div class="col-sm-7">
-                                            <a class="font-w600 link-fx" href="be_pages_generic_profile.html">@Model.SolutionUser.FirstName  @Model.SolutionUser.LastName</a>
-                                            <div class="font-size-sm text-muted">@Model.SolutionUser.Email</div>
-                                        </div>
-                                    }
-                                    else {
-                                        <div class="col-sm-7">
-                                            <a class="font-w600 link-fx" href="be_pages_generic_profile.html">@clientUser.FirstName @clientUser.LastName</a>
-                                            <div class="font-size-sm text-muted">@clientUser.Email</div>
-                                        </div>
-                                    }
-
-                                    <div class="col-sm-5 d-sm-flex align-items-sm-center">
-                                        <div class="font-size-sm font-italic text-muted text-sm-right w-100 mt-2 mt-sm-0">
-                                            <p class="mb-0">@post.ContactDate.ToString("d")</p>
-                                            <p class="mb-0">@post.ContactDate.ToString("t")</p>
-                                        </div>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="block block-rounded block-bordered">
+                                <div class="block-header block-header-default">
+                                    <h3 class="block-title">Ticket No @Model.Id <span class="small"><i class="si si-pencil"></i></span></h3>
+                                    <div class="block-options">
+                                        <button type="button" class="btn-block-option" data-toggle="block-option" data-action="content_toggle"></button>
                                     </div>
+                                </div>
+                                <div class="block-content">
+                                    <h5 class="mb-2"><span class="small">Δημιουργήθηκε στις:</span><br /> @Model.TicketDate.ToString("g")</h5>
+                                    <h5 class="mb-2"><span class="small">Κατάσταση:</span> <span class="badge badge-pill @Model.StatusBadget.Split(',')[0]">@Model.StatusBadget.Split(',')[1]</span></h5>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    @if (!isClientPost) {
-                        <!-- Post Body -->
-                        <div class="block-content">
-                            <p>Dear @clientUser.FirstName @clientUser.LastName ,</p>
-                            <p>@post.SolutionNotes</p>
-                            <p>Best Regards,</p>
-                            <p>@Model.SolutionUser.FirstName</p>
-                        </div>
-                    }
-                    else {
-                        
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="block block-rounded block-bordered">
+                                <div class="block-header block-header-default">
+                                    <h3 class="block-title">Το Αίτημα</h3>
+                                    <div class="block-options">
+                                        <button type="button" class="btn-block-option" data-toggle="block-option" data-action="content_toggle"></button>
+                                    </div>
+                                </div>
+                                <div class="block-content">
+                                    <h5 class="mb-2"><span class="small">Τίτλος:</span><br />@Model.Title</h5>
+                                    <h5 class="mb-2">
+                                        <span class="small">Τεχνικός:</span><br />@Model.SolutionUser.FirstName @Model.SolutionUser.LastName
+                                        <span class="badge badge-pill badge-info"><a href="javascript.void(0);" data-toggle="modal" data-target="#modal-ticket-users">Επιλογή</a></span>
+                                    </h5>
 
-                        <!-- Post Body -->
-                        <div class="block-content">
-                            <p>Dear @Model.SolutionUser.FirstName  @Model.SolutionUser.LastName,</p>
-                            <p>@post.SolutionNotes</p>
-                            <p>Best Regards,</p>
-                            <p>@clientUser.FirstName </p>
-                        </div>
-                    }
-                    
-                    
-                    <!-- Post Attachments-->
-                    <div class="block-content bg-body-light">
-                        <div class="row gutters-tiny">
-                            <div class="col-6 col-sm-4 col-md-5 col-lg-4 col-xl-3">
-                                <div class="options-container fx-item-zoom-in">
-                                    @*<img class="img-fluid options-item" src="assets/media/photos/photo7.jpg" alt="">*@
-                                    <div class="options-overlay bg-black-75">
-                                        <div class="options-overlay-content">
-                                            <a class="btn btn-sm btn-primary" href="javascript:void(0)">
-                                                <i class="fa fa-download mr-1"></i> Download
-                                            </a>
-                                        </div>
-                                    </div>
+                                    <h5 class="mb-2"><span class="small">Προτεραιότητα:</span> <span class="badge badge-pill @Model.Priority.Split(',')[0]">@Model.Priority.Split(',')[1]</span></h5>
+                                    <h5 class="mb-2"><span class="small">Τύπος Προβλήματος:</span><br />@Model.ProblemType</h5>
+                                    <h5 class="mb-2"><span class="small">Πηγή:</span><br />@Model.IncomingType</h5>
+
                                 </div>
-                                <p class="font-size-sm text-muted pt-2">
-                                    <i class="fa fa-paperclip"></i> Mountain.jpg (785Kb)
-                                </p>
-                            </div>
-                            <div class="col-6 col-sm-4 col-md-5 col-lg-4 col-xl-3">
-                                <div class="options-container fx-item-zoom-in">
-                                    @*<img class="img-fluid options-item" src="assets/media/photos/photo8.jpg" alt="">*@
-                                    <div class="options-overlay bg-black-75">
-                                        <div class="options-overlay-content">
-                                            <a class="btn btn-sm btn-primary" href="javascript:void(0)">
-                                                <i class="fa fa-download mr-1"></i> Download
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <p class="font-size-sm text-muted pt-2">
-                                    <i class="fa fa-paperclip"></i> Fireplace.jpg (685kb)
-                                </p>
                             </div>
                         </div>
                     </div>
-                </div>
 
-            </div>
-            <!-- END Main Content -->
-        }
+                    <!-- Product -->
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="block block-rounded block-bordered">
+                                <div class="block-header block-header-default">
+                                    <h3 class="block-title">Σύμβαση</h3>
+                                    <div class="block-options">
+                                        <button type="button" class="btn-block-option" data-toggle="block-option" data-action="content_toggle"></button>
+                                    </div>
+                                </div>
+                                <div class="block-content">
 
-    </div>
-
-    <div class="col-lg-3">
-
-        <!-- Client-->
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="block block-rounded block-bordered">
-                    <div class="block-header block-header-default">
-                        <h3 class="block-title">Πελάτης</h3>
-                        <div class="block-options">
-                            <button type="button" class="btn-block-option" data-toggle="block-option" data-action="content_toggle"></button>
+                                    <h5 class="mb-1"><span class="small">Τίτλος:</span><br />@Model.Contract.Description</h5>
+                                    <h5 class="mb-1"><span class="small">Από:</span> @Model.Contract.FromDate.ToString("d") <span class="small">Έως:</span> @Model.Contract.ToDate.ToString("d")</h5>
+                                    <h5 class="mb-2">
+                                        <span class="small">Κατανάλωση:</span>
+                                        @(Model.FreeSupportHours) <span class="small">Δωρεάν:</span>
+                                        @Model.Contract.FreeHours <span class="small">Υπόλοιπο:</span>
+                                        @(Model.Contract.FreeHours - Model.FreeSupportHours)
+                                    </h5>
+                                    <h5 class="mb-2"><span class="small">Χρέωση ανα Ώρα:</span> @Model.ChargePerHour</h5>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div class="block-content">
-                        <h5 class="mb-1"><span class="small">Εταιρεία:</span><br />@Model.Client.Name</h5>
-                        <h5 class="mb-1"><span class="small">Υπ. Επικοινωνίας:</span><br />@Model.Client.ContactName</h5>
-                        <h5 class="mb-0"><span class="small">Email:</span><br /><a href="mailto:@Model.Client.ContactEmail">@Model.Client.ContactEmail</a></h5>
-                        <h5 class="mb-0"><span class="small">Τηλ:</span><br />@Model.Client.PhoneNumber1 </h5>
-                    </div>
-                </div>
-            </div>
-        </div>
 
-        <!-- Client Store-->
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="block block-rounded block-bordered">
-                    <div class="block-header block-header-default">
-                        <h3 class="block-title">Υποκατάστημα</h3>
-                        <div class="block-options">
-                            <button type="button" class="btn-block-option" data-toggle="block-option" data-action="content_toggle"></button>
+                </div>
+
+                <div class="col-lg-8 col-xl-6">
+                    <!-- END Message -->
+                    <div class="content">
+                        <!-- Reply -->
+                        <div class="block block-fx-pop">
+                            <div class="block-content block-content-full">
+                                <!-- Summernote (.js-summernote class is initialized in Helpers.summernote()) -->
+                                <!-- For more info and examples you can check out http://summernote.org/ -->
+                                <div class="js-summernote" data-height="100"></div>
+                                <button type="button" class="btn btn-hero-sm btn-hero-primary mt-2">Απάντηση</button>
+                            </div>
                         </div>
+                        <!-- END Reply -->
                     </div>
-                    <div class="block-content">
-                        <h5 class="mb-0">@Model.Store.Description</h5>
-                        <h5 class="mb-2"><span class="badge badge-pill badge-info"><a href="javascript.void(0);" data-toggle="modal" data-target="#modal-block-small">Επιλογή</a></span></h5>
-                    </div>
-                </div>
-            </div>
-        </div>
 
-        <!-- Product -->
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="block block-rounded block-bordered">
-                    <div class="block-header block-header-default">
-                        <h3 class="block-title">Προϊόν</h3>
-                        <div class="block-options">
-                            <button type="button" class="btn-block-option" data-toggle="block-option" data-action="content_toggle"></button>
-                        </div>
-                    </div>
-                    <div class="block-content">
+                    @{ var postIndex = 0;}
+                    @foreach (var post in Model.Posts)
+                    {
+                        postIndex++;
+                        bool isClientPost = postIndex % 2 == 0;
+                        int index = random.Next(Model.Client.Users.Count);
+                        User clientUser = Model.Client.Users[index];
 
-                        <h5 class="mb-1"><span class="small">Τίτλος:</span><br />@Model.Product.Description</h5>
-                        <h5 class="mb-2"><span class="badge badge-pill badge-info"><a href="javascript.void(0);" data-toggle="modal" data-target="#modal-block-small2">Επιλογή</a></span></h5>
-                    </div>
-                </div>
-            </div>
-        </div>
+                        <!-- Main Content -->
+                        <div class="content">
+
+                            <!-- Message -->
+                            <div class="block block-fx-pop">
+
+                                <!-- Post Top Bar-->
+                                <div class="block-content block-content-sm block-content-full bg-body-light">
+                                    <div class="media py-3">
+
+                                        @if (!isClientPost)
+                                        {
+                                            <div class="mr-3 ml-2 overlay-container overlay-right">
+                                                <img class="img-avatar img-avatar48" src="@Model.SolutionUser.Image" alt="">
+                                                <i class="far fa-circle text-white overlay-item font-size-sm bg-success rounded-circle"></i>
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <div class="mr-3 ml-2 overlay-container overlay-right">
+                                                <img class="img-avatar img-avatar48" src="@clientUser.Image" alt="">
+                                                <i class="far fa-circle text-white overlay-item font-size-sm bg-success rounded-circle"></i>
+                                            </div>
+                                        }
+
+                                        <div class="media-body">
+                                            <div class="row">
 
 
 
-    </div>
-</div>
+                                                @if (!isClientPost)
+                                                {
+                                                    <div class="col-sm-7">
+                                                        <a class="font-w600 link-fx" href="be_pages_generic_profile.html">@Model.SolutionUser.FirstName  @Model.SolutionUser.LastName</a>
+                                                        <div class="font-size-sm text-muted">@Model.SolutionUser.Email</div>
+                                                    </div>
+                                                }
+                                                else
+                                                {
+                                                    <div class="col-sm-7">
+                                                        <a class="font-w600 link-fx" href="be_pages_generic_profile.html">@clientUser.FirstName @clientUser.LastName</a>
+                                                        <div class="font-size-sm text-muted">@clientUser.Email</div>
+                                                    </div>
+                                                }
 
-<!-- Client Store Modal -->
-<div class="modal" id="modal-block-small" tabindex="-1" role="dialog" aria-labelledby="modal-block-small" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="block block-themed block-transparent mb-0">
-                <div class="block-header bg-primary-dark">
-                    <h3 class="block-title">Υποκαταστήματα</h3>
-                    <div class="block-options">
-                        <button type="button" class="btn-block-option" data-dismiss="modal" aria-label="Close">
-                            <i class="fa fa-fw fa-times"></i>
-                        </button>
-                    </div>
-                </div>
-                <div class="block-content">
+                                                <div class="col-sm-5 d-sm-flex align-items-sm-center">
+                                                    <div class="font-size-sm font-italic text-muted text-sm-right w-100 mt-2 mt-sm-0">
+                                                        <p class="mb-0">@post.ContactDate.ToString("d")</p>
+                                                        <p class="mb-0">@post.ContactDate.ToString("t")</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
 
-                    <!-- Dynamic Table -->
-                    <div class="block-content block-content-full">
-                        <table class="table table-sm table-bordered table-striped table-vcenter">
-                            <thead>
-                                <tr>
-                                    <th class="text-center" style="width: 50px;">#</th>
-                                    <th>Υποκατάστημα</th>
-                                    <th>Κεντρικό</th>
-                                    <th>Επιλεγμένο</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach (var store in Model.Client.Stores)
+                                @if (!isClientPost)
                                 {
-                                    var btn = "<a class=\"badge badge-info\" href=\"javascript: void(0)\">Κεντρικό</a>";
-                                    var btn2 = "<a class=\"badge badge-warning\" href=\"javascript: void(0)\">Επιλεγμένο</a>";
-                                    var btn3 = "<a class=\"badge badge-success\" href=\"javascript: void(0)\">ΕΠΙΛΟΓΗ</a>";
-                                    <tr>
-                                        <td class="text-center" scope="row">@store.Id</td>
-                                        <td>@store.Description</td>
-                                        <td>@(store.Id == Model.Client.Stores.Where(s=>s.IsPrime).FirstOrDefault().Id? Html.Raw(btn):"")</td>
-                                        <td>@(store.Id == Model.StoreId? Html.Raw(btn2) : Html.Raw(btn3))</td>
-                                    </tr>
+                                    <!-- Post Body -->
+                                    <div class="block-content">
+                                        <p>Dear @clientUser.FirstName @clientUser.LastName ,</p>
+                                        <p>@post.SolutionNotes</p>
+                                        <p>Best Regards,</p>
+                                        <p>@Model.SolutionUser.FirstName</p>
+                                    </div>
+                                }
+                                else
+                                {
+
+
+                                    <!-- Post Body -->
+                                    <div class="block-content">
+                                        <p>Dear @Model.SolutionUser.FirstName  @Model.SolutionUser.LastName,</p>
+                                        <p>@post.SolutionNotes</p>
+                                        <p>Best Regards,</p>
+                                        <p>@clientUser.FirstName </p>
+                                    </div>
                                 }
 
-                            </tbody>
-                        </table>
+
+                                <!-- Post Attachments-->
+                                <div class="block-content bg-body-light">
+                                    <div class="row gutters-tiny">
+                                        <div class="col-6 col-sm-4 col-md-5 col-lg-4 col-xl-3">
+                                            <div class="options-container fx-item-zoom-in">
+                                                @*<img class="img-fluid options-item" src="assets/media/photos/photo7.jpg" alt="">*@
+                                                <div class="options-overlay bg-black-75">
+                                                    <div class="options-overlay-content">
+                                                        <a class="btn btn-sm btn-primary" href="javascript:void(0)">
+                                                            <i class="fa fa-download mr-1"></i> Download
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <p class="font-size-sm text-muted pt-2">
+                                                <i class="fa fa-paperclip"></i> Mountain.jpg (785Kb)
+                                            </p>
+                                        </div>
+                                        <div class="col-6 col-sm-4 col-md-5 col-lg-4 col-xl-3">
+                                            <div class="options-container fx-item-zoom-in">
+                                                @*<img class="img-fluid options-item" src="assets/media/photos/photo8.jpg" alt="">*@
+                                                <div class="options-overlay bg-black-75">
+                                                    <div class="options-overlay-content">
+                                                        <a class="btn btn-sm btn-primary" href="javascript:void(0)">
+                                                            <i class="fa fa-download mr-1"></i> Download
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <p class="font-size-sm text-muted pt-2">
+                                                <i class="fa fa-paperclip"></i> Fireplace.jpg (685kb)
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <!-- END Main Content -->
+                    }
+
+                </div>
+
+                <div class="col-lg-3">
+
+                    <!-- Client-->
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="block block-rounded block-bordered">
+                                <div class="block-header block-header-default">
+                                    <h3 class="block-title">Πελάτης</h3>
+                                    <div class="block-options">
+                                        <button type="button" class="btn-block-option" data-toggle="block-option" data-action="content_toggle"></button>
+                                    </div>
+                                </div>
+                                <div class="block-content">
+                                    <h5 class="mb-1"><span class="small">Εταιρεία:</span><br />@Model.Client.Name</h5>
+                                    <h5 class="mb-1"><span class="small">Υπ. Επικοινωνίας:</span><br />@Model.Client.ContactName</h5>
+                                    <h5 class="mb-0"><span class="small">Email:</span><br /><a href="mailto:@Model.Client.ContactEmail">@Model.Client.ContactEmail</a></h5>
+                                    <h5 class="mb-0"><span class="small">Τηλ:</span><br />@Model.Client.PhoneNumber1 </h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Client Store-->
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="block block-rounded block-bordered">
+                                <div class="block-header block-header-default">
+                                    <h3 class="block-title">Υποκατάστημα</h3>
+                                    <div class="block-options">
+                                        <button type="button" class="btn-block-option" data-toggle="block-option" data-action="content_toggle"></button>
+                                    </div>
+                                </div>
+                                <div class="block-content">
+                                    <h5 class="mb-0">@Model.Store.Description</h5>
+                                    <h5 class="mb-2"><span class="badge badge-pill badge-info"><a href="javascript.void(0);" data-toggle="modal" data-target="#modal-block-small">Επιλογή</a></span></h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Product -->
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="block block-rounded block-bordered">
+                                <div class="block-header block-header-default">
+                                    <h3 class="block-title">Προϊόν</h3>
+                                    <div class="block-options">
+                                        <button type="button" class="btn-block-option" data-toggle="block-option" data-action="content_toggle"></button>
+                                    </div>
+                                </div>
+                                <div class="block-content">
+
+                                    <h5 class="mb-1"><span class="small">Τίτλος:</span><br />@Model.Product.Description</h5>
+                                    <h5 class="mb-2"><span class="badge badge-pill badge-info"><a href="javascript.void(0);" data-toggle="modal" data-target="#modal-block-small2">Επιλογή</a></span></h5>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
 
 
-                </div>
-                <div class="block-content block-content-full text-right bg-light">
-                    <button type="button" class="btn btn-sm btn-light" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-sm btn-primary" data-dismiss="modal">Done</button>
                 </div>
             </div>
-        </div>
-    </div>
-</div>
+
+            <!-- Client Store Modal -->
+            <div class="modal" id="modal-block-small" tabindex="-1" role="dialog" aria-labelledby="modal-block-small" aria-hidden="true">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="block block-themed block-transparent mb-0">
+                            <div class="block-header bg-primary-dark">
+                                <h3 class="block-title">Υποκαταστήματα</h3>
+                                <div class="block-options">
+                                    <button type="button" class="btn-block-option" data-dismiss="modal" aria-label="Close">
+                                        <i class="fa fa-fw fa-times"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="block-content">
+
+                                <!-- Dynamic Table -->
+                                <div class="block-content block-content-full">
+                                    <table class="table table-sm table-bordered table-striped table-vcenter">
+                                        <thead>
+                                            <tr>
+                                                <th class="text-center" style="width: 50px;">#</th>
+                                                <th>Υποκατάστημα</th>
+                                                <th>Κεντρικό</th>
+                                                <th>Επιλεγμένο</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var store in Model.Client.Stores)
+                                            {
+                                                var btn = "<a class=\"badge badge-info\" href=\"javascript: void(0)\">Κεντρικό</a>";
+                                                var btn2 = "<a class=\"badge badge-warning\" href=\"javascript: void(0)\">Επιλεγμένο</a>";
+                                                var btn3 = "<a class=\"badge badge-success\" href=\"javascript: void(0)\">ΕΠΙΛΟΓΗ</a>";
+                                                <tr>
+                                                    <td class="text-center" scope="row">@store.Id</td>
+                                                    <td>@store.Description</td>
+                                                    <td>@(store.Id == Model.Client.Stores.Where(s=>s.IsPrime).FirstOrDefault().Id? Html.Raw(btn):"")</td>
+                                                    <td>@(store.Id == Model.StoreId? Html.Raw(btn2) : Html.Raw(btn3))</td>
+                                                </tr>
+                                            }
+
+                                        </tbody>
+                                    </table>
+                                </div>
 
 
-<!-- Client Products Modal -->
-<div class="modal" id="modal-block-small2" tabindex="-1" role="dialog" aria-labelledby="modal-block-small" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="block block-themed block-transparent mb-0">
-                <div class="block-header bg-primary-dark">
-                    <h3 class="block-title">Προϊόντα</h3>
-                    <div class="block-options">
-                        <button type="button" class="btn-block-option" data-dismiss="modal" aria-label="Close">
-                            <i class="fa fa-fw fa-times"></i>
-                        </button>
+
+                            </div>
+                            <div class="block-content block-content-full text-right bg-light">
+                                <button type="button" class="btn btn-sm btn-light" data-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-sm btn-primary" data-dismiss="modal">Done</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="block-content">
+            </div>
 
-                    <!-- Dynamic Table -->
-                    <div class="block-content block-content-full">
-                        <table class="table table-sm table-bordered table-striped table-vcenter">
-                            <thead>
-                                <tr>
-                                    <th class="text-center" style="width: 50px;">#</th>
-                                    <th>Περιγραφή</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach (var product in Model.Client.Products)
-                                {
-                                    var btn2 = "<a class=\"badge badge-warning\" href=\"javascript: void(0)\">Επιλεγμένο</a>";
-                                    var btn3 = "<a class=\"badge badge-success\" href=\"javascript: void(0)\">ΕΠΙΛΟΓΗ</a>";
+            <!-- Client Products Modal -->
+            <div class="modal" id="modal-block-small2" tabindex="-1" role="dialog" aria-labelledby="modal-block-small" aria-hidden="true">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="block block-themed block-transparent mb-0">
+                            <div class="block-header bg-primary-dark">
+                                <h3 class="block-title">Προϊόντα</h3>
+                                <div class="block-options">
+                                    <button type="button" class="btn-block-option" data-dismiss="modal" aria-label="Close">
+                                        <i class="fa fa-fw fa-times"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="block-content">
+
+                                <!-- Dynamic Table -->
+                                <div class="block-content block-content-full">
+                                    <table class="table table-sm table-bordered table-striped table-vcenter">
+                                        <thead>
+                                            <tr>
+                                                <th class="text-center" style="width: 50px;">#</th>
+                                                <th>Περιγραφή</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var product in Model.Client.Products)
+                                            {
+                                                var btn2 = "<a class=\"badge badge-warning\" href=\"javascript: void(0)\">Επιλεγμένο</a>";
+                                                var btn3 = "<a class=\"badge badge-success\" href=\"javascript: void(0)\">ΕΠΙΛΟΓΗ</a>";
+                                                <tr>
+                                                    <td class="text-center" scope="row">@product.Id</td>
+                                                    <td>@product.Description</td>
+                                                    <td>@(product.Id == Model.ProductId? Html.Raw(btn2) : Html.Raw(btn3))</td>
+                                                </tr>
+                                            }
+
+                                        </tbody>
+                                    </table>
+                                </div>
+
+
+
+                            </div>
+                            <div class="block-content block-content-full text-right bg-light">
+                                <button type="button" class="btn btn-sm btn-light" data-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-sm btn-primary" data-dismiss="modal">Done</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ticket Assignee User Modal -->
+            <div class="modal" id="modal-ticket-users_DDD" tabindex="-1" role="dialog" aria-labelledby="modal-block-small" aria-hidden="true">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="block block-themed block-transparent mb-0">
+                            <div class="block-header bg-primary-dark">
+                                <h3 class="block-title">Διαθέσιμοι Τεχνικοί</h3>
+                                <div class="block-options">
+                                    <button type="button" class="btn-block-option" data-dismiss="modal" aria-label="Close">
+                                        <i class="fa fa-fw fa-times"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="block-content">
+
+                                <!-- Dynamic Table -->
+                                <div class="block-content block-content-full">
+                                    <table class="table table-sm table-bordered table-striped table-vcenter">
+                                        <thead>
+                                            <tr>
+                                                <th class="text-center" style="width: 50px;">#</th>
+                                                <th>Περιγραφή</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var usr in Model.Users)
+                                            {
+                                                var btn2 = "<a class=\"badge badge-warning\" href=\"javascript: void(0)\">Επιλεγμένο</a>";
+                                                var btn3 = "<a class=\"badge badge-success\" href=\"javascript: void(0)\">ΕΠΙΛΟΓΗ</a>";
+                                                <tr>
+                                                    <td class="text-center" scope="row">@usr.Id</td>
+                                                    <td>@usr.FirstName @usr.LastName</td>
+                                                    <td>@(usr.Id == Model.SolutionUserId? Html.Raw(btn2) : Html.Raw(btn3))</td>
+                                                </tr>
+                                            }
+
+                                        </tbody>
+                                    </table>
+                                </div>
+
+
+
+                            </div>
+                            <div class="block-content block-content-full text-right bg-light">
+                                <button type="button" class="btn btn-sm btn-light" data-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-sm btn-primary" data-dismiss="modal">Done</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Vertically Centered Block Modal -->
+            <div class="modal" id="modal-ticket-users_DD" tabindex="-1" role="dialog" aria-labelledby="modal-block-vcenter" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="block block-themed block-transparent mb-0">
+                            <div class="block-header bg-primary-dark">
+                                <h3 class="block-title">Modal Title</h3>
+                                <div class="block-options">
+                                    <button type="button" class="btn-block-option" data-dismiss="modal" aria-label="Close">
+                                        <i class="fa fa-fw fa-times"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="block-content">
+                                <table class="table table-sm table-bordered table-striped table-vcenter">
+                                    <thead>
+                                        <tr>
+                                            <th class="text-center" style="width: 50px;">#</th>
+                                            <th>Περιγραφή</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var usr in Model.Users)
+                                        {
+                                            var btn2 = "<a class=\"badge badge-warning\" href=\"javascript: void(0)\">Επιλεγμένο</a>";
+                                            var btn3 = "<a class=\"badge badge-success\" href=\"javascript: void(0)\">ΕΠΙΛΟΓΗ</a>";
+                                            <tr>
+                                                <td class="text-center" scope="row">@usr.Id</td>
+                                                <td>@usr.FirstName @usr.LastName</td>
+                                                <td>@(usr.Id == Model.SolutionUserId? Html.Raw(btn2) : Html.Raw(btn3))</td>
+                                            </tr>
+                                        }
+
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="block-content block-content-full text-right bg-light">
+                                <button type="button" class="btn btn-sm btn-light" data-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-sm btn-primary" data-dismiss="modal">Done</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- END Vertically Centered Block Modal -->
+            <!-- Vertically Centered Default Modal -->
+            <div class="modal" id="modal-ticket-users" tabindex="-1" role="dialog" aria-labelledby="modal-default-vcenter" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Modal Title</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body pb-1">
+                            <table class="table table-sm table-bordered table-striped table-vcenter">
+                                <thead>
                                     <tr>
-                                        <td class="text-center" scope="row">@product.Id</td>
-                                        <td>@product.Description</td>
-                                        <td>@(product.Id == Model.ProductId? Html.Raw(btn2) : Html.Raw(btn3))</td>
+                                        <th>Τεχνικός</th>
+                                        <th>Ενέργειες</th>
                                     </tr>
-                                }
+                                </thead>
+                                <tbody>
+                                    @foreach (var usr in Model.Users)
+                                    {
+                                        var btn2 = "<a class=\"badge badge-warning\" href=\"javascript: void(0)\">Επιλεγμένος</a>";
+                                        var btn3 = "<a class=\"badge badge-success\" href=\"javascript: void(0)\">ΕΠΙΛΟΓΗ</a>";
+                                        <tr>
 
-                            </tbody>
-                        </table>
+                                            <td>@usr.FirstName @usr.LastName</td>
+                                            <td>@(usr.Id == Model.SolutionUserId? Html.Raw(btn2) : Html.Raw(btn3))</td>
+                                        </tr>
+                                    }
+
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-sm btn-light" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-sm btn-primary" data-dismiss="modal">Done</button>
+                        </div>
                     </div>
-
-
-
-                </div>
-                <div class="block-content block-content-full text-right bg-light">
-                    <button type="button" class="btn btn-sm btn-light" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-sm btn-primary" data-dismiss="modal">Done</button>
                 </div>
             </div>
+            <!-- END Vertically Centered Default Modal -->
         </div>
     </div>
 </div>

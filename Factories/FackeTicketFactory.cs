@@ -341,6 +341,7 @@ namespace DashmixMockups.Factories
                 tic.Posts = posts;
 
                 var users = TicketUsers(tic.Id);
+                tic.Users = users;
                 tic.SolutionUser = users.FirstOrDefault();
                 tic.SolutionUserId = users.FirstOrDefault()?.Id;
             }
