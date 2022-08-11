@@ -274,7 +274,7 @@
                         </div>
                         <div class="block-content">
                             <h5 class="mb-0">@Model.Store.Description</h5>
-                            <h5 class="mb-2"><span class="badge badge-pill badge-info"><a href="javascript.void(0);" data-toggle="modal" data-target="#modal-block-small">Επιλογή</a></span></h5>
+                            <h5 class="mb-2"><span class="badge badge-pill badge-info"><a href="javascript.void(0);" data-toggle="modal" data-target="#client-stores-modal">Επιλογή</a></span></h5>
                         </div>
                     </div>
                 </div>
@@ -293,10 +293,8 @@
                             </div>
                         </div>
                         <div class="block-content">
-
                             <h5 class="mb-1"><span class="small">Τίτλος:</span><br />@Model.Product.Description</h5>
-                            <h5 class="mb-2"><span class="badge badge-pill badge-info"><a href="javascript.void(0);" data-toggle="modal" data-target="#simpleModal">Επιλογή</a></span></h5>
-                            @*<h5 class="mb-2"><span class="badge badge-pill badge-info"><a href="javascript.void(0);" data-toggle="modal" data-target="#modal-block-small2">Επιλογή</a></span></h5>*@
+                            <h5 class="mb-2"><span class="badge badge-pill badge-info"><a href="javascript.void(0);" data-toggle="modal" data-target="#product-modal">Επιλογή</a></span></h5>
                         </div>
                     </div>
                 </div>
@@ -307,283 +305,88 @@
         </div>
         </div>
         
-            <modal id="simpleModal" 
-                   title="Προϊόντα" type="center">
-                <modal-body>
-                    <table class="table table-sm table-bordered table-striped table-vcenter">
-                        <thead>
+        <modal id="client-stores-modal" title="Υποκαταστήματα" type="center">
+            <modal-body>
+                <table class="table table-sm table-bordered table-striped table-vcenter">
+                    <thead>
+                    <tr>
+                        <th class="text-center" style="width: 50px;">#</th>
+                        <th>Υποκατάστημα</th>
+                        <th>Κεντρικό</th>
+                        <th>Επιλεγμένο</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @foreach (var store in Model.Client.Stores) {
+                        var btn = "<a class=\"badge badge-info\" href=\"javascript: void(0)\">Κεντρικό</a>";
+                        var btn2 = "<a class=\"badge badge-warning\" href=\"javascript: void(0)\">Επιλεγμένο</a>";
+                        var btn3 = "<a class=\"badge badge-success\" href=\"javascript: void(0)\">ΕΠΙΛΟΓΗ</a>";
                         <tr>
-                            <th class="text-center" style="width: 50px;">#</th>
-                            <th>Περιγραφή</th>
+                            <td class="text-center" scope="row">@store.Id</td>
+                            <td>@store.Description</td>
+                            <td>@(store.Id == Model.Client.Stores.Where(s => s.IsPrime).FirstOrDefault().Id ? Html.Raw(btn) : "")</td>
+                            <td>@(store.Id == Model.StoreId ? Html.Raw(btn2) : Html.Raw(btn3))</td>
                         </tr>
-                        </thead>
-                        <tbody>
-                        @foreach (var product in Model.Client.Products) {
-                            var btn2 = "<a class=\"badge badge-warning\" href=\"javascript: void(0)\">Επιλεγμένο</a>";
-                            var btn3 = "<a class=\"badge badge-success\" href=\"javascript: void(0)\">ΕΠΙΛΟΓΗ</a>";
-                            <tr>
-                                <td class="text-center" scope="row">@product.Id</td>
-                                <td>@product.Description</td>
-                                <td>@(product.Id == Model.ProductId? Html.Raw(btn2) : Html.Raw(btn3))</td>
-                            </tr>
-                        }
-                        </tbody>
-                    </table>
-                </modal-body>
-                <modal-footer show-dismiss="false"></modal-footer>
-            </modal>
+                    }
 
-            <!-- Client Store Modal -->
-            <div class="modal" id="modal-block-small" tabindex="-1" role="dialog" aria-labelledby="modal-block-small" aria-hidden="true">
-                <div class="modal-dialog modal-lg" role="document">
-                    <div class="modal-content">
-                        <div class="block block-themed block-transparent mb-0">
+                    </tbody>
+                </table>
+            </modal-body>
+            <modal-footer></modal-footer>
+        </modal>
+        
+        <modal id="product-modal" title="Προϊόντα" type="center">
+            <modal-body>
+                <table class="table table-sm table-bordered table-striped table-vcenter">
+                    <thead>
+                    <tr>
+                        <th class="text-center" style="width: 50px;">#</th>
+                        <th>Περιγραφή</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @foreach (var product in Model.Client.Products) {
+                        var btn2 = "<a class=\"badge badge-warning\" href=\"javascript: void(0)\">Επιλεγμένο</a>";
+                        var btn3 = "<a class=\"badge badge-success\" href=\"javascript: void(0)\">ΕΠΙΛΟΓΗ</a>";
+                        <tr>
+                            <td class="text-center" scope="row">@product.Id</td>
+                            <td>@product.Description</td>
+                            <td>@(product.Id == Model.ProductId? Html.Raw(btn2) : Html.Raw(btn3))</td>
+                        </tr>
+                    }
+                    </tbody>
+                </table>
+            </modal-body>
+            <modal-footer></modal-footer>
+        </modal>
+        
+        <modal id="modal-ticket-users" title="Τεχνικοί" type="center">
+            <modal-body>
+                <table class="table table-sm table-bordered table-striped table-vcenter">
+                    <thead>
+                    <tr>
+                        <th>Τεχνικός</th>
+                        <th>Ενέργειες</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @foreach (var usr in Model.Users)
+                    {
+                        var btn2 = "<a class=\"badge badge-warning\" href=\"javascript: void(0)\">Επιλεγμένος</a>";
+                        var btn3 = "<a class=\"badge badge-success\" href=\"javascript: void(0)\">ΕΠΙΛΟΓΗ</a>";
+                        <tr>
 
-                            <div class="block-header bg-primary-dark">
-                                <h3 class="block-title">Υποκαταστήματα</h3>
-                                <div class="block-options">
-                                    <button type="button" class="btn-block-option" data-dismiss="modal" aria-label="Close">
-                                        <i class="fa fa-fw fa-times"></i>
-                                    </button>
-                                </div>
-                            </div>
+                            <td>@usr.FirstName @usr.LastName</td>
+                            <td>@(usr.Id == Model.SolutionUserId? Html.Raw(btn2) : Html.Raw(btn3))</td>
+                        </tr>
+                    }
 
-                            <div class="block-content">
+                    </tbody>
+                </table>
+            </modal-body>
+            <modal-footer></modal-footer>
+        </modal>
 
-                                <!-- Dynamic Table -->
-                                <div class="block-content block-content-full">
-                                    <table class="table table-sm table-bordered table-striped table-vcenter">
-                                        <thead>
-                                        <tr>
-                                            <th class="text-center" style="width: 50px;">#</th>
-                                            <th>Υποκατάστημα</th>
-                                            <th>Κεντρικό</th>
-                                            <th>Επιλεγμένο</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        @foreach (var store in Model.Client.Stores) {
-                                            var btn = "<a class=\"badge badge-info\" href=\"javascript: void(0)\">Κεντρικό</a>";
-                                            var btn2 = "<a class=\"badge badge-warning\" href=\"javascript: void(0)\">Επιλεγμένο</a>";
-                                            var btn3 = "<a class=\"badge badge-success\" href=\"javascript: void(0)\">ΕΠΙΛΟΓΗ</a>";
-                                            <tr>
-                                                <td class="text-center" scope="row">@store.Id</td>
-                                                <td>@store.Description</td>
-                                                <td>@(store.Id == Model.Client.Stores.Where(s => s.IsPrime).FirstOrDefault().Id ? Html.Raw(btn) : "")</td>
-                                                <td>@(store.Id == Model.StoreId ? Html.Raw(btn2) : Html.Raw(btn3))</td>
-                                            </tr>
-                                        }
-
-                                        </tbody>
-                                    </table>
-                                </div>
-
-
-
-                            </div>
-
-                            <div class="block-content block-content-full text-right bg-light">
-                                <button type="button" class="btn btn-sm btn-light" data-dismiss="modal">Close</button>
-                                <button type="button" class="btn btn-sm btn-primary" data-dismiss="modal">Done</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Client Products Modal -->
-            <div class="modal" id="modal-block-small2" tabindex="-1" role="dialog" aria-labelledby="modal-block-small" aria-hidden="true">
-                <div class="modal-dialog modal-lg" role="document">
-                    <div class="modal-content">
-                        <div class="block block-themed block-transparent mb-0">
-                            <div class="block-header bg-primary-dark">
-                                <h3 class="block-title">Προϊόντα</h3>
-                                <div class="block-options">
-                                    <button type="button" class="btn-block-option" data-dismiss="modal" aria-label="Close">
-                                        <i class="fa fa-fw fa-times"></i>
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="block-content">
-                                
-                                <test>
-                                <!-- Dynamic Table -->
-                                <div class="block-content block-content-full">
-                                    <table class="table table-sm table-bordered table-striped table-vcenter">
-                                        <thead>
-                                            <tr>
-                                                <th class="text-center" style="width: 50px;">#</th>
-                                                <th>Περιγραφή</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach (var product in Model.Client.Products)
-                                            {
-                                                var btn2 = "<a class=\"badge badge-warning\" href=\"javascript: void(0)\">Επιλεγμένο</a>";
-                                                var btn3 = "<a class=\"badge badge-success\" href=\"javascript: void(0)\">ΕΠΙΛΟΓΗ</a>";
-                                                <tr>
-                                                    <td class="text-center" scope="row">@product.Id</td>
-                                                    <td>@product.Description</td>
-                                                    <td>@(product.Id == Model.ProductId? Html.Raw(btn2) : Html.Raw(btn3))</td>
-                                                </tr>
-                                            }
-
-                                        </tbody>
-                                    </table>
-                                </div>
-                                </test>
-
-
-                            </div>
-                            <div class="block-content block-content-full text-right bg-light">
-                                <button type="button" class="btn btn-sm btn-light" data-dismiss="modal">Close</button>
-                                <button type="button" class="btn btn-sm btn-primary" data-dismiss="modal">Done</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Ticket Assignee User Modal -->
-            <div class="modal" id="modal-ticket-users_DDD" tabindex="-1" role="dialog" aria-labelledby="modal-block-small" aria-hidden="true">
-                <div class="modal-dialog modal-lg" role="document">
-                    <div class="modal-content">
-                        <div class="block block-themed block-transparent mb-0">
-                            <div class="block-header bg-primary-dark">
-                                <h3 class="block-title">Διαθέσιμοι Τεχνικοί</h3>
-                                <div class="block-options">
-                                    <button type="button" class="btn-block-option" data-dismiss="modal" aria-label="Close">
-                                        <i class="fa fa-fw fa-times"></i>
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="block-content">
-
-                                <!-- Dynamic Table -->
-                                <div class="block-content block-content-full">
-                                    <table class="table table-sm table-bordered table-striped table-vcenter">
-                                        <thead>
-                                            <tr>
-                                                <th class="text-center" style="width: 50px;">#</th>
-                                                <th>Περιγραφή</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach (var usr in Model.Users)
-                                            {
-                                                var btn2 = "<a class=\"badge badge-warning\" href=\"javascript: void(0)\">Επιλεγμένο</a>";
-                                                var btn3 = "<a class=\"badge badge-success\" href=\"javascript: void(0)\">ΕΠΙΛΟΓΗ</a>";
-                                                <tr>
-                                                    <td class="text-center" scope="row">@usr.Id</td>
-                                                    <td>@usr.FirstName @usr.LastName</td>
-                                                    <td>@(usr.Id == Model.SolutionUserId? Html.Raw(btn2) : Html.Raw(btn3))</td>
-                                                </tr>
-                                            }
-
-                                        </tbody>
-                                    </table>
-                                </div>
-
-
-
-                            </div>
-                            <div class="block-content block-content-full text-right bg-light">
-                                <button type="button" class="btn btn-sm btn-light" data-dismiss="modal">Close</button>
-                                <button type="button" class="btn btn-sm btn-primary" data-dismiss="modal">Done</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Vertically Centered Block Modal -->
-            <div class="modal" id="modal-ticket-users_DD" tabindex="-1" role="dialog" aria-labelledby="modal-block-vcenter" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered" role="document">
-                    <div class="modal-content">
-                        <div class="block block-themed block-transparent mb-0">
-                            <div class="block-header bg-primary-dark">
-                                <h3 class="block-title">Modal Title</h3>
-                                <div class="block-options">
-                                    <button type="button" class="btn-block-option" data-dismiss="modal" aria-label="Close">
-                                        <i class="fa fa-fw fa-times"></i>
-                                    </button>
-                                </div>
-                            </div>
-                            
-
-                            <div class="block-content">
-                                <table class="table table-sm table-bordered table-striped table-vcenter">
-                                    <thead>
-                                    <tr>
-                                        <th class="text-center" style="width: 50px;">#</th>
-                                        <th>Περιγραφή</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    @foreach (var usr in Model.Users)
-                                    {
-                                        var btn2 = "<a class=\"badge badge-warning\" href=\"javascript: void(0)\">Επιλεγμένο</a>";
-                                        var btn3 = "<a class=\"badge badge-success\" href=\"javascript: void(0)\">ΕΠΙΛΟΓΗ</a>";
-                                        <tr>
-                                            <td class="text-center" scope="row">@usr.Id</td>
-                                            <td>@usr.FirstName @usr.LastName</td>
-                                            <td>@(usr.Id == Model.SolutionUserId? Html.Raw(btn2) : Html.Raw(btn3))</td>
-                                        </tr>
-                                    }
-
-                                    </tbody>
-                                </table>
-                            </div>
-
-                            <div class="block-content block-content-full text-right bg-light">
-                                <button type="button" class="btn btn-sm btn-light" data-dismiss="modal">Close</button>
-                                <button type="button" class="btn btn-sm btn-primary" data-dismiss="modal">Done</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-           
-            <!-- Vertically Centered Default Modal -->
-            <div class="modal" id="modal-ticket-users" tabindex="-1" role="dialog" aria-labelledby="modal-default-vcenter" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title">Modal Title</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body pb-1">
-                            <table class="table table-sm table-bordered table-striped table-vcenter">
-                                <thead>
-                                    <tr>
-                                        <th>Τεχνικός</th>
-                                        <th>Ενέργειες</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach (var usr in Model.Users)
-                                    {
-                                        var btn2 = "<a class=\"badge badge-warning\" href=\"javascript: void(0)\">Επιλεγμένος</a>";
-                                        var btn3 = "<a class=\"badge badge-success\" href=\"javascript: void(0)\">ΕΠΙΛΟΓΗ</a>";
-                                        <tr>
-
-                                            <td>@usr.FirstName @usr.LastName</td>
-                                            <td>@(usr.Id == Model.SolutionUserId? Html.Raw(btn2) : Html.Raw(btn3))</td>
-                                        </tr>
-                                    }
-
-                                </tbody>
-                            </table>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-sm btn-light" data-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-sm btn-primary" data-dismiss="modal">Done</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
             
         </div>
     </div>

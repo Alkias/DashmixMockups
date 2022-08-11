@@ -15,7 +15,7 @@ namespace DashmixMockups.TagHelpers
     }
 
     /// <summary>
-    /// A Bootstrap modal dialog
+    /// A Bootstrap Dashmix modal dialog
     /// </summary>
     [RestrictChildren("modal-body", "modal-footer")]
     public class ModalTagHelper : TagHelper
@@ -98,12 +98,17 @@ $@"<div class='modal-dialog modal-dialog-centered' role='document'>
            
             <div class='block-content'>";
 
-            if (Type=="default")
-                output.Content.AppendHtml(templateDefault);
-            else if(Type=="center")
-                output.Content.AppendHtml(templateCenter);
-            else
-                output.Content.AppendHtml(templateLargeTop);
+            switch (Type) {
+                case "default":
+                    output.Content.AppendHtml(templateDefault);
+                    break;
+                case "center":
+                    output.Content.AppendHtml(templateCenter);
+                    break;
+                default:
+                    output.Content.AppendHtml(templateLargeTop);
+                    break;
+            }
 
             if (modalContext.Body != null) {
                 output.Content.AppendHtml(modalContext.Body);
@@ -115,10 +120,9 @@ $@"<div class='modal-dialog modal-dialog-centered' role='document'>
             output.Content.AppendHtml("</div>"); // block-content
 
             if (modalContext.Footer != null) {
-                if (Type != "default") 
-                    output.Content.AppendHtml("<div class='block-content block-content-full text-right bg-light'>");
-                else
-                    output.Content.AppendHtml("<div class='modal-footer'>");
+                output.Content.AppendHtml(Type != "default"
+                    ? "<div class='block-content block-content-full text-right bg-light'>"
+                    : "<div class='modal-footer'>");
                 output.Content.AppendHtml(modalContext.Footer);
                 output.Content.AppendHtml("</div>");
             }
@@ -131,7 +135,7 @@ $@"<div class='modal-dialog modal-dialog-centered' role='document'>
     }
 
     /// <summary>
-    /// The modal-body portion of a Bootstrap modal dialog
+    /// The modal-body portion of a Bootstrap Dashmix modal dialog
     /// </summary>
     [HtmlTargetElement("modal-body", ParentTag = "modal")]
     public class ModalBodyTagHelper : TagHelper
@@ -146,7 +150,7 @@ $@"<div class='modal-dialog modal-dialog-centered' role='document'>
     }
 
     /// <summary>
-    /// The modal-footer portion of Bootstrap modal dialog
+    /// The modal-footer portion of Bootstrap Dashmix modal dialog
     /// </summary>
     [HtmlTargetElement("modal-footer", ParentTag = "modal")]
     public class ModalFooterTagHelper : TagHelper
