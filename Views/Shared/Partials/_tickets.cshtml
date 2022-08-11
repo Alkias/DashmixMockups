@@ -10,16 +10,18 @@
                    <i class="@tic.IncomingType.Split(",")[1] fa-2x"></i>
                </div>
                <div class="col-11">
+                   <p class="mb-0"><span class="badge  @tic.StatusBadget.Split(',')[0]">@tic.StatusBadget.Split(',')[1]</span></p>
                    <p class="font-size-h6 font-w700 mb-0">
-                       #@tic.Id @tic.Title <span class="dot @tic.Priority.Split(",")[2]"></span>
+                       #@tic.Id @tic.Title <span class="numberCircle2 @tic.Priority.Split(",")[2]"></span>
+                   </p>
+                   <p class="mb-2">
+                       <i class="far fa-user-circle font-w800"></i> <strong class="font-w800">@tic.Client.ContactName </strong>
                    </p>
                    <p class="mb-0">
-                       <strong class="font-w600" style="color:#0665d0">@tic.Client.ContactName </strong>
+                       <i class="si si-user-follow font-w800"></i> <strong class="font-w600" style="color: #0665d0">@tic.SolutionUser.FirstName @tic.SolutionUser.LastName </strong>
                    </p>
                    <p class="font-size-sm text-muted mb-0">
-                       <i class="si si-clock"></i>  @tic.TicketDate.ToString("D")
-
-                       <i class="si si-layers"></i> <span class="badge  @tic.StatusBadget.Split(',')[0]">@tic.StatusBadget.Split(',')[1]</span>
+                       <i class="si si-clock"></i> @tic.TicketDate.ToString("D") : @tic.TicketDate.ToString("t")
                    </p>
 
                </div>

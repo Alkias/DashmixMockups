@@ -9,7 +9,7 @@ namespace DashmixMockups.Factories
     public static class FakeTicketFactory
     {
         private const int numToSeed = 100;
-        private static Randomizer random = new Randomizer();
+        private static Randomizer _random = new Randomizer();
 
         #region Custom Lists
 
@@ -146,7 +146,7 @@ namespace DashmixMockups.Factories
                 .RuleFor(d => d.EasyComId, f => f.Random.Int(400, 500));
 
             //Stores = 
-            return storeFaker.Generate(random.Number(1, 5));
+            return storeFaker.Generate(_random.Number(1, 5));
         }
 
         public static void ClientProducts (Client client) {
@@ -161,7 +161,7 @@ namespace DashmixMockups.Factories
                 .RuleFor(d => d.Id, f => productIds++)
                 .RuleFor(d => d.Description, f => f.PickRandom(prdTitles));
 
-            var products = productFaker.Generate(random.Number(1, 5));
+            var products = productFaker.Generate(_random.Number(1, 5));
 
             foreach (var prd in products) {
                 clientProducts.Add(
@@ -196,12 +196,12 @@ namespace DashmixMockups.Factories
         }
 
         private static List<User> ClientUsers (int id) {
-           return SetUsers(1, random.Number(2, 5), id);
+           return SetUsers(1, _random.Number(2, 5), id);
         }
 
         private static List<User> TicketUsers(int id)
         {
-            return SetUsers(5, random.Number(6, 15), id);
+            return SetUsers(5, _random.Number(6, 15), id);
         }
 
         public static Contract ClientProductContract (int clientId, int productId) {
@@ -237,9 +237,9 @@ namespace DashmixMockups.Factories
                 .RuleFor(d => d.UpdatedOnUtc, f => f.Date.PastOffset(3, DateTime.Now).Date)
                 .RuleFor(d => d.ContactDate, f => f.Date.PastOffset(3, DateTime.Now).Date)
                 .RuleFor(d => d.NextContactDate, f => f.Date.PastOffset(3, DateTime.Now).Date)
-                .RuleFor(d => d.SolutionNotes, f => f.Lorem.Paragraphs(random.Number(1, 3)))
-                .RuleFor(d => d.SolutionRealTime, f => random.Double(1, 6));
-            return postFake.Generate(random.Number(3, 15));
+                .RuleFor(d => d.SolutionNotes, f => f.Lorem.Paragraphs(_random.Number(1, 3)))
+                .RuleFor(d => d.SolutionRealTime, f => _random.Double(1, 6));
+            return postFake.Generate(_random.Number(3, 15));
         }
 
         public static List<User> SetUsers(int min=1, int max=15, int? clientId=null)
@@ -261,7 +261,7 @@ namespace DashmixMockups.Factories
                 .RuleFor(d => d.CreatedOnUtc, f => f.Date.PastOffset(3, DateTime.Now).Date)
                 .RuleFor(d => d.UpdatedOnUtc, f => f.Date.PastOffset(3, DateTime.Now).Date);
 
-            return userFaker.Generate(random.Number(min, max));
+            return userFaker.Generate(_random.Number(min, max));
         }
 
         public static Faker<User> SetUser(int? clientId = null)
@@ -294,7 +294,11 @@ namespace DashmixMockups.Factories
                 //.UseSeed(1122)
                 .RuleFor(d => d.Id, f => ticketIds++)
                 .RuleFor(d => d.Title, f => f.Commerce.ProductName())
-                .RuleFor(d => d.TicketDate, f => f.Date.PastOffset(3, DateTime.Now).Date)
+               // .RuleFor(d => d.TicketDate, f => f.Date.PastOffset(3, DateTime.Now).Date)
+                .RuleFor(d => d.TicketDate, f => {
+                    var date = f.Date.PastOffset(3, DateTime.Now).Date;
+                    return date.AddMinutes(_random.Number(350));
+                })
                 .RuleFor(d => d.SupportHours, f => f.Random.Int(4, 12))
                 .RuleFor(d => d.FreeSupportHours, f => f.Random.Int(1, 12))
                 .RuleFor(d => d.StatusBadget, f => f.PickRandom(Badge))

@@ -34,7 +34,8 @@ namespace DashmixMockups.Controllers
 
         public IActionResult Stelexos() {
             var tickets = FakeTicketFactory.GetSomeTickets(50);
-            return View(tickets);
+            var sortedList = tickets.OrderByDescending(x => x.TicketDate).ToList();
+            return View(sortedList);
         }
         
 

@@ -1,15 +1,32 @@
-﻿.block {
-    .block-content {
-        padding:1.25rem;
+﻿.font-w700{
+    font-weight:700 !important;
+}
+.font-w800 {
+    font-weight: 800 !important;
+}
+.block {
+    .block-header {
+        padding: 0.3rem 1.25rem;
+    }
 
-        h5{
-            .small{
-                color:#666;
+    .block-content {
+        padding: 1.25rem;
+
+        h5 {
+            font-size: 1rem;
+
+            .small {
+                color: #666;
+                font-weight: 400;
+                font-size: 80%;
             }
         }
     }
 }
 
+.modal-backdrop {
+    background-color: rgba(0, 0, 0, 0.3);
+}
 .badge{
     a{
         color:#fff !important;
@@ -57,4 +74,67 @@
     overflow-y: scroll;
     margin: 0 -32px 0 0 !important;
     box-sizing: border-box;
+}
+
+/*Priority Css Icons*/
+.numberCircle {
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    padding: 8px;
+    background: #fff;
+    border: 2px solid #666;
+    color: #666;
+    text-align: center;
+    font: 32px Arial, sans-serif;
+}
+
+.numberCircle2 {
+    width: 18px;
+    line-height: 14px;
+    border-radius: 50%;
+    text-align: center;
+    font-size: 14px;
+    border: 2px solid #666;
+    display: inline-block;
+
+    &.red {
+        background-color: red;
+        border: 2px solid red;
+        color: white;
+
+        &:after {
+            content: "1";
+        }
+    }
+
+    &.green {
+        background-color: greenyellow;
+        border: 2px solid greenyellow;
+        color: black;
+
+        &:after {
+            content: "3";
+        }
+    }
+
+    &.blue {
+        background-color: blue;
+        border: 2px solid blue;
+        color: white;
+
+        &:after {
+            content: "2";
+        }
+    }
+
+    &.yellow {
+        background-color: yellow;
+        border: 2px solid yellow;
+        color: black;
+
+        &:after {
+            content: "4";
+        }
+    }
 }
