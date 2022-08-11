@@ -30,29 +30,15 @@ namespace DashmixMockups.TagHelpers
         /// </summary>
         public string Id { get; set; }
 
+        public string Type { get; set; }
+
         public override async Task ProcessAsync(TagHelperContext context, TagHelperOutput output)
         {
             var modalContext = new ModalContext();
             context.Items.Add(typeof(ModalTagHelper), modalContext);
 
             await output.GetChildContentAsync();
-
-            var template = 
-$@"<div class='modal-dialog modal-lg' role='document'>
-    <div class='modal-content'>
-        <div class='block block-themed block-transparent mb-0'>
-        
-        <div class='block-header bg-primary-dark'>
-	        <h3 class='block-title'>{Title}</h3>
-	        <div class='block-options'>
-		        <button type='button' class='btn-block-option' data-dismiss='modal' aria-label='Close'>
-			        <i class='fa fa-fw fa-times'></i>
-		        </button>
-	        </div>
-        </div>
-           
-        <div class='modal-body'>";
-
+            
             output.TagName = "div";
             output.Attributes.SetAttribute("role", "dialog");
             output.Attributes.SetAttribute("id", Id);
@@ -65,24 +51,82 @@ $@"<div class='modal-dialog modal-lg' role='document'>
                 classNames = $"{output.Attributes["class"].Value}";
             }
 
-            if(string.IsNullOrWhiteSpace(classNames) )
-                output.Attributes.SetAttribute("class", classNames);
+            output.Attributes.SetAttribute("class", classNames);
 
-            output.Content.AppendHtml(template);
-            
+            var templateLargeTop =
+$@"<div class='modal-dialog modal-lg' role='document'>
+    <div class='modal-content'>
+        <div class='block block-themed block-transparent mb-0'>
+        
+            <div class='block-header bg-primary-dark'>
+	            <h3 class='block-title'>{Title}</h3>
+	            <div class='block-options'>
+		            <button type='button' class='btn-block-option' data-dismiss='modal' aria-label='Close'>
+			            <i class='fa fa-fw fa-times'></i>
+		            </button>
+	            </div>
+            </div>
+           
+            <div class='block-content'>
+                <div class='block-content block-content-full'>";
+
+            var templateDefault =
+$@"<div class='modal-dialog modal-dialog-centered' role='document'>
+    <div class='modal-content'>
+            <div class='block-header'>
+	            <h5 class='block-title'>{Title}</h5>
+		            <button type='button' class='btn-block-option' data-dismiss='modal' aria-label='Close'>
+			            <i class='fa fa-fw fa-times'></i>
+		            </button>
+            </div>
+           
+            <div class='modal-body pb-1'>";
+
+            var templateCenter =
+$@"<div class='modal-dialog modal-dialog-centered' role='document'>
+    <div class='modal-content'>
+        <div class='block block-themed block-transparent mb-0'>
+        
+            <div class='block-header bg-primary-dark'>
+	            <h3 class='block-title'>{Title}</h3>
+	            <div class='block-options'>
+		            <button type='button' class='btn-block-option' data-dismiss='modal' aria-label='Close'>
+			            <i class='fa fa-fw fa-times'></i>
+		            </button>
+	            </div>
+            </div>
+           
+            <div class='block-content'>";
+
+            if (Type=="default")
+                output.Content.AppendHtml(templateDefault);
+            else if(Type=="center")
+                output.Content.AppendHtml(templateCenter);
+            else
+                output.Content.AppendHtml(templateLargeTop);
+
             if (modalContext.Body != null) {
                 output.Content.AppendHtml(modalContext.Body);
             }
 
-            output.Content.AppendHtml("</div>");
+            if (Type != "default" && Type != "center")
+                output.Content.AppendHtml("</div>"); // block-content block-content-full
+
+            output.Content.AppendHtml("</div>"); // block-content
 
             if (modalContext.Footer != null) {
-                output.Content.AppendHtml("<div class='block-content block-content-full text-right bg-light'>");
+                if (Type != "default") 
+                    output.Content.AppendHtml("<div class='block-content block-content-full text-right bg-light'>");
+                else
+                    output.Content.AppendHtml("<div class='modal-footer'>");
                 output.Content.AppendHtml(modalContext.Footer);
                 output.Content.AppendHtml("</div>");
             }
 
-            output.Content.AppendHtml("</div></div></div>");
+            if (Type != "default")
+                output.Content.AppendHtml("</div>"); //block block-themed
+            output.Content.AppendHtml("</div>"); //modal-content
+            output.Content.AppendHtml("</div>"); //modal-dialog modal-lg
         }
     }
 
@@ -119,6 +163,8 @@ $@"<div class='modal-dialog modal-lg' role='document'>
         /// </summary>
         public string DismissText { get; set; } = "Cancel";
 
+        public string OkText { get; set; } = "Done";
+
 
         public override async Task ProcessAsync(TagHelperContext context, TagHelperOutput output)
         {
@@ -129,9 +175,10 @@ $@"<div class='modal-dialog modal-lg' role='document'>
 
             var footerContent = new DefaultTagHelperContent();
 
-            if (ShowDismiss) {
-                footerContent.AppendFormat(@"<button type='button' class='btn btn-sm btn-primary' data-dismiss='modal'>{0}</button>", DismissText);
-            }
+            if (ShowDismiss) 
+                footerContent.AppendFormat(@"<button type='button' class='btn-sm btn-light' data-dismiss='modal'>{0}</button> ", DismissText);
+            footerContent.AppendFormat(@"<button type='button' class='btn btn-sm btn-primary' data-dismiss='modal'>{0}</button>", OkText);
+            
             footerContent.AppendHtml(childContent);
             var modalContext = (ModalContext)context.Items[typeof(ModalTagHelper)];
             modalContext.Footer = footerContent;
