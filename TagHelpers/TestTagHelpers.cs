@@ -2,6 +2,10 @@
 using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 
+
+//see: http://taghelpersamples.azurewebsites.net/Samples/ModalTagHelper
+//see: https://github.com/dpaquette/TagHelperSamples
+
 namespace DashmixMockups.TagHelpers
 {
     public class ModalContext
@@ -34,12 +38,19 @@ namespace DashmixMockups.TagHelpers
             await output.GetChildContentAsync();
 
             var template = 
-$@"<div class='modal' role='document'>
+$@"<div class='modal-dialog modal-lg' role='document'>
     <div class='modal-content'>
-      <div class='modal-header'>
-        <button type = 'button' class='close' data-dismiss='modal' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
-        <h4 class='modal-title' id='{context.UniqueId}Label'>{Title}</h4>
-      </div>
+        <div class='block block-themed block-transparent mb-0'>
+        
+        <div class='block-header bg-primary-dark'>
+	        <h3 class='block-title'>{Title}</h3>
+	        <div class='block-options'>
+		        <button type='button' class='btn-block-option' data-dismiss='modal' aria-label='Close'>
+			        <i class='fa fa-fw fa-times'></i>
+		        </button>
+	        </div>
+        </div>
+           
         <div class='modal-body'>";
 
             output.TagName = "div";
@@ -47,26 +58,31 @@ $@"<div class='modal' role='document'>
             output.Attributes.SetAttribute("id", Id);
             output.Attributes.SetAttribute("aria-labelledby", $"{context.UniqueId}Label");
             output.Attributes.SetAttribute("tabindex", "-1");
-            var classNames = "modal fade";
-            if (output.Attributes.ContainsName("class"))
-            {
-                classNames = string.Format("{0} {1}", output.Attributes["class"].Value, classNames);
+            output.Attributes.SetAttribute("aria-hidden", "true");
+            var classNames = "modal";
+
+            if (output.Attributes.ContainsName("class")) {
+                classNames = $"{output.Attributes["class"].Value}";
             }
-            output.Attributes.SetAttribute("class", classNames);
+
+            if(string.IsNullOrWhiteSpace(classNames) )
+                output.Attributes.SetAttribute("class", classNames);
+
             output.Content.AppendHtml(template);
-            if (modalContext.Body != null)
-            {
+            
+            if (modalContext.Body != null) {
                 output.Content.AppendHtml(modalContext.Body);
             }
+
             output.Content.AppendHtml("</div>");
-            if (modalContext.Footer != null)
-            {
-                output.Content.AppendHtml("<div class='modal-footer'>");
+
+            if (modalContext.Footer != null) {
+                output.Content.AppendHtml("<div class='block-content block-content-full text-right bg-light'>");
                 output.Content.AppendHtml(modalContext.Footer);
                 output.Content.AppendHtml("</div>");
             }
 
-            output.Content.AppendHtml("</div></div>");
+            output.Content.AppendHtml("</div></div></div>");
         }
     }
 
@@ -106,15 +122,15 @@ $@"<div class='modal' role='document'>
 
         public override async Task ProcessAsync(TagHelperContext context, TagHelperOutput output)
         {
-            if (ShowDismiss)
-            {
-                output.PreContent.AppendFormat(@"<button type='button' class='btn btn-default' data-dismiss='modal'>{0}</button>", DismissText);
+            if (ShowDismiss) {
+                output.PreContent.AppendFormat(@"<button type='button' class='btn-sm btn-light' data-dismiss='modal'>{0}</button>", DismissText);
             }
             var childContent = await output.GetChildContentAsync();
+
             var footerContent = new DefaultTagHelperContent();
-            if (ShowDismiss)
-            {
-                footerContent.AppendFormat(@"<button type='button' class='btn btn-default' data-dismiss='modal'>{0}</button>", DismissText);
+
+            if (ShowDismiss) {
+                footerContent.AppendFormat(@"<button type='button' class='btn btn-sm btn-primary' data-dismiss='modal'>{0}</button>", DismissText);
             }
             footerContent.AppendHtml(childContent);
             var modalContext = (ModalContext)context.Items[typeof(ModalTagHelper)];

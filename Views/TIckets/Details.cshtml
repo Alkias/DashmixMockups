@@ -308,11 +308,12 @@
         </div>
         
         <modal id="simpleModal" 
-               title="Modal Title" >
+               title="Modal Title" class="modal">
             <modal-body>
                 <h4>Something happened</h4>
                 <p>Something happened</p>
             </modal-body>
+            <modal-footer></modal-footer>
         </modal>
 
         <!-- Client Store Modal -->
@@ -320,6 +321,7 @@
                 <div class="modal-dialog modal-lg" role="document">
                     <div class="modal-content">
                         <div class="block block-themed block-transparent mb-0">
+
                             <div class="block-header bg-primary-dark">
                                 <h3 class="block-title">Υποκαταστήματα</h3>
                                 <div class="block-options">
@@ -328,32 +330,32 @@
                                     </button>
                                 </div>
                             </div>
+
                             <div class="block-content">
 
                                 <!-- Dynamic Table -->
                                 <div class="block-content block-content-full">
                                     <table class="table table-sm table-bordered table-striped table-vcenter">
                                         <thead>
-                                            <tr>
-                                                <th class="text-center" style="width: 50px;">#</th>
-                                                <th>Υποκατάστημα</th>
-                                                <th>Κεντρικό</th>
-                                                <th>Επιλεγμένο</th>
-                                            </tr>
+                                        <tr>
+                                            <th class="text-center" style="width: 50px;">#</th>
+                                            <th>Υποκατάστημα</th>
+                                            <th>Κεντρικό</th>
+                                            <th>Επιλεγμένο</th>
+                                        </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach (var store in Model.Client.Stores)
-                                            {
-                                                var btn = "<a class=\"badge badge-info\" href=\"javascript: void(0)\">Κεντρικό</a>";
-                                                var btn2 = "<a class=\"badge badge-warning\" href=\"javascript: void(0)\">Επιλεγμένο</a>";
-                                                var btn3 = "<a class=\"badge badge-success\" href=\"javascript: void(0)\">ΕΠΙΛΟΓΗ</a>";
-                                                <tr>
-                                                    <td class="text-center" scope="row">@store.Id</td>
-                                                    <td>@store.Description</td>
-                                                    <td>@(store.Id == Model.Client.Stores.Where(s=>s.IsPrime).FirstOrDefault().Id? Html.Raw(btn):"")</td>
-                                                    <td>@(store.Id == Model.StoreId? Html.Raw(btn2) : Html.Raw(btn3))</td>
-                                                </tr>
-                                            }
+                                        @foreach (var store in Model.Client.Stores) {
+                                            var btn = "<a class=\"badge badge-info\" href=\"javascript: void(0)\">Κεντρικό</a>";
+                                            var btn2 = "<a class=\"badge badge-warning\" href=\"javascript: void(0)\">Επιλεγμένο</a>";
+                                            var btn3 = "<a class=\"badge badge-success\" href=\"javascript: void(0)\">ΕΠΙΛΟΓΗ</a>";
+                                            <tr>
+                                                <td class="text-center" scope="row">@store.Id</td>
+                                                <td>@store.Description</td>
+                                                <td>@(store.Id == Model.Client.Stores.Where(s => s.IsPrime).FirstOrDefault().Id ? Html.Raw(btn) : "")</td>
+                                                <td>@(store.Id == Model.StoreId ? Html.Raw(btn2) : Html.Raw(btn3))</td>
+                                            </tr>
+                                        }
 
                                         </tbody>
                                     </table>
@@ -362,6 +364,7 @@
 
 
                             </div>
+
                             <div class="block-content block-content-full text-right bg-light">
                                 <button type="button" class="btn btn-sm btn-light" data-dismiss="modal">Close</button>
                                 <button type="button" class="btn btn-sm btn-primary" data-dismiss="modal">Done</button>
