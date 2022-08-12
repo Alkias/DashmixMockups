@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 
-
+//see: https://www.davepaquette.com/archive/2015/12/28/complex-custom-tag-helpers-in-mvc-6.aspx
 //see: http://taghelpersamples.azurewebsites.net/Samples/ModalTagHelper
 //see: https://github.com/dpaquette/TagHelperSamples
 
