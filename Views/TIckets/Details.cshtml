@@ -122,15 +122,13 @@
                         <div class="block-content block-content-sm block-content-full bg-body-light">
                             <div class="media py-3">
 
-                                @if (!isClientPost)
-                                {
+                                @if (!isClientPost) {
                                     <div class="mr-3 ml-2 overlay-container overlay-right">
                                         <img class="img-avatar img-avatar48" src="@Model.SolutionUser.Image" alt="">
                                         <i class="far fa-circle text-white overlay-item font-size-sm bg-success rounded-circle"></i>
                                     </div>
                                 }
-                                else
-                                {
+                                else {
                                     <div class="mr-3 ml-2 overlay-container overlay-right">
                                         <img class="img-avatar img-avatar48" src="@clientUser.Image" alt="">
                                         <i class="far fa-circle text-white overlay-item font-size-sm bg-success rounded-circle"></i>
@@ -140,17 +138,13 @@
                                 <div class="media-body">
                                     <div class="row">
 
-
-
-                                        @if (!isClientPost)
-                                        {
+                                        @if (!isClientPost) {
                                             <div class="col-sm-7">
                                                 <a class="font-w600 link-fx" href="be_pages_generic_profile.html">@Model.SolutionUser.FirstName  @Model.SolutionUser.LastName</a>
                                                 <div class="font-size-sm text-muted">@Model.SolutionUser.Email</div>
                                             </div>
                                         }
-                                        else
-                                        {
+                                        else {
                                             <div class="col-sm-7">
                                                 <a class="font-w600 link-fx" href="be_pages_generic_profile.html">@clientUser.FirstName @clientUser.LastName</a>
                                                 <div class="font-size-sm text-muted">@clientUser.Email</div>
@@ -168,8 +162,7 @@
                             </div>
                         </div>
 
-                        @if (!isClientPost)
-                        {
+                        @if (!isClientPost) {
                             <!-- Post Body -->
                             <div class="block-content">
                                 <p>Dear @clientUser.FirstName @clientUser.LastName ,</p>
@@ -178,8 +171,7 @@
                                 <p>@Model.SolutionUser.FirstName</p>
                             </div>
                         }
-                        else
-                        {
+                        else {
 
 
                             <!-- Post Body -->
@@ -190,7 +182,6 @@
                                 <p>@clientUser.FirstName </p>
                             </div>
                         }
-
 
                         <!-- Post Attachments-->
                         <div class="block-content bg-body-light">
@@ -252,7 +243,6 @@
                         <div class="block-content">
                             <h5 class="mb-1"><span class="small">Εταιρεία:</span><br />@Model.Client.Name</h5>
                             <h5 class="mb-1"><span class="small">Υπ. Επικοινωνίας:</span><br />@Model.Client.ContactName</h5>
-                            @*<h5 class="mb-1"><span class="small">Email:<br /><a href="mailto:@Model.Client.ContactEmail">@Model.Client.ContactEmail</a></span></h5>*@
                             <h5 class="mb-1"><span class="small">Email:<br /> <a href="mailto:@Model.Client.ContactEmail">@Model.Client.ContactEmail</a></span></h5>
                             <h5 class="mb-0"><span class="small">Τηλ:</span><br />@Model.Client.PhoneNumber1 </h5>
                         </div>
@@ -332,7 +322,7 @@
                     </tbody>
                 </table>
             </modal-body>
-            <modal-footer></modal-footer>
+            <modal-footer show-dismiss="false" ok-text="kaakedfrlkjflsd"></modal-footer>
         </modal>
         
         <modal id="product-modal" title="Προϊόντα" type="center">

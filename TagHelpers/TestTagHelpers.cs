@@ -30,6 +30,10 @@ namespace DashmixMockups.TagHelpers
         /// </summary>
         public string Id { get; set; }
 
+        /// <summary>
+        /// The type of modal
+        /// Values: default, center or nothing
+        /// </summary>
         public string Type { get; set; }
 
         public override async Task ProcessAsync(TagHelperContext context, TagHelperOutput output)
