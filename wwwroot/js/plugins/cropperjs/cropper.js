@@ -1,56 +1,18 @@
 /*!
- * Cropper.js v1.5.12
+ * Cropper.js v1.5.7
  * https://fengyuanchen.github.io/cropperjs
  *
  * Copyright 2015-present Chen Fengyuan
  * Released under the MIT license
  *
- * Date: 2021-06-12T08:00:17.411Z
+ * Date: 2020-05-23T05:23:00.081Z
  */
 
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
   typeof define === 'function' && define.amd ? define(factory) :
-  (global = typeof globalThis !== 'undefined' ? globalThis : global || self, global.Cropper = factory());
+  (global = global || self, global.Cropper = factory());
 }(this, (function () { 'use strict';
-
-  function ownKeys(object, enumerableOnly) {
-    var keys = Object.keys(object);
-
-    if (Object.getOwnPropertySymbols) {
-      var symbols = Object.getOwnPropertySymbols(object);
-
-      if (enumerableOnly) {
-        symbols = symbols.filter(function (sym) {
-          return Object.getOwnPropertyDescriptor(object, sym).enumerable;
-        });
-      }
-
-      keys.push.apply(keys, symbols);
-    }
-
-    return keys;
-  }
-
-  function _objectSpread2(target) {
-    for (var i = 1; i < arguments.length; i++) {
-      var source = arguments[i] != null ? arguments[i] : {};
-
-      if (i % 2) {
-        ownKeys(Object(source), true).forEach(function (key) {
-          _defineProperty(target, key, source[key]);
-        });
-      } else if (Object.getOwnPropertyDescriptors) {
-        Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));
-      } else {
-        ownKeys(Object(source)).forEach(function (key) {
-          Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
-        });
-      }
-    }
-
-    return target;
-  }
 
   function _typeof(obj) {
     "@babel/helpers - typeof";
@@ -105,6 +67,40 @@
     return obj;
   }
 
+  function ownKeys(object, enumerableOnly) {
+    var keys = Object.keys(object);
+
+    if (Object.getOwnPropertySymbols) {
+      var symbols = Object.getOwnPropertySymbols(object);
+      if (enumerableOnly) symbols = symbols.filter(function (sym) {
+        return Object.getOwnPropertyDescriptor(object, sym).enumerable;
+      });
+      keys.push.apply(keys, symbols);
+    }
+
+    return keys;
+  }
+
+  function _objectSpread2(target) {
+    for (var i = 1; i < arguments.length; i++) {
+      var source = arguments[i] != null ? arguments[i] : {};
+
+      if (i % 2) {
+        ownKeys(Object(source), true).forEach(function (key) {
+          _defineProperty(target, key, source[key]);
+        });
+      } else if (Object.getOwnPropertyDescriptors) {
+        Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));
+      } else {
+        ownKeys(Object(source)).forEach(function (key) {
+          Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
+        });
+      }
+    }
+
+    return target;
+  }
+
   function _toConsumableArray(arr) {
     return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread();
   }
@@ -114,7 +110,7 @@
   }
 
   function _iterableToArray(iter) {
-    if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter);
+    if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter);
   }
 
   function _unsupportedIterableToArray(o, minLen) {
@@ -194,10 +190,6 @@
   var REGEXP_DATA_URL = /^data:/;
   var REGEXP_DATA_URL_JPEG = /^data:image\/jpeg;base64,/;
   var REGEXP_TAG_NAME = /^img|canvas$/i; // Misc
-  // Inspired by the default width and height of a canvas element.
-
-  var MIN_CONTAINER_WIDTH = 200;
-  var MIN_CONTAINER_HEIGHT = 100;
 
   var DEFAULTS = {
     // Define the view mode of the cropper
@@ -261,8 +253,8 @@
     minCanvasHeight: 0,
     minCropBoxWidth: 0,
     minCropBoxHeight: 0,
-    minContainerWidth: MIN_CONTAINER_WIDTH,
-    minContainerHeight: MIN_CONTAINER_HEIGHT,
+    minContainerWidth: 200,
+    minContainerHeight: 100,
     // Shortcuts of events
     ready: null,
     cropstart: null,
@@ -810,7 +802,7 @@
   function getMaxZoomRatio(pointers) {
     var pointers2 = _objectSpread2({}, pointers);
 
-    var maxRatio = 0;
+    var ratios = [];
     forEach(pointers, function (pointer, pointerId) {
       delete pointers2[pointerId];
       forEach(pointers2, function (pointer2) {
@@ -821,13 +813,13 @@
         var z1 = Math.sqrt(x1 * x1 + y1 * y1);
         var z2 = Math.sqrt(x2 * x2 + y2 * y2);
         var ratio = (z2 - z1) / z1;
-
-        if (Math.abs(ratio) > Math.abs(maxRatio)) {
-          maxRatio = ratio;
-        }
+        ratios.push(ratio);
       });
     });
-    return maxRatio;
+    ratios.sort(function (a, b) {
+      return Math.abs(a) < Math.abs(b);
+    });
+    return ratios[0];
   }
   /**
    * Get a pointer from an event object.
@@ -1231,13 +1223,11 @@
           options = this.options,
           container = this.container,
           cropper = this.cropper;
-      var minWidth = Number(options.minContainerWidth);
-      var minHeight = Number(options.minContainerHeight);
       addClass(cropper, CLASS_HIDDEN);
       removeClass(element, CLASS_HIDDEN);
       var containerData = {
-        width: Math.max(container.offsetWidth, minWidth >= 0 ? minWidth : MIN_CONTAINER_WIDTH),
-        height: Math.max(container.offsetHeight, minHeight >= 0 ? minHeight : MIN_CONTAINER_HEIGHT)
+        width: Math.max(container.offsetWidth, Number(options.minContainerWidth) || 200),
+        height: Math.max(container.offsetHeight, Number(options.minContainerHeight) || 100)
       };
       this.containerData = containerData;
       setStyle(cropper, {
@@ -1278,15 +1268,14 @@
         width: canvasWidth,
         height: canvasHeight
       };
+      canvasData.left = (containerData.width - canvasWidth) / 2;
+      canvasData.top = (containerData.height - canvasHeight) / 2;
+      canvasData.oldLeft = canvasData.left;
+      canvasData.oldTop = canvasData.top;
       this.canvasData = canvasData;
       this.limited = viewMode === 1 || viewMode === 2;
       this.limitCanvas(true, true);
-      canvasData.width = Math.min(Math.max(canvasData.width, canvasData.minWidth), canvasData.maxWidth);
-      canvasData.height = Math.min(Math.max(canvasData.height, canvasData.minHeight), canvasData.maxHeight);
-      canvasData.left = (containerData.width - canvasData.width) / 2;
-      canvasData.top = (containerData.height - canvasData.height) / 2;
-      canvasData.oldLeft = canvasData.left;
-      canvasData.oldTop = canvasData.top;
+      this.initialImageData = assign({}, imageData);
       this.initialCanvasData = assign({}, canvasData);
     },
     limitCanvas: function limitCanvas(sizeLimited, positionLimited) {
@@ -1820,11 +1809,9 @@
       var options = this.options,
           container = this.container,
           containerData = this.containerData;
-      var ratioX = container.offsetWidth / containerData.width;
-      var ratioY = container.offsetHeight / containerData.height;
-      var ratio = Math.abs(ratioX - 1) > Math.abs(ratioY - 1) ? ratioX : ratioY; // Resize when width changed or height changed
+      var ratio = container.offsetWidth / containerData.width; // Resize when width changed or height changed
 
-      if (ratio !== 1) {
+      if (ratio !== 1 || container.offsetHeight !== containerData.height) {
         var canvasData;
         var cropBoxData;
 
@@ -3344,10 +3331,9 @@
 
         if (options.checkCrossOrigin && isCrossOriginURL(url) && element.crossOrigin) {
           url = addTimestamp(url);
-        } // The third parameter is required for avoiding side-effect (#682)
+        }
 
-
-        xhr.open('GET', url, true);
+        xhr.open('GET', url);
         xhr.responseType = 'arraybuffer';
         xhr.withCredentials = element.crossOrigin === 'use-credentials';
         xhr.send();
@@ -3438,7 +3424,6 @@
             naturalHeight: naturalHeight,
             aspectRatio: naturalWidth / naturalHeight
           });
-          _this2.initialImageData = assign({}, _this2.imageData);
           _this2.sizing = false;
           _this2.sized = true;
 

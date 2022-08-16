@@ -17,7 +17,6 @@
                 threshold: 0,
                 warningClass: "small form-text text-muted",
                 limitReachedClass: "small form-text text-danger",
-                limitExceededClass: "",
                 separator: " / ",
                 preText: "",
                 postText: "",
@@ -30,7 +29,6 @@
                 appendToParent: false,
                 twoCharLinebreak: true,
                 customMaxAttribute: null,
-                customMaxClass: "overmax",
                 allowOverMax: false,
                 zIndex: 1099
             };
@@ -138,27 +136,19 @@
                     maxLengthIndicator.html(updateMaxLengthHTML(currentInput.val(), maxLengthCurrentInput, maxLengthCurrentInput - remaining));
                     if (remaining > 0) {
                         if (charsLeftThreshold(currentInput, options.threshold, maxLengthCurrentInput)) {
-                            showRemaining(currentInput, maxLengthIndicator.removeClass(options.limitReachedClass + " " + options.limitExceededClass).addClass(options.warningClass));
+                            showRemaining(currentInput, maxLengthIndicator.removeClass(options.limitReachedClass).addClass(options.warningClass));
                         } else {
                             hideRemaining(currentInput, maxLengthIndicator);
                         }
                     } else {
-                        if (!options.limitExceededClass) {
-                            showRemaining(currentInput, maxLengthIndicator.removeClass(options.warningClass).addClass(options.limitReachedClass));
-                        } else {
-                            if (remaining === 0) {
-                                showRemaining(currentInput, maxLengthIndicator.removeClass(options.warningClass + " " + options.limitExceededClass).addClass(options.limitReachedClass));
-                            } else {
-                                showRemaining(currentInput, maxLengthIndicator.removeClass(options.warningClass + " " + options.limitReachedClass).addClass(options.limitExceededClass));
-                            }
-                        }
+                        showRemaining(currentInput, maxLengthIndicator.removeClass(options.warningClass).addClass(options.limitReachedClass));
                     }
                 }
                 if (options.customMaxAttribute) {
                     if (remaining < 0) {
-                        currentInput.addClass(options.customMaxClass);
+                        currentInput.addClass("overmax");
                     } else {
-                        currentInput.removeClass(options.customMaxClass);
+                        currentInput.removeClass("overmax");
                     }
                 }
             }
@@ -376,6 +366,9 @@
                         output = false;
                     } else {
                         manageRemainingVisibility(remaining, currentInput, maxLengthCurrentInput, maxLengthIndicator);
+                    }
+                    if (isPlacementMutable()) {
+                        place(currentInput, maxLengthIndicator);
                     }
                     return output;
                 }));
