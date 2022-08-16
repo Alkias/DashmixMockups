@@ -74,13 +74,9 @@
 
                             <h5 class="mb-2"><span class="small">Τίτλος:</span><br />@Model.Contract.Description</h5>
                             <h5 class="mb-2"><span class="small">Από:</span> @Model.Contract.FromDate.ToString("d") <span class="small">Έως:</span> @Model.Contract.ToDate.ToString("d")</h5>
-
                             <h5 class="mb-2"><span class="small">Δωρεάν:</span> @(Model.Contract.FreeHours) </h5>
                             <h5 class="mb-2"><span class="small">Κατανάλωση:</span> @(Model.FreeSupportHours)</h5>
                             <h5 class="mb-2"><span class="small">Υπόλοιπο: </span>@(Model.Contract.FreeHours - Model.FreeSupportHours)</h5>
-
-                                   
-
                             <h5 class="mb-2"><span class="small">Χρέωση ανα Ώρα:</span> @Model.ChargePerHour</h5>
                         </div>
                     </div>
