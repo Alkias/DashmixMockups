@@ -1,0 +1,80 @@
+﻿@model List<Ticket>
+
+<div class="row no-gutters">
+
+    <!-- Panel Ticket List-->
+    <div class="col-md-4 col-lg-5 col-xl-3">
+        <div class="content">
+            <div id="side-content" class="d-none d-md-block push">
+
+                <!-- New Ticket -->
+                <button id="new-ticket" type="button" class="btn btn-block btn-hero-success mb-3">
+                    <i class="fa fa-plus mr-1"></i> Νέο Αίτημα 2
+                </button>
+
+                <!-- Search Tickets -->
+                <form action="be_pages_generic_inbox.html" method="post" onsubmit="return false;">
+                    <div class="form-group">
+                        <div class="input-group">
+                            <input type="text" class="form-control border-0" placeholder="Αναζήτηση Αιτημάτων..">
+                            <div class="input-group-append">
+                                <span class="input-group-text border-0 bg-white">
+                                    <i class="fa fa-fw fa-search"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+                <!-- Sorting/Filtering -->
+                <div class="d-flex justify-content-between mb-2">
+
+                    <!--Time Priority-->
+                    <div class="dropdown">
+                        <button type="button" class="btn btn-sm btn-link font-w600 dropdown-toggle" id="inbox-msg-sort" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Κατάταξη
+                        </button>
+                        <div class="dropdown-menu font-size-sm" aria-labelledby="inbox-msg-sort">
+                            <a class="dropdown-item" href="javascript:void(0)">
+                                <i class="fa fa-fw fa-sort-amount-down mr-1"></i> Νεώτερα
+                            </a>
+                            <a class="dropdown-item" href="javascript:void(0)">
+                                <i class="fa fa-fw fa-sort-amount-up mr-1"></i> Παλαιότερα
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Status Filtering -->
+                    <div class="dropdown">
+                        <button type="button" class="btn btn-sm btn-link font-w600 dropdown-toggle" id="inbox-msg-filter" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Φίλτρα
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-right font-size-sm" aria-labelledby="inbox-msg-filter">
+                            <a class="dropdown-item active" href="javascript:void(0)">
+                                <i class="fa fa-fw fa-asterisk mr-1"></i> New
+                            </a>
+                            <a class="dropdown-item" href="javascript:void(0)">
+                                <i class="fa fa-fw fa-archive mr-1"></i> Open
+                            </a>
+                            <a class="dropdown-item" href="javascript:void(0)">
+                                <i class="fa fa-fw fa-times-circle mr-1"></i> Wait Client
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tickets -->
+                <div class="list-group font-size-sm b-r">
+                    @await Html.PartialAsync("_tickets", Model)
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Panel Ticket Details -->
+    <div class="col-md-8 col-lg-7 col-xl-9 bg-body-dark">
+        <!-- Details Place Holder Ajax replaced content -->
+        <div id="ticket-details" class="content"></div>
+    </div>
+</div>

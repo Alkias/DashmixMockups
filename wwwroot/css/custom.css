@@ -44,14 +44,15 @@
 .margin_top_600px {
   margin-top: 600px; }
 
+/*
 .scrll_hide {
-  float: right;
-  height: 100%;
-  width: calc(100% + 48px);
-  overflow-y: scroll;
-  margin: 0 -32px 0 0 !important;
-  box-sizing: border-box; }
-
+    float: right;
+    height: 100%;
+    width: calc(100% + 48px);
+    overflow-y: scroll;
+    margin: 0 -32px 0 0 !important;
+    box-sizing: border-box;
+}*/
 /*Priority Css Icons*/
 .numberCircle {
   border-radius: 50%;

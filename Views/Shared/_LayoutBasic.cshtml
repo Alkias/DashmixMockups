@@ -1,0 +1,37 @@
+﻿<!DOCTYPE html>
+<!DOCTYPE html>
+<html lang="el">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>@ViewData["Title"] - Dashmix 5</title>
+
+    <link rel="shortcut icon" href="~/favicon.ico">
+    <link rel="icon" type="image/png" sizes="192x192" href="~/favicon.ico">
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
+
+    @RenderSection("BeforeStyles", required: false)
+    <link rel="stylesheet" id="css-main" href="~/css/dashmix.min.css">
+    <link rel="stylesheet" id="css-main" href="~/css/custom.css">
+    @RenderSection("AfterStyles", required: false)
+</head>
+<body>
+    <div id="page-container">
+        @RenderBody()
+    </div>
+
+    <script src="~/js/dashmix.app.min.js"></script>
+
+    <!-- jQuery (required for jQuery Validation plugin) -->
+    <script src="~/js/lib/jquery.min.js"></script>
+
+    <!-- Page JS Plugins -->
+    <script src="~/js/plugins/jquery-validation/jquery.validate.min.js"></script>
+
+    <!-- Page JS Code -->
+    <script src="~/js/pages/op_auth_signin.min.js"></script>
+
+    @RenderSection("AfterContent", required: false)
+</body>
+</html>

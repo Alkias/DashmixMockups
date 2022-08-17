@@ -9,6 +9,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using DashmixMockups.Data;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Mvc.Razor;
 
 namespace DashmixMockups
 {
@@ -27,6 +28,13 @@ namespace DashmixMockups
             // Is Required in order to view changes in views when running from VS
             // see: https://stackoverflow.com/questions/53639969/net-core-mvc-page-not-refreshing-after-changes
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
+
+            // Add Custom View Locations
+            services.Configure<RazorViewEngineOptions>(options =>
+            {
+                //options.PageViewLocationFormats.Add("/Views/{1}/Partials/{0}" + RazorViewEngine.ViewExtension);
+                options.ViewLocationFormats.Add("/Views/{1}/Partials/{0}" + RazorViewEngine.ViewExtension);
+            });
 
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options => {
                 options.LoginPath = "/Account/Login";

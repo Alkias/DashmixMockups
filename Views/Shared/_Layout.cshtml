@@ -26,28 +26,28 @@
 
 <body>
     <!-- Page Container -->
-    <div id="page-container" class="sidebar-o sidebar-dark enable-page-overlay side-scroll page-header-fixed">
+<div id="page-container" class="sidebar-o sidebar-dark enable-page-overlay side-scroll page-header-fixed">
 
-        @await Html.PartialAsync("Partials/_Sidebar.cshtml")
-        @await Html.PartialAsync("Partials/_Header.cshtml")
+    @await Html.PartialAsync("Partials/_Sidebar.cshtml")
+    @await Html.PartialAsync("Partials/_Header.cshtml")
 
-        <main id="main-container">
-            @RenderBody()
-        </main>
-        <!-- Footer -->
-        <footer id="page-footer" class="bg-body-light">
-            <div class="content py-0">
-                <div class="row font-size-sm">
-                    <div class="col-sm-6 order-sm-2 mb-1 mb-sm-0 text-center text-sm-right">
-                        Crafted with <i class="fa fa-heart text-danger"></i> by <a class="font-w600" href="https://1.envato.market/ydb" target="_blank">IntelliSoft</a>
-                    </div>
-                    <div class="col-sm-6 order-sm-1 text-center text-sm-left">
-                        <a class="font-w600" href="https://1.envato.market/r6y" target="_blank">IntelliTickets 1.0</a> &copy; <span data-toggle="year-copy"></span>
-                    </div>
+    <main id="main-container">
+        @RenderBody()
+    </main>
+    <!-- Footer -->
+    <footer id="page-footer" class="bg-body-light">
+        <div class="content py-0">
+            <div class="row font-size-sm">
+                <div class="col-sm-6 order-sm-2 mb-1 mb-sm-0 text-center text-sm-right">
+                    Crafted with <i class="fa fa-heart text-danger"></i> by <a class="font-w600" href="https://1.envato.market/ydb" target="_blank">IntelliSoft</a>
+                </div>
+                <div class="col-sm-6 order-sm-1 text-center text-sm-left">
+                    <a class="font-w600" href="https://1.envato.market/r6y" target="_blank">IntelliTickets 1.0</a> &copy; <span data-toggle="year-copy"></span>
                 </div>
             </div>
-        </footer>
-    </div>
+        </div>
+    </footer>
+</div>
 
     <script src="~/js/dashmix.core.min.js"></script>
     <script src="~/js/dashmix.app.min.js"></script>
