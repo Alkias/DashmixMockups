@@ -1,13 +1,10 @@
 ﻿@model List<Ticket>
 @{
-    ViewData["Title"] = "Stelexos";
+    ViewData["Title"] = "Στέλεχος";
 }
 @section AfterContent{
     <!-- Page JS Plugins -->
     <script src="~/js/plugins/ckeditor5-classic/build/ckeditor.js"></script>
-
-    <!-- Page JS Helpers (CKEditor 5 plugins) -->
-    @*<script>Dashmix.helpersOnLoad(['js-ckeditor5']);</script>*@
 
     <script>
 
@@ -20,11 +17,20 @@
                     url: "/Tickets/Details/" + id,
                     context: $("#ticket-details")//document.body
                 }).done(function (data) {
+                    $("#ticket-details").html("");
                     $("#ticket-details").html(data);
-                    
+
+                    // Must reload Dashmix initialization in order to
+                    // have Dashmix functionality
                     Dashmix.init();
-                    Dashmix.helpersOnLoad(['js-ckeditor5']);
-                   
+
+                    // Load Reply Editor
+                    Dashmix.helpers(['js-ckeditor5']);
+
+                    // Hack to reload side menu functionality
+                    Dashmix._uiHandleNav();
+                    Dashmix._uiApiLayout();
+
                 });
             });
 

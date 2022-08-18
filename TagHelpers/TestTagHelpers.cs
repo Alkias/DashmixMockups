@@ -40,13 +40,12 @@ namespace DashmixMockups.TagHelpers
 
         public bool Center { get; set; }
 
-        public override async Task ProcessAsync(TagHelperContext context, TagHelperOutput output)
-        {
+        public override async Task ProcessAsync (TagHelperContext context, TagHelperOutput output) {
             var modalContext = new ModalContext();
             context.Items.Add(typeof(ModalTagHelper), modalContext);
 
             await output.GetChildContentAsync();
-            
+
             output.TagName = "div";
             output.Attributes.SetAttribute("role", "dialog");
             output.Attributes.SetAttribute("id", Id);
@@ -64,8 +63,7 @@ namespace DashmixMockups.TagHelpers
             var sizeAndCenter = string.IsNullOrWhiteSpace(Size) ? "" : $" {SetSize()}";
             sizeAndCenter += Center ? " modal-dialog-centered" : "";
 
-            switch (Type)
-            {
+            switch (Type) {
                 case "default":
                     DefaultModal(modalContext, output, sizeAndCenter);
                     break;
@@ -76,10 +74,8 @@ namespace DashmixMockups.TagHelpers
         }
 
         private string SetSize() {
-
             var size = "";
-            switch (Size)
-            {
+            switch (Size) {
                 case "sm":
                     size = "modal-sm";
                     break;
@@ -97,9 +93,9 @@ namespace DashmixMockups.TagHelpers
             return size;
         }
 
-        private void DefaultModal(ModalContext modalContext, TagHelperOutput output, string sizeAndCenter) {
-            var template = 
-    @$"<div class='modal-dialog{sizeAndCenter}' role='document'>
+        private void DefaultModal (ModalContext modalContext, TagHelperOutput output, string sizeAndCenter) {
+            var template =
+                @$"<div class='modal-dialog{sizeAndCenter}' role='document'>
 	    <div class='modal-content'>
 		    <div class='modal-header'>
 			    <h5 class='modal-title'>{Title}</h5>
@@ -111,6 +107,7 @@ namespace DashmixMockups.TagHelpers
             if (modalContext.Body != null) {
                 output.Content.AppendHtml(modalContext.Body);
             }
+
             output.Content.AppendHtml("</div>"); //modal-body
 
             if (modalContext.Footer != null) {
@@ -123,11 +120,9 @@ namespace DashmixMockups.TagHelpers
             output.Content.AppendHtml("</div>"); //modal-dialog
         }
 
-
-        private void NormalModal(ModalContext modalContext, TagHelperOutput output, string sizeAndCenter)
-        {
+        private void NormalModal (ModalContext modalContext, TagHelperOutput output, string sizeAndCenter) {
             var template =
-            @$"<div class='modal-dialog{sizeAndCenter}' role='document'>
+                @$"<div class='modal-dialog{sizeAndCenter}' role='document'>
             <div class='modal-content'>
                 <div class='block block-rounded block-themed block-transparent mb-0'>
                     <div class='block-header bg-primary-dark'>
@@ -148,8 +143,7 @@ namespace DashmixMockups.TagHelpers
 
             output.Content.AppendHtml("</div>"); //block-content
 
-            if (modalContext.Footer != null)
-            {
+            if (modalContext.Footer != null) {
                 output.Content.AppendHtml("<div class='modal-footer'>");
                 output.Content.AppendHtml(modalContext.Footer);
                 output.Content.AppendHtml("</div>");
@@ -161,18 +155,15 @@ namespace DashmixMockups.TagHelpers
         }
     }
 
-    
-
     /// <summary>
     /// The modal-body portion of a Bootstrap Dashmix modal dialog
     /// </summary>
     [HtmlTargetElement("modal-body", ParentTag = "modal")]
     public class ModalBodyTagHelper : TagHelper
     {
-        public override async Task ProcessAsync(TagHelperContext context, TagHelperOutput output)
-        {
+        public override async Task ProcessAsync (TagHelperContext context, TagHelperOutput output) {
             var childContent = await output.GetChildContentAsync();
-            var modalContext = (ModalContext)context.Items[typeof(ModalTagHelper)];
+            var modalContext = (ModalContext) context.Items[typeof(ModalTagHelper)];
             modalContext.Body = childContent;
             output.SuppressOutput();
         }
@@ -185,7 +176,7 @@ namespace DashmixMockups.TagHelpers
     public class ModalFooterTagHelper : TagHelper
     {
         /// <summary>
-        /// Whether or not to show a button to dismiss the dialog. 
+        /// Whether or not to show a button to dismiss the dialog.
         /// Default: <c>true</c>
         /// </summary>
         public bool ShowDismiss { get; set; } = true;
@@ -198,32 +189,21 @@ namespace DashmixMockups.TagHelpers
 
         public string OkText { get; set; } = "Done";
 
-
-        public override async Task ProcessAsync(TagHelperContext context, TagHelperOutput output)
-        {
-            /*
-<button type='button' class='btn btn-sm btn-alt-secondary' data-bs-dismiss='modal'>Close</button>
-<button type='button' class='btn btn-sm btn-primary' data-bs-dismiss='modal'>Done</button>
-             */
-
-            /*
-<button type='button' class='btn btn-sm btn-alt-secondary' data-bs-dismiss='modal'>Close</button>
-<button type='button' class='btn btn-sm btn-primary' data-bs-dismiss='modal'>Done</button>
-             */
-
+        public override async Task ProcessAsync (TagHelperContext context, TagHelperOutput output) {
             if (ShowDismiss) {
                 output.PreContent.AppendFormat(@"<button type='button' class='btn btn-sm btn-alt-secondary' data-bs-dismiss='modal'>{0}</button>", DismissText);
             }
+
             var childContent = await output.GetChildContentAsync();
 
             var footerContent = new DefaultTagHelperContent();
 
-            if (ShowDismiss) 
+            if (ShowDismiss)
                 footerContent.AppendFormat(@"<button type='button' class='btn btn-sm btn-alt-secondary' data-bs-dismiss='modal'>{0}</button> ", DismissText);
-            footerContent.AppendFormat(@"<button type='button' class='btn btn-sm btn-primary' data-bs-dismiss='modal'>Done</button>", OkText);
-            
+            footerContent.AppendFormat(@"<button type='button' class='btn btn-sm btn-primary' data-bs-dismiss='modal'>{0}</button>", OkText);
+
             footerContent.AppendHtml(childContent);
-            var modalContext = (ModalContext)context.Items[typeof(ModalTagHelper)];
+            var modalContext = (ModalContext) context.Items[typeof(ModalTagHelper)];
             modalContext.Footer = footerContent;
             output.SuppressOutput();
         }

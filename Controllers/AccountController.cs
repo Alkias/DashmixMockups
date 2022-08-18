@@ -12,11 +12,21 @@ namespace DashmixMockups.Controllers
 {
     public class AccountController : Controller
     {
+        #region Fields
+
         private readonly IOptions<List<UserToLogin>> _users;
+
+        #endregion
+
+        #region Ctor
 
         public AccountController (IOptions<List<UserToLogin>> users) {
             _users = users;
         }
+
+        #endregion
+
+        #region Methods
 
         public async Task<IActionResult> Login() {
             var model = new UserToLogin();
@@ -53,9 +63,7 @@ namespace DashmixMockups.Controllers
             return Redirect("/Account/Error");
         }
 
-
-        public async Task<IActionResult> PasswordReminder()
-        {
+        public async Task<IActionResult> PasswordReminder() {
             var model = new UserToLogin();
             return View(model);
         }
@@ -68,13 +76,13 @@ namespace DashmixMockups.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EkdilosiEndiaferonts(EkdilosiEndiaferontsModel model)
-        {
+        public async Task<IActionResult> EkdilosiEndiaferonts (EkdilosiEndiaferontsModel model) {
             if (ModelState.IsValid) {
                 model.SuccessfullySent = true;
                 model.Result = "Ευχαριστούμε για την Εκδήλωση Ενδιαφέροντος, θα επικοινωνήσουμε μαζί σας το συντομώτερο δυνατό.";
                 return View(model);
             }
+
             return View(model);
         }
 
@@ -84,5 +92,7 @@ namespace DashmixMockups.Controllers
 
             return Redirect("/Account/Login");
         }
+
+        #endregion
     }
 }

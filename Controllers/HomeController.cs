@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Linq;
-using DashmixMockups.Data;
-using DashmixMockups.Extensions;
 using DashmixMockups.Factories;
 using DashmixMockups.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -15,15 +11,24 @@ namespace DashmixMockups.Controllers
     [Authorize]
     public class HomeController : Controller
     {
+        #region Fields
+
         private readonly ILogger<HomeController> _logger;
+
+        #endregion
+
+        #region Ctor
 
         public HomeController (ILogger<HomeController> logger) {
             _logger = logger;
         }
 
-        public IActionResult Index() {
+        #endregion
 
-            if(User.IsInRole("Stelexos"))
+        #region Methods
+
+        public IActionResult Index() {
+            if (User.IsInRole("Stelexos"))
                 return RedirectToAction("Stelexos");
 
             if (User.IsInRole("User"))
@@ -37,10 +42,8 @@ namespace DashmixMockups.Controllers
             var sortedList = tickets.OrderByDescending(x => x.TicketDate).ToList();
             return View(sortedList);
         }
-        
 
-        public IActionResult Client()
-        {
+        public IActionResult Client() {
             return View();
         }
 
@@ -48,5 +51,7 @@ namespace DashmixMockups.Controllers
         public IActionResult Error() {
             return View(new ErrorViewModel {RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier});
         }
+
+        #endregion
     }
 }

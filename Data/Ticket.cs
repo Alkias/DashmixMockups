@@ -20,8 +20,8 @@ namespace DashmixMockups.Data
         /// Προηγουμένως ClientBranchId
         /// </summary>
         public int StoreId { get; set; }
+
         public int? ContractId { get; set; }
-        
 
         public byte Status { get; set; }
         public string StatusBadget { get; set; }
@@ -85,8 +85,6 @@ namespace DashmixMockups.Data
         public int? Licenses { get; set; }
 
         public int? Cars { get; set; }
-
-        
 
         public bool IsInitial { get; set; }
 
@@ -243,36 +241,25 @@ namespace DashmixMockups.Data
     {
         public int Id { get; set; }
 
-
         public int ClientId { get; set; }
-
 
         public int ProductId { get; set; }
 
-
         public string Description { get; set; }
-
 
         public bool IsActive { get; set; }
 
-
         public int EasyComId { get; set; }
-
 
         public DateTime FromDate { get; set; }
 
-
         public DateTime ToDate { get; set; }
-
 
         public bool IsInitial { get; set; }
 
-
         public double FreeHours { get; set; }
 
-
         public double ChargePerHour { get; set; }
-
 
         public int? UserId { get; set; }
     }
@@ -281,44 +268,33 @@ namespace DashmixMockups.Data
     {
         public int Id { get; set; }
 
-
         public int TicketId { get; set; }
-
 
         public byte Status { get; set; }
         public string StatusBadge { get; set; }
 
-
         public DateTime ContactDate { get; set; }
-
 
         public DateTime? NextContactDate { get; set; }
 
-
         public string SolutionNotes { get; set; }
-
 
         public int SolutionUserId { get; set; }
 
-
         public int? CreateUserId { get; set; }
-
 
         public DateTime? CreatedOnUtc { get; set; }
 
-
         public int? UpdateUserId { get; set; }
-
 
         public DateTime? UpdatedOnUtc { get; set; }
 
-
         public double? SolutionRealTime { get; set; }
-
 
         public bool IsRemote { get; set; }
         public User User { get; set; }
     }
+
     public enum TicketFilters
     {
         OpenTickets,

@@ -4,8 +4,6 @@
     ViewData["Title"] = "Εκδήλωση Ενδιαφέροντος";
 }
 
-
-
 <main id="main-container">
     <!-- Page Content -->
     <div class="row g-0 justify-content-center bg-body-dark">
@@ -17,60 +15,55 @@
                         <div class="block-content block-content-full px-lg-5 py-md-5 py-lg-6">
                             <!-- Header -->
                             <div class="mb-2 text-center">
-                                <a class="link-fx fw-bold fs-1" href="index.html">
-                                    <span class="text-dark">Dash</span><span class="text-primary">mix</span>
+                                <a class="link-fx fw-bold fs-1" asp-controller="Home" asp-action="Index">
+                                    <span class="text-dark">Intelli</span><span class="text-primary">Tickets</span>
                                 </a>
-                                <p class="text-uppercase fw-bold fs-sm text-muted">Create New Account</p>
+                                <p class="text-uppercase fw-bold fs-sm text-muted">Εκδήλωση Ενδιαφέροντος</p>
                             </div>
-                            @if (Model.SuccessfullySent)
-                            {
+                            @if (Model.SuccessfullySent) {
                                 <div class="alert alert-success d-flex align-items-center" role="alert">
-                                    <div class="flex-00-auto">
+                                    <div class="flex-shrink-0">
                                         <i class="fa fa-fw fa-check"></i>
                                     </div>
-                                    <div class="flex-fill ml-3">
+                                    <div class="flex-grow-1 ms-3">
                                         <p class="mb-0"> @Model.Result</p>
                                     </div>
                                 </div>
-                            }
-                            else
-                            {
+                            } else {
                                 <form class="js-validation-signup" asp-controller="Account" asp-action="EkdilosiEndiaferonts" method="post">
 
                                     <div class="mb-4">
                                         <label asp-for="Name"></label>
-                                        <input type="text" class="form-control form-control-alt" asp-for="Name" placeholder="Name">
+                                        <input type="text" class="form-control form-control-alt" asp-for="Name">
                                         <span asp-validation-for="Name" class="text-danger"></span>
                                     </div>
                                     <div class="mb-4">
                                         <label asp-for="SurName"></label>
-                                        <input type="text" class="form-control form-control-alt" asp-for="SurName" placeholder="SurName">
+                                        <input type="text" class="form-control form-control-alt" asp-for="SurName">
                                         <span asp-validation-for="SurName" class="text-danger"></span>
                                     </div>
                                     <div class="mb-4">
                                         <label asp-for="Email"></label>
-                                        <input type="text" class="form-control form-control-alt" asp-for="Email" placeholder="Email">
+                                        <input type="text" class="form-control form-control-alt" asp-for="Email">
                                         <span asp-validation-for="Email" class="text-danger"></span>
                                     </div>
                                     <div class="mb-4">
                                         <label asp-for="Phone"></label>
-                                        <input type="text" class="form-control form-control-alt" asp-for="Phone" placeholder="Phone">
+                                        <input type="text" class="form-control form-control-alt" asp-for="Phone">
                                         <span asp-validation-for="Phone" class="text-danger"></span>
                                     </div>
 
                                     <div class="mb-4">
-                                        <label asp-for="Issue">Text</label>
+                                        <label asp-for="Issue"></label>
                                         <textarea class="form-control form-control-alt" asp-for="Issue" rows="4" placeholder="Πληκτρολογήστε το αίτημά σας..."></textarea>
                                         <span asp-validation-for="Issue" class="text-danger"></span>
                                     </div>
 
                                     <div class="mb-4">
                                         <a href="#" data-bs-toggle="modal" data-bs-target="#modal-terms">Όροι Χρήσης</a>
-                                       <br/> <a href="javascript:void(0)" id="test-load">Τεστ</a>
-                                       <br/> <a href="javascript:void(0)" class="mitsos">Τεστ2</a>
                                         <div class="form-check">
                                             <input type="checkbox" class="form-check-input" id="signup-terms" name="signup-terms">
-                                            <label class="form-check-label" for="signup-terms">I agree</label>
+                                            <label class="form-check-label" for="signup-terms">Συμφωνώ</label>
                                         </div>
                                     </div>
 
@@ -103,65 +96,46 @@
             </div>
             <!-- END Sign Up Block -->
         </div>
-        
-        <div id="ticket-details">
 
-        </div>
+        <modal id="modal-terms" size="lg" center="true" title="Όροι Χρήσης">
+            <modal-body>
+                <p>Potenti elit lectus augue eget iaculis vitae etiam, ullamcorper etiam bibendum ad feugiat magna accumsan dolor, 
+                    nibh molestie cras hac ac ad massa, fusce ante convallis ante urna molestie vulputate bibendum tempus ante justo 
+                    arcu erat accumsan adipiscing risus, libero condimentum venenatis sit nisl nisi ultricies sed, fames aliquet consectetur 
+                    consequat nostra molestie neque nullam scelerisque neque commodo turpis quisque etiam egestas vulputate massa, curabitur 
+                    tellus massa venenatis congue dolor enim integer luctus, nisi suscipit gravida fames quis vulputate nisi viverra luctus 
+                    id leo dictum lorem, inceptos nibh orci.</p>
+                <p>Potenti elit lectus augue eget iaculis vitae etiam, ullamcorper etiam bibendum ad feugiat magna accumsan dolor, 
+                    nibh molestie cras hac ac ad massa, fusce ante convallis ante urna molestie vulputate bibendum tempus ante justo 
+                    arcu erat accumsan adipiscing risus, libero condimentum venenatis sit nisl nisi ultricies sed, fames aliquet consectetur 
+                    consequat nostra molestie neque nullam scelerisque neque commodo turpis quisque etiam egestas vulputate massa, 
+                    curabitur tellus massa venenatis congue dolor enim integer luctus, nisi suscipit gravida fames quis vulputate nisi 
+                    viverra luctus id leo dictum lorem, inceptos nibh orci.</p>
+            </modal-body>
+        </modal>
 
-        <!-- Terms Modal -->
-        <div class="modal fade" id="modal-terms" tabindex="-1" role="dialog" aria-labelledby="modal-terms" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
-                    <div class="block block-themed block-transparent mb-0">
-                        <div class="block-header bg-primary-dark">
-                            <h3 class="block-title">Terms &amp; Conditions</h3>
-                            <div class="block-options">
-                                <button type="button" class="btn-block-option" data-bs-dismiss="modal" aria-label="Close">
-                                    <i class="fa fa-fw fa-times"></i>
-                                </button>
-                            </div>
-                        </div>
-                        <div class="block-content">
-                            <p>Potenti elit lectus augue eget iaculis vitae etiam, ullamcorper etiam bibendum ad feugiat magna accumsan dolor, nibh molestie cras hac ac ad massa, fusce ante convallis ante urna molestie vulputate bibendum tempus ante justo arcu erat accumsan adipiscing risus, libero condimentum venenatis sit nisl nisi ultricies sed, fames aliquet consectetur consequat nostra molestie neque nullam scelerisque neque commodo turpis quisque etiam egestas vulputate massa, curabitur tellus massa venenatis congue dolor enim integer luctus, nisi suscipit gravida fames quis vulputate nisi viverra luctus id leo dictum lorem, inceptos nibh orci.</p>
-                            <p>Potenti elit lectus augue eget iaculis vitae etiam, ullamcorper etiam bibendum ad feugiat magna accumsan dolor, nibh molestie cras hac ac ad massa, fusce ante convallis ante urna molestie vulputate bibendum tempus ante justo arcu erat accumsan adipiscing risus, libero condimentum venenatis sit nisl nisi ultricies sed, fames aliquet consectetur consequat nostra molestie neque nullam scelerisque neque commodo turpis quisque etiam egestas vulputate massa, curabitur tellus massa venenatis congue dolor enim integer luctus, nisi suscipit gravida fames quis vulputate nisi viverra luctus id leo dictum lorem, inceptos nibh orci.</p>
-                        </div>
-                        <div class="block-content block-content-full text-end bg-body">
-                            <button type="button" class="btn btn-sm btn-primary" data-bs-dismiss="modal">Done</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        @*<modal title="Όροι Χρήσης" id="modal-terms" type="center">
-                <modal-body>Οι όροι χρήσης</modal-body>
-                <modal-footer dismiss-text="Δεν Συμφωνώ" ok-text="Συμφωνώ"></modal-footer>
-            </modal>*@
-        <!-- END Terms Modal -->
     </div>
     <!-- END Page Content -->
 </main>
+
 @section AfterContent{
     <script>
 
-        $(document).ready(function(){
-           
-            $("#test-load").on("click", function() {
-                $.ajax({
-                    url: "/Tickets/Details/36",
-                    context: $("#ticket-details")//document.body
-                }).done(function(data)
+        $(document).ready(function()
+        {
+            $("#test-load").on("click",
+                function()
                 {
-                    $(this).html(data);
-                    Dashmix.init();
+                    $.ajax({
+                        url : "/Tickets/Details/36",
+                        context : $("#ticket-details") //document.body
+                    }).done(function(data)
+                    {
+                        $(this).html(data);
+                        Dashmix.init();
+                    });
                 });
-            });
-
-           
         });
 
     </script>
 }
-
-
-

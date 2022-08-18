@@ -8,8 +8,240 @@ namespace DashmixMockups.Factories
 {
     public static class FakeTicketFactory
     {
+        #region Fields
+
         private const int numToSeed = 100;
         private static Randomizer _random = new Randomizer();
+
+        #endregion
+
+        #region Methods
+
+        public static List<Store> ClientStores (int clientId) {
+            var storeIds = 1;
+            var storeFaker = new Faker<Store>("el")
+                .StrictMode(false)
+
+                //.UseSeed(1122)
+                .RuleFor(d => d.Id, f => storeIds++)
+                .RuleFor(d => d.ClientId, f => clientId)
+                .RuleFor(d => d.IsPrime, f => storeIds - 1 == 1)
+                .RuleFor(d => d.Description, f => f.Company.CompanyName())
+                .RuleFor(d => d.IsActive, f => true)
+                .RuleFor(d => d.EasyComId, f => f.Random.Int(400, 500));
+
+            //Stores = 
+            return storeFaker.Generate(_random.Number(1, 5));
+        }
+
+        public static void ClientProducts (Client client) {
+            var clientProductIds = 1;
+            var clientProducts = new List<ClientProduct>();
+
+            var productIds = 1;
+            var prdTitles = new FakeData().Products;
+            var productFaker = new Faker<Product>("el")
+                .StrictMode(false)
+
+                //.UseSeed(1122)
+                .RuleFor(d => d.Id, f => productIds++)
+                .RuleFor(d => d.Description, f => f.PickRandom(prdTitles));
+
+            var products = productFaker.Generate(_random.Number(1, 5));
+
+            foreach (var prd in products) {
+                clientProducts.Add(
+                    new ClientProduct {
+                        Id = clientProductIds++,
+                        ClientId = client.Id,
+                        ProductId = prd.Id
+                    });
+            }
+
+            client.Products = products;
+        }
+
+        public static Client GetClient() {
+            var clientIds = 1;
+            var clientFaker = new Faker<Client>("el")
+                .StrictMode(false)
+
+                //.UseSeed(1122)
+                .RuleFor(d => d.Id, f => clientIds++)
+                .RuleFor(d => d.Name, f => f.Company.CompanyName())
+                .RuleFor(d => d.ContactName, f => f.Person.FirstName + " " + f.Person.LastName)
+                .RuleFor(d => d.PhoneNumber1, f => f.Person.Phone)
+                .RuleFor(d => d.ContactEmail, f => f.Person.Email)
+                .RuleFor(d => d.Stores, f => ClientStores(clientIds - 1))
+                .RuleFor(o => o.Image, f => f.Internet.Avatar());
+
+            var clients = clientFaker.Generate();
+            ClientProducts(clients);
+            ClientUsers(clients.Id);
+
+            return clients;
+        }
+
+        public static Contract ClientProductContract (int clientId, int productId) {
+            var contractIds = 1;
+            var contractFaker = new Faker<Contract>("el")
+                .StrictMode(false)
+
+                //.UseSeed(1122)
+                .RuleFor(d => d.Id, f => contractIds++)
+                .RuleFor(d => d.ClientId, f => clientId)
+                .RuleFor(d => d.ProductId, f => productId)
+                .RuleFor(d => d.Description, f => f.PickRandom(IntelliContracts))
+                .RuleFor(d => d.FromDate, f => f.Date.PastOffset(1, DateTime.Now).Date)
+                .RuleFor(d => d.ToDate, f => f.Date.FutureOffset(1, DateTime.Now).Date)
+                .RuleFor(d => d.FreeHours, f => f.Random.Int(1, 6))
+                .RuleFor(d => d.ChargePerHour, f => f.Random.Int(50, 80))
+                .RuleFor(d => d.IsActive, f => true)
+                .RuleFor(d => d.EasyComId, f => f.Random.Int(400, 500));
+
+            return contractFaker.Generate();
+        }
+
+        public static List<Post> SetTicketPosts (int ticketId) {
+            var postIds = 1;
+            var postFake = new Faker<Post>("el")
+                .StrictMode(false)
+
+                //.UseSeed(1122)
+                .RuleFor(d => d.Id, f => postIds++)
+                .RuleFor(d => d.TicketId, f => ticketId)
+                .RuleFor(d => d.StatusBadge, f => f.PickRandom(PostStatus))
+                .RuleFor(d => d.CreatedOnUtc, f => f.Date.PastOffset(3, DateTime.Now).Date)
+                .RuleFor(d => d.UpdatedOnUtc, f => f.Date.PastOffset(3, DateTime.Now).Date)
+                .RuleFor(d => d.ContactDate, f => f.Date.PastOffset(3, DateTime.Now).Date)
+                .RuleFor(d => d.NextContactDate, f => f.Date.PastOffset(3, DateTime.Now).Date)
+                .RuleFor(d => d.SolutionNotes, f => f.Lorem.Paragraphs(_random.Number(1, 3)))
+                .RuleFor(d => d.SolutionRealTime, f => _random.Double(1, 6));
+            return postFake.Generate(_random.Number(3, 15));
+        }
+
+        public static List<User> SetUsers (int min = 1, int max = 15, int? clientId = null) {
+            var userIds = 1;
+            var userFaker = new Faker<User>("el")
+                .StrictMode(false)
+
+                //.UseSeed(1122)
+                .RuleFor(d => d.Id, f => userIds++)
+                .RuleFor(d => d.ClientId, f => clientId)
+                .RuleFor(d => d.FirstName, f => f.Person.FirstName)
+                .RuleFor(d => d.LastName, f => f.Person.LastName)
+                .RuleFor(d => d.Email, f => f.Person.Email)
+                .RuleFor(d => d.LoginName, f => f.Person.UserName)
+                .RuleFor(d => d.IsActive, true)
+                .RuleFor(d => d.Image, f => f.Internet.Avatar())
+                .RuleFor(d => d.CreatedOnUtc, f => f.Date.PastOffset(3, DateTime.Now).Date)
+                .RuleFor(d => d.UpdatedOnUtc, f => f.Date.PastOffset(3, DateTime.Now).Date);
+
+            return userFaker.Generate(_random.Number(min, max));
+        }
+
+        public static Faker<User> SetUser (int? clientId = null) {
+            var userIds = 1;
+            var userFaker = new Faker<User>("el")
+                .StrictMode(false)
+
+                //.UseSeed(1122)
+                .RuleFor(d => d.Id, f => userIds++)
+                .RuleFor(d => d.ClientId, f => clientId)
+                .RuleFor(d => d.FirstName, f => f.Person.FirstName)
+                .RuleFor(d => d.LastName, f => f.Person.LastName)
+                .RuleFor(d => d.Email, f => f.Person.Email)
+                .RuleFor(d => d.LoginName, f => f.Person.UserName)
+                .RuleFor(d => d.IsActive, true)
+                .RuleFor(d => d.Image, f => f.Internet.Avatar())
+                .RuleFor(d => d.CreatedOnUtc, f => f.Date.PastOffset(3, DateTime.Now).Date)
+                .RuleFor(d => d.UpdatedOnUtc, f => f.Date.PastOffset(3, DateTime.Now).Date);
+
+            return userFaker;
+        }
+
+        public static List<Ticket> GenerateTickets (int ticketNum) {
+            var ticketIds = 1;
+            var ticketFaker = new Faker<Ticket>("el")
+                .StrictMode(false)
+
+                //.UseSeed(1122)
+                .RuleFor(d => d.Id, f => ticketIds++)
+                .RuleFor(d => d.Title, f => f.Commerce.ProductName())
+
+                // .RuleFor(d => d.TicketDate, f => f.Date.PastOffset(3, DateTime.Now).Date)
+                .RuleFor(
+                    d => d.TicketDate,
+                    f => {
+                        var date = f.Date.PastOffset(3, DateTime.Now).Date;
+                        return date.AddMinutes(_random.Number(350));
+                    })
+                .RuleFor(d => d.SupportHours, f => f.Random.Int(4, 12))
+                .RuleFor(d => d.FreeSupportHours, f => f.Random.Int(1, 12))
+                .RuleFor(d => d.StatusBadget, f => f.PickRandom(Badge))
+                .RuleFor(d => d.ChargePerHour, f => f.PickRandom(PricePerHour))
+                .RuleFor(d => d.PriorityId, f => f.Random.Int(1, 4))
+                .RuleFor(d => d.Priority, f => f.PickRandom(Priority))
+                .RuleFor(d => d.ProblemTypeId, f => f.Random.Int(1, 19))
+                .RuleFor(d => d.ProblemType, f => f.PickRandom(ProblemTypes))
+                .RuleFor(d => d.IncomingTypeId, f => f.Random.Int(1, 4))
+                .RuleFor(d => d.IncomingType, f => f.PickRandom(IncomingTypes));
+
+            return ticketFaker.Generate(ticketNum);
+        }
+
+        public static List<Ticket> GetSomeTickets (int num) {
+            var random = new Random();
+            var tickets = GenerateTickets(num);
+
+            foreach (var tic in tickets) {
+                var client = GetClient();
+                tic.ClientId = client.Id;
+                tic.Client = client;
+
+                var clientUsers = TicketUsers(client.Id);
+                tic.Client.Users = clientUsers;
+
+                int productIndex = random.Next(tic.Client.Products.Count);
+                var product = client.Products[productIndex];
+                tic.Product = product;
+                tic.ProductId = product.Id;
+
+                var contract = ClientProductContract(tic.ClientId, tic.ProductId);
+                tic.ContractId = contract.Id;
+                tic.Contract = contract;
+
+                int storeIndex = random.Next(tic.Client.Stores.Count);
+                var store = client.Stores[storeIndex];
+
+                tic.StoreId = store.Id;
+                tic.Store = store;
+
+                var posts = SetTicketPosts(tic.Id);
+                tic.Posts = posts;
+
+                var users = TicketUsers(tic.Id);
+                tic.Users = users;
+                tic.SolutionUser = users.FirstOrDefault();
+                tic.SolutionUserId = users.FirstOrDefault()?.Id;
+            }
+
+            return tickets;
+        }
+
+        #endregion
+
+        #region Privates
+
+        private static List<User> ClientUsers (int id) {
+            return SetUsers(1, _random.Number(2, 5), id);
+        }
+
+        private static List<User> TicketUsers (int id) {
+            return SetUsers(5, _random.Number(6, 15), id);
+        }
+
+        #endregion
 
         #region Custom Lists
 
@@ -132,225 +364,5 @@ namespace DashmixMockups.Factories
         };
 
         #endregion
-
-        public static List<Store> ClientStores (int clientId) {
-            var storeIds = 1;
-            var storeFaker = new Faker<Store>("el")
-                .StrictMode(false)
-                //.UseSeed(1122)
-                .RuleFor(d => d.Id, f => storeIds++)
-                .RuleFor(d => d.ClientId, f => clientId)
-                .RuleFor(d => d.IsPrime, f => storeIds - 1 == 1)
-                .RuleFor(d => d.Description, f => f.Company.CompanyName())
-                .RuleFor(d => d.IsActive, f => true)
-                .RuleFor(d => d.EasyComId, f => f.Random.Int(400, 500));
-
-            //Stores = 
-            return storeFaker.Generate(_random.Number(1, 5));
-        }
-
-        public static void ClientProducts (Client client) {
-            var clientProductIds = 1;
-            var clientProducts = new List<ClientProduct>();
-
-            var productIds = 1;
-            var prdTitles = new FakeData().Products;
-           var productFaker = new Faker<Product>("el")
-                .StrictMode(false)
-                //.UseSeed(1122)
-                .RuleFor(d => d.Id, f => productIds++)
-                .RuleFor(d => d.Description, f => f.PickRandom(prdTitles));
-
-            var products = productFaker.Generate(_random.Number(1, 5));
-
-            foreach (var prd in products) {
-                clientProducts.Add(
-                    new ClientProduct {
-                        Id = clientProductIds++,
-                        ClientId = client.Id,
-                        ProductId = prd.Id
-                    });
-            }
-
-            client.Products = products;
-        }
-
-        public static Client GetClient() {
-            var clientIds = 1;
-            var clientFaker = new Faker<Client>("el")
-                .StrictMode(false)
-                //.UseSeed(1122)
-                .RuleFor(d => d.Id, f => clientIds++)
-                .RuleFor(d => d.Name, f => f.Company.CompanyName())
-                .RuleFor(d => d.ContactName, f => f.Person.FirstName + " " + f.Person.LastName)
-                .RuleFor(d => d.PhoneNumber1, f => f.Person.Phone)
-                .RuleFor(d => d.ContactEmail, f => f.Person.Email)
-                .RuleFor(d => d.Stores, f => ClientStores(clientIds - 1))
-                .RuleFor(o => o.Image, f => f.Internet.Avatar());
-
-            var clients = clientFaker.Generate();
-            ClientProducts(clients);
-            ClientUsers(clients.Id);
-
-            return clients;
-        }
-
-        private static List<User> ClientUsers (int id) {
-           return SetUsers(1, _random.Number(2, 5), id);
-        }
-
-        private static List<User> TicketUsers(int id)
-        {
-            return SetUsers(5, _random.Number(6, 15), id);
-        }
-
-        public static Contract ClientProductContract (int clientId, int productId) {
-            var contractIds = 1;
-            var contractFaker = new Faker<Contract>("el")
-                .StrictMode(false)
-                //.UseSeed(1122)
-                .RuleFor(d => d.Id, f => contractIds++)
-                .RuleFor(d => d.ClientId, f => clientId)
-                .RuleFor(d => d.ProductId, f => productId)
-                .RuleFor(d => d.Description, f => f.PickRandom(IntelliContracts))
-                .RuleFor(d => d.FromDate, f => f.Date.PastOffset(1, DateTime.Now).Date)
-                .RuleFor(d => d.ToDate, f => f.Date.FutureOffset(1, DateTime.Now).Date)
-                .RuleFor(d => d.FreeHours, f => f.Random.Int(1, 6))
-                .RuleFor(d => d.ChargePerHour, f => f.Random.Int(50, 80))
-                .RuleFor(d => d.IsActive, f => true)
-                .RuleFor(d => d.EasyComId, f => f.Random.Int(400, 500));
-
-            return contractFaker.Generate();
-        }
-
-        public static List<Post> SetTicketPosts(int ticketId)
-        {
-            var postIds = 1;
-            var postFake = new Faker<Post>("el")
-                .StrictMode(false)
-
-                //.UseSeed(1122)
-                .RuleFor(d => d.Id, f => postIds++)
-                .RuleFor(d => d.TicketId, f => ticketId)
-                .RuleFor(d => d.StatusBadge, f => f.PickRandom(PostStatus))
-                .RuleFor(d => d.CreatedOnUtc, f => f.Date.PastOffset(3, DateTime.Now).Date)
-                .RuleFor(d => d.UpdatedOnUtc, f => f.Date.PastOffset(3, DateTime.Now).Date)
-                .RuleFor(d => d.ContactDate, f => f.Date.PastOffset(3, DateTime.Now).Date)
-                .RuleFor(d => d.NextContactDate, f => f.Date.PastOffset(3, DateTime.Now).Date)
-                .RuleFor(d => d.SolutionNotes, f => f.Lorem.Paragraphs(_random.Number(1, 3)))
-                .RuleFor(d => d.SolutionRealTime, f => _random.Double(1, 6));
-            return postFake.Generate(_random.Number(3, 15));
-        }
-
-        public static List<User> SetUsers(int min=1, int max=15, int? clientId=null)
-        {
-            var userIds = 1;
-            var userFaker = new Faker<User>("el")
-                .StrictMode(false)
-
-                //.UseSeed(1122)
-                .RuleFor(d => d.Id, f => userIds++)
-                .RuleFor(d => d.ClientId, f => clientId)
-                .RuleFor(d => d.FirstName, f => f.Person.FirstName)
-                .RuleFor(d => d.LastName, f => f.Person.LastName)
-                .RuleFor(d => d.Email, f => f.Person.Email)
-                .RuleFor(d => d.LoginName, f => f.Person.UserName)
-                .RuleFor(d => d.IsActive, true)
-                .RuleFor(d => d.Image, f => f.Internet.Avatar())
-
-                .RuleFor(d => d.CreatedOnUtc, f => f.Date.PastOffset(3, DateTime.Now).Date)
-                .RuleFor(d => d.UpdatedOnUtc, f => f.Date.PastOffset(3, DateTime.Now).Date);
-
-            return userFaker.Generate(_random.Number(min, max));
-        }
-
-        public static Faker<User> SetUser(int? clientId = null)
-        {
-            var userIds = 1;
-            var userFaker = new Faker<User>("el")
-                .StrictMode(false)
-
-                //.UseSeed(1122)
-                .RuleFor(d => d.Id, f => userIds++)
-                .RuleFor(d => d.ClientId, f => clientId)
-                .RuleFor(d => d.FirstName, f => f.Person.FirstName)
-                .RuleFor(d => d.LastName, f => f.Person.LastName)
-                .RuleFor(d => d.Email, f => f.Person.Email)
-                .RuleFor(d => d.LoginName, f => f.Person.UserName)
-                .RuleFor(d => d.IsActive, true)
-                .RuleFor(d => d.Image, f => f.Internet.Avatar())
-
-                .RuleFor(d => d.CreatedOnUtc, f => f.Date.PastOffset(3, DateTime.Now).Date)
-                .RuleFor(d => d.UpdatedOnUtc, f => f.Date.PastOffset(3, DateTime.Now).Date);
-
-            return userFaker;
-        }
-
-        public static List<Ticket> GenerateTickets (int ticketNum) {
-            var ticketIds = 1;
-            var ticketFaker = new Faker<Ticket>("el")
-                .StrictMode(false)
-
-                //.UseSeed(1122)
-                .RuleFor(d => d.Id, f => ticketIds++)
-                .RuleFor(d => d.Title, f => f.Commerce.ProductName())
-               // .RuleFor(d => d.TicketDate, f => f.Date.PastOffset(3, DateTime.Now).Date)
-                .RuleFor(d => d.TicketDate, f => {
-                    var date = f.Date.PastOffset(3, DateTime.Now).Date;
-                    return date.AddMinutes(_random.Number(350));
-                })
-                .RuleFor(d => d.SupportHours, f => f.Random.Int(4, 12))
-                .RuleFor(d => d.FreeSupportHours, f => f.Random.Int(1, 12))
-                .RuleFor(d => d.StatusBadget, f => f.PickRandom(Badge))
-                .RuleFor(d => d.ChargePerHour, f => f.PickRandom(PricePerHour))
-                .RuleFor(d => d.PriorityId, f => f.Random.Int(1, 4))
-                .RuleFor(d => d.Priority, f => f.PickRandom(Priority))
-                .RuleFor(d => d.ProblemTypeId, f => f.Random.Int(1, 19))
-                .RuleFor(d => d.ProblemType, f => f.PickRandom(ProblemTypes))
-                .RuleFor(d => d.IncomingTypeId, f => f.Random.Int(1, 4))
-                .RuleFor(d => d.IncomingType, f => f.PickRandom(IncomingTypes));
-                
-
-            return ticketFaker.Generate(ticketNum);
-        }
-
-        public static List<Ticket> GetSomeTickets (int num) {
-            var random = new Random();
-            var tickets = GenerateTickets(num);
-
-            foreach (var tic in tickets) {
-                var client = GetClient();
-                tic.ClientId = client.Id;
-                tic.Client = client;
-
-                var clientUsers = TicketUsers(client.Id);
-                tic.Client.Users = clientUsers;
-
-                int productIndex = random.Next(tic.Client.Products.Count);
-                var product = client.Products[productIndex];
-                tic.Product = product;
-                tic.ProductId = product.Id;
-
-                var contract = ClientProductContract(tic.ClientId, tic.ProductId);
-                tic.ContractId = contract.Id;
-                tic.Contract = contract;
-
-                int storeIndex = random.Next(tic.Client.Stores.Count);
-                var store = client.Stores[storeIndex];
-
-                tic.StoreId = store.Id;
-                tic.Store = store;
-
-                var posts = SetTicketPosts(tic.Id);
-                tic.Posts = posts;
-
-                var users = TicketUsers(tic.Id);
-                tic.Users = users;
-                tic.SolutionUser = users.FirstOrDefault();
-                tic.SolutionUserId = users.FirstOrDefault()?.Id;
-            }
-
-            return tickets;
-        }
     }
 }

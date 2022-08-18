@@ -1,5 +1,3 @@
-using System;
-
 namespace DashmixMockups.Models
 {
     public class ErrorViewModel

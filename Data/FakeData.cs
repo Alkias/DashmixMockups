@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace DashmixMockups.Data
+﻿namespace DashmixMockups.Data
 {
     public class FakeData
     {
@@ -223,6 +218,7 @@ namespace DashmixMockups.Data
                 "ΥΠΗΡΕΣΙΕΣ ΤΑΧΥΜΕΤΑΦΟΡΩΝ ΜΕ ΚΑΝΟΝΙΚΟ  ΦΠΑ"
             };
         }
+
         public string[] Products { get; set; }
     }
 }

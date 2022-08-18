@@ -11,7 +11,7 @@ Adding 'smini-visible' to an element will show it (display: inline-block) only w
 Adding 'smini-visible-block' to an element will show it (display: block) only when the sidebar is in mini mode
 -->
 <nav id="sidebar" aria-label="Main Navigation">
-    
+
     <!-- Side Header -->
     <div class="bg-header-dark">
         <div class="content-header bg-white-5">
@@ -20,7 +20,7 @@ Adding 'smini-visible-block' to an element will show it (display: block) only wh
                 <span class="smini-visible">I<span class="opacity-75">T</span></span>
                 <span class="smini-hidden">Intelli<span class="opacity-75">Tickets</span></span>
             </a>
-            <!-- END Logo -->
+
             <!-- Options -->
             <div>
                 <!-- Toggle Sidebar Style -->
@@ -31,7 +31,7 @@ Adding 'smini-visible-block' to an element will show it (display: block) only wh
                         onclick="Dashmix.layout('sidebar_style_toggle');Dashmix.layout('header_style_toggle');">
                     <i class="fa fa-toggle-off" id="sidebar-style-toggler"></i>
                 </button>
-                <!-- END Toggle Sidebar Style -->
+
                 <!-- Dark Mode -->
                 <!-- Layout API, functionality initialized in Template._uiApiLayout() -->
                 <button type="button" class="btn btn-sm btn-alt-secondary" data-toggle="class-toggle"
@@ -39,42 +39,38 @@ Adding 'smini-visible-block' to an element will show it (display: block) only wh
                         onclick="Dashmix.layout('dark_mode_toggle');">
                     <i class="far fa-moon" id="dark-mode-toggler"></i>
                 </button>
-                <!-- END Dark Mode -->
+
                 <!-- Close Sidebar, Visible only on mobile screens -->
                 <!-- Layout API, functionality initialized in Template._uiApiLayout() -->
                 <button type="button" class="btn btn-sm btn-alt-secondary d-lg-none" data-toggle="layout"
                         data-action="sidebar_close">
                     <i class="fa fa-times-circle"></i>
                 </button>
-                <!-- END Close Sidebar -->
+
             </div>
-            <!-- END Options -->
+
         </div>
     </div>
 
-
-
-
+    <!-- Main Application Menu-->
     <div class="js-sidebar-scroll">
         <div class="content-side">
             <ul class="nav-main">
                 <li class="nav-main-item">
                     <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="false" href="#">
                         <i class="nav-main-link-icon fa fa-clone"></i>
-                        <span class="nav-main-link-name">Admin</span>
+                        <span class="nav-main-link-name">Αιτήματα</span>
                     </a>
                     <ul class="nav-main-submenu">
-                        @if (User.IsInRole("Stelexos"))
-                        {
+                        @if (User.IsInRole("Stelexos")) {
                             <li class="nav-main-item">
-                                <a class="nav-main-link" href="/Admin/Orders">
-                                    <span class="nav-main-link-name">Orders</span>
+                                <a class="nav-main-link" asp-controller="Home" asp-action="Stelexos">
+                                    <span class="nav-main-link-name">Αιτήματα</span>
                                 </a>
                             </li>
                         }
 
-                        @if (User.IsInRole("User"))
-                        {
+                        @if (User.IsInRole("User")) {
                             <li class="nav-main-item">
                                 <a class="nav-main-link" href="/Admin/Products">
                                     <span class="nav-main-link-name">Products</span>

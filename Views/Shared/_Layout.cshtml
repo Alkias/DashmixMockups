@@ -18,11 +18,11 @@
 
 <body>
     <!-- Page Container -->
-    <div id="page-container" class="sidebar-o sidebar-dark enable-page-overlay side-scroll page-header-fixed">
+    <div id="page-container" class="sidebar-o sidebar-dark  side-scroll page-header-fixed">
 
         @await Html.PartialAsync("_SideOverlay")
         @await Html.PartialAsync("_Sidebar")
-        @await Html.PartialAsync("_Header")
+        @await Html.PartialAsync("_PageHeader")
 
         <main id="main-container">
             @RenderBody()
