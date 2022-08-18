@@ -33,6 +33,7 @@ namespace DashmixMockups
             services.Configure<RazorViewEngineOptions>(options =>
             {
                 //options.PageViewLocationFormats.Add("/Views/{1}/Partials/{0}" + RazorViewEngine.ViewExtension);
+                options.ViewLocationFormats.Add("/Views/Shared/Partials/{0}" + RazorViewEngine.ViewExtension);
                 options.ViewLocationFormats.Add("/Views/{1}/Partials/{0}" + RazorViewEngine.ViewExtension);
             });
 

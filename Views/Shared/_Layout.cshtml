@@ -3,91 +3,51 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>@ViewData["Title"] - SportStoreAutoFac</title>
+    <title>@ViewData["Title"] - Dashmix 5</title>
 
     <link rel="shortcut icon" href="~/favicon.ico">
     <link rel="icon" type="image/png" sizes="192x192" href="~/favicon.ico">
 
-
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
 
     @RenderSection("BeforeStyles", required: false)
-
-
-    <link rel="stylesheet" id="css-main" href="~/css/dashmix.css">
+    <link rel="stylesheet" id="css-main" href="~/css/dashmix.min.css">
     <link rel="stylesheet" id="css-main" href="~/css/custom.css">
-
     @RenderSection("AfterStyles", required: false)
-
 </head>
 
 <body>
     <!-- Page Container -->
-<div id="page-container" class="sidebar-o sidebar-dark enable-page-overlay side-scroll page-header-fixed">
+    <div id="page-container" class="sidebar-o sidebar-dark enable-page-overlay side-scroll page-header-fixed">
 
-    @await Html.PartialAsync("Partials/_Sidebar.cshtml")
-    @await Html.PartialAsync("Partials/_Header.cshtml")
+        @await Html.PartialAsync("_SideOverlay")
+        @await Html.PartialAsync("_Sidebar")
+        @await Html.PartialAsync("_Header")
 
-    <main id="main-container">
-        @RenderBody()
-    </main>
-    <!-- Footer -->
-    <footer id="page-footer" class="bg-body-light">
-        <div class="content py-0">
-            <div class="row font-size-sm">
-                <div class="col-sm-6 order-sm-2 mb-1 mb-sm-0 text-center text-sm-right">
-                    Crafted with <i class="fa fa-heart text-danger"></i> by <a class="font-w600" href="https://1.envato.market/ydb" target="_blank">IntelliSoft</a>
-                </div>
-                <div class="col-sm-6 order-sm-1 text-center text-sm-left">
-                    <a class="font-w600" href="https://1.envato.market/r6y" target="_blank">IntelliTickets 1.0</a> &copy; <span data-toggle="year-copy"></span>
+        <main id="main-container">
+            @RenderBody()
+        </main>
+        <!-- Footer -->
+        <footer id="page-footer" class="bg-body-light">
+            <div class="content py-0">
+                <div class="row fs-sm">
+                    <div class="col-sm-6 order-sm-2 mb-1 mb-sm-0 text-center text-sm-end">
+                        Crafted with <i class="fa fa-heart text-danger"></i> by <a class="fw-semibold" href="https://1.envato.market/ydb" target="_blank">pixelcave</a>
+                    </div>
+                    <div class="col-sm-6 order-sm-1 text-center text-sm-start">
+                        <a class="fw-semibold" href="https://1.envato.market/r6y" target="_blank">Dashmix 5.1</a> &copy; <span data-toggle="year-copy">2022</span>
+                    </div>
                 </div>
             </div>
-        </div>
-    </footer>
-</div>
+        </footer>
+    </div>
 
-    <script src="~/js/dashmix.core.min.js"></script>
     <script src="~/js/dashmix.app.min.js"></script>
 
-<!-- Page JS Plugins -->
-<script src="~/js/plugins/datatables/jquery.dataTables.min.js"></script>
-<script src="~/js/plugins/datatables/dataTables.bootstrap4.min.js"></script>
-<script src="~/js/plugins/datatables/buttons/dataTables.buttons.min.js"></script>
-<script src="~/js/plugins/datatables/buttons/buttons.print.min.js"></script>
-<script src="~/js/plugins/datatables/buttons/buttons.html5.min.js"></script>
-<script src="~/js/plugins/datatables/buttons/buttons.flash.min.js"></script>
-<script src="~/js/plugins/datatables/buttons/buttons.colVis.min.js"></script>
+    <!-- jQuery (required for jQuery Validation plugin) -->
+    <script src="~/js/lib/jquery.min.js"></script>
 
-<!-- Page JS Code -->
-@*<script src="~/js/pages/be_tables_datatables.min.js"></script>*@
-
-
-@RenderSection("AfterContent", required: false)
-
-
-<script>
-    jQuery(() => {
-        // Init full extra DataTable
-        jQuery('.js-dataTable-full-pagination').dataTable({
-            pagingType: "full_numbers",
-            pageLength: 10,
-            lengthMenu: [[5, 10, 20], [5, 10, 20]],
-            autoWidth: false
-        });
-
-        // Init simple DataTable
-        jQuery('.js-dataTable-simple').dataTable({
-            pageLength: 10,
-            lengthMenu: false,
-            searching: false,
-            autoWidth: false,
-            dom: "<'row'<'col-sm-12'tr>>" +
-                "<'row'<'col-sm-6'i><'col-sm-6'p>>"
-        });
-    })
-</script>
+    @RenderSection("AfterContent", required: false)
+    
 </body>
 </html>

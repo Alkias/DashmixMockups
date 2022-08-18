@@ -36,6 +36,10 @@ namespace DashmixMockups.TagHelpers
         /// </summary>
         public string Type { get; set; }
 
+        public string Size { get; set; }
+
+        public bool Center { get; set; }
+
         public override async Task ProcessAsync(TagHelperContext context, TagHelperOutput output)
         {
             var modalContext = new ModalContext();
@@ -57,86 +61,107 @@ namespace DashmixMockups.TagHelpers
 
             output.Attributes.SetAttribute("class", classNames);
 
-            var templateLargeTop =
-$@"<div class='modal-dialog modal-lg' role='document'>
-    <div class='modal-content'>
-        <div class='block block-themed block-transparent mb-0'>
-        
-            <div class='block-header bg-primary-dark'>
-	            <h3 class='block-title'>{Title}</h3>
-	            <div class='block-options'>
-		            <button type='button' class='btn-block-option' data-dismiss='modal' aria-label='Close'>
-			            <i class='fa fa-fw fa-times'></i>
-		            </button>
-	            </div>
-            </div>
-           
-            <div class='block-content'>
-                <div class='block-content block-content-full'>";
+            var sizeAndCenter = string.IsNullOrWhiteSpace(Size) ? "" : $" {SetSize()}";
+            sizeAndCenter += Center ? " modal-dialog-centered" : "";
 
-            var templateDefault =
-$@"<div class='modal-dialog modal-dialog-centered' role='document'>
-    <div class='modal-content'>
-            <div class='block-header'>
-	            <h5 class='block-title'>{Title}</h5>
-		            <button type='button' class='btn-block-option' data-dismiss='modal' aria-label='Close'>
-			            <i class='fa fa-fw fa-times'></i>
-		            </button>
-            </div>
-           
-            <div class='modal-body pb-1'>";
-
-            var templateCenter =
-$@"<div class='modal-dialog modal-dialog-centered' role='document'>
-    <div class='modal-content'>
-        <div class='block block-themed block-transparent mb-0'>
-        
-            <div class='block-header bg-primary-dark'>
-	            <h3 class='block-title'>{Title}</h3>
-	            <div class='block-options'>
-		            <button type='button' class='btn-block-option' data-dismiss='modal' aria-label='Close'>
-			            <i class='fa fa-fw fa-times'></i>
-		            </button>
-	            </div>
-            </div>
-           
-            <div class='block-content'>";
-
-            switch (Type) {
+            switch (Type)
+            {
                 case "default":
-                    output.Content.AppendHtml(templateDefault);
-                    break;
-                case "center":
-                    output.Content.AppendHtml(templateCenter);
+                    DefaultModal(modalContext, output, sizeAndCenter);
                     break;
                 default:
-                    output.Content.AppendHtml(templateLargeTop);
+                    NormalModal(modalContext, output, sizeAndCenter);
                     break;
             }
+        }
+
+        private string SetSize() {
+
+            var size = "";
+            switch (Size)
+            {
+                case "sm":
+                    size = "modal-sm";
+                    break;
+                case "lg":
+                    size = "modal-lg";
+                    break;
+                case "xl":
+                    size = " modal-xl";
+                    break;
+                default:
+                    size = "";
+                    break;
+            }
+
+            return size;
+        }
+
+        private void DefaultModal(ModalContext modalContext, TagHelperOutput output, string sizeAndCenter) {
+            var template = 
+    @$"<div class='modal-dialog{sizeAndCenter}' role='document'>
+	    <div class='modal-content'>
+		    <div class='modal-header'>
+			    <h5 class='modal-title'>{Title}</h5>
+			    <button type='button' class='btn-close' data-bs-dismiss='modal' aria-label='Close'></button>
+		    </div>
+		    <div class='modal-body pb-1'>";
+
+            output.Content.AppendHtml(template);
+            if (modalContext.Body != null) {
+                output.Content.AppendHtml(modalContext.Body);
+            }
+            output.Content.AppendHtml("</div>"); //modal-body
+
+            if (modalContext.Footer != null) {
+                output.Content.AppendHtml("<div class='modal-footer'>");
+                output.Content.AppendHtml(modalContext.Footer);
+                output.Content.AppendHtml("</div>");
+            }
+
+            output.Content.AppendHtml("</div>"); //modal-content
+            output.Content.AppendHtml("</div>"); //modal-dialog
+        }
+
+
+        private void NormalModal(ModalContext modalContext, TagHelperOutput output, string sizeAndCenter)
+        {
+            var template =
+            @$"<div class='modal-dialog{sizeAndCenter}' role='document'>
+            <div class='modal-content'>
+                <div class='block block-rounded block-themed block-transparent mb-0'>
+                    <div class='block-header bg-primary-dark'>
+                        <h3 class='block-title'>{Title}</h3>
+                        <div class='block-options'>
+                            <button type='button' class='btn-block-option' data-bs-dismiss='modal' aria-label='Close'>
+                                <i class='fa fa-fw fa-times'></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class='block-content'>";
+
+            output.Content.AppendHtml(template);
 
             if (modalContext.Body != null) {
                 output.Content.AppendHtml(modalContext.Body);
             }
 
-            if (Type != "default" && Type != "center")
-                output.Content.AppendHtml("</div>"); // block-content block-content-full
+            output.Content.AppendHtml("</div>"); //block-content
 
-            output.Content.AppendHtml("</div>"); // block-content
-
-            if (modalContext.Footer != null) {
-                output.Content.AppendHtml(Type != "default"
-                    ? "<div class='block-content block-content-full text-right bg-light'>"
-                    : "<div class='modal-footer'>");
+            if (modalContext.Footer != null)
+            {
+                output.Content.AppendHtml("<div class='modal-footer'>");
                 output.Content.AppendHtml(modalContext.Footer);
                 output.Content.AppendHtml("</div>");
             }
 
-            if (Type != "default")
-                output.Content.AppendHtml("</div>"); //block block-themed
+            output.Content.AppendHtml("</div>"); //block block-rounded
             output.Content.AppendHtml("</div>"); //modal-content
-            output.Content.AppendHtml("</div>"); //modal-dialog modal-lg
+            output.Content.AppendHtml("</div>"); //modal-dialog
         }
     }
+
+    
 
     /// <summary>
     /// The modal-body portion of a Bootstrap Dashmix modal dialog
@@ -176,16 +201,26 @@ $@"<div class='modal-dialog modal-dialog-centered' role='document'>
 
         public override async Task ProcessAsync(TagHelperContext context, TagHelperOutput output)
         {
+            /*
+<button type='button' class='btn btn-sm btn-alt-secondary' data-bs-dismiss='modal'>Close</button>
+<button type='button' class='btn btn-sm btn-primary' data-bs-dismiss='modal'>Done</button>
+             */
+
+            /*
+<button type='button' class='btn btn-sm btn-alt-secondary' data-bs-dismiss='modal'>Close</button>
+<button type='button' class='btn btn-sm btn-primary' data-bs-dismiss='modal'>Done</button>
+             */
+
             if (ShowDismiss) {
-                output.PreContent.AppendFormat(@"<button type='button' class='btn-sm btn-light' data-dismiss='modal'>{0}</button>", DismissText);
+                output.PreContent.AppendFormat(@"<button type='button' class='btn btn-sm btn-alt-secondary' data-bs-dismiss='modal'>{0}</button>", DismissText);
             }
             var childContent = await output.GetChildContentAsync();
 
             var footerContent = new DefaultTagHelperContent();
 
             if (ShowDismiss) 
-                footerContent.AppendFormat(@"<button type='button' class='btn-sm btn-light' data-dismiss='modal'>{0}</button> ", DismissText);
-            footerContent.AppendFormat(@"<button type='button' class='btn btn-sm btn-primary' data-dismiss='modal'>{0}</button>", OkText);
+                footerContent.AppendFormat(@"<button type='button' class='btn btn-sm btn-alt-secondary' data-bs-dismiss='modal'>{0}</button> ", DismissText);
+            footerContent.AppendFormat(@"<button type='button' class='btn btn-sm btn-primary' data-bs-dismiss='modal'>Done</button>", OkText);
             
             footerContent.AppendHtml(childContent);
             var modalContext = (ModalContext)context.Items[typeof(ModalTagHelper)];

@@ -14,21 +14,21 @@ namespace DashmixMockups.Factories
         #region Custom Lists
 
         public static string[] Badge = {
-            "badge-secondary,Open",
-            "badge-primary,In Progress",
-            "badge-success,To UAT",
-            "badge-info,Wait CR",
-            "badge-warning,Closed",
-            "badge-danger,Rejected"
+            "bg-secondary,Open",
+            "bg-primary,In Progress",
+            "bg-success,To UAT",
+            "bg-info,Wait CR",
+            "bg-warning,Closed",
+            "bg-danger,Rejected"
         };
 
         public static int[] PricePerHour = {40, 50, 60, 70};
 
         public static string[] Priority = {
-            "badge-info,Μικρή,yellow",
-            "badge-success,Μεσαία,green",
-            "badge-primary,Μεγάλη,blue",
-            "badge-danger,Επείγον,red",
+            "bg-info,Μικρή,yellow",
+            "bg-success,Μεσαία,green",
+            "bg-primary,Μεγάλη,blue",
+            "bg-danger,Επείγον,red",
         };
 
         public static string[] ProblemTypes = {
@@ -126,9 +126,9 @@ namespace DashmixMockups.Factories
         };
 
         public static string[] PostStatus = {
-            "badge-info,Open",
-            "badge-success,Wait Client",
-            "badge-primary,Closed"
+            "bg-info,Open",
+            "bg-success,Wait Client",
+            "bg-primary,Closed"
         };
 
         #endregion
