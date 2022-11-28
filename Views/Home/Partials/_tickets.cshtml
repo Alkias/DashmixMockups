@@ -1,11 +1,11 @@
-﻿@model List<Ticket>
+﻿@model TicketListModel
 
 <div class="scrll_hide">
-   @foreach(var tic in Model) {
+   @foreach(var tic in Model.Tickets) {
 
        <a class="list-group-item list-group-item-action" href="javascript:void(0)" id="t-@tic.Id">
            
-           <div class="row">
+           <div class="row items-push">
                <div class="col-1">
                    <i class="@tic.IncomingType.Split(",")[1] fa-2x"></i>
                </div>
