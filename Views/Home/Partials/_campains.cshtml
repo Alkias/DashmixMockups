@@ -1,0 +1,27 @@
+﻿@model CampainsListModel
+
+<div class="scrll_hide">
+   @foreach(var tic in Model.Campaigns) {
+
+       <a class="list-group-item list-group-item-action" href="javascript:void(0)" id="t-@tic.Id">
+           
+           <div class="row items-push">
+              @* <div class="col-1">
+                   <i class="@tic.IncomingType.Split(",")[1] fa-2x"></i>
+               </div>*@
+               <div class="col-11">
+
+                   <p class="font-size-h6 font-w700 mb-0">
+                       @tic.LocationId
+                   </p>
+
+                   <p class="font-size-sm text-muted mb-0">
+                        <i class="si si-clock"></i> @tic.Start.ToString("D") : @tic.Start.ToString("t")
+                   </p>
+
+               </div>
+           </div>
+           
+       </a>
+    }
+</div>

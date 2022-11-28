@@ -29,7 +29,8 @@ namespace DashmixMockups.Controllers
 
         public IActionResult Index() {
             if (User.IsInRole("Stelexos"))
-                return RedirectToAction("Stelexos");
+                //return RedirectToAction("Stelexos");
+                return RedirectToAction("FsUser");
 
             if (User.IsInRole("User"))
                 return RedirectToAction("Client");
@@ -43,6 +44,19 @@ namespace DashmixMockups.Controllers
 
             var model = new TicketListModel {
                 Tickets = sortedList
+            };
+            return View(model);
+        }
+
+        public IActionResult FsUser()
+        {
+            var tickets = FakeFsReportFactory.GenerateCampaigns(10);
+
+            var sortedList = tickets.OrderByDescending(x => x.Start).ToList();
+
+            var model = new CampainsListModel
+            {
+                Campaigns = sortedList
             };
             return View(model);
         }

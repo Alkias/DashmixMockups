@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using DashmixMockups.Data;
+using DashmixMockups.Data.Tickets;
 using DashmixMockups.Factories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
